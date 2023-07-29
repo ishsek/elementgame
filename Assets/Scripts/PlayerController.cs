@@ -5,16 +5,20 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    [Header("References")]
     public Animator MyAnimator;
     public string MoveSpeedAnimationParameter;
+
+    [Header("Tuning")]
     public float MaxSpeed;
     public AnimationCurve MovementCurve;
 
-
+    [Header("Read Only")]
     // This tracks how long the player has been moving for. Left public for testing purposes. Switch to private later.
-    public float MoveTime;
+    [SerializeField, ReadOnlyInspector] private float MoveTime;
     // The current player speed as a percentage of the MaxSpeed.
-    public float CurrentSpeed;
+    [SerializeField, ReadOnlyInspector] private float CurrentSpeed;
+
     private Vector3 Movement;
     private Vector2 Move;
 
