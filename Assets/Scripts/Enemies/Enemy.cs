@@ -2,24 +2,30 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public abstract class Enemy : MonoBehaviour
 {
     Rigidbody rb;
-
-    float health, maxHealth = 100f;
+    [SerializeField]
+    protected float health;
+    [SerializeField]
+    protected float maxHealth;
+    [SerializeField]
+    protected float speed;
+    [SerializeField]
+    protected float range;
     // Start is called before the first frame update
-    void Start()
+    protected virtual void Start()
     {
         health = maxHealth;
     }
 
     // Update is called once per frame
-    void Update()
+    protected virtual void Update()
     {
         
     }
 
-    public void TakeDamage(float damage)
+    public virtual void TakeDamage(float damage)
     {
         health -= damage;
         if (health <= 0)
