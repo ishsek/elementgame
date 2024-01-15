@@ -5,6 +5,8 @@ using UnityEngine;
 public class Weapon : MonoBehaviour
 {
     public float damage = 50f;
+    public enum WeaponType { Melee, Projectile, PiercingProjectile, AoE };
+    public WeaponType weaponType;
 
     private void OnTriggerEnter(Collider collision)
     {
@@ -13,6 +15,10 @@ public class Weapon : MonoBehaviour
         if (enemy != null)
         {
             enemy.TakeDamage(damage);
+            if (weaponType == WeaponType.Projectile)
+            {
+                Destroy(gameObject);
+            }
         }
     }
 }
