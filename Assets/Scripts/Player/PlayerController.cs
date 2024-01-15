@@ -68,4 +68,6 @@ public class PlayerController : MonoBehaviour
         // This will allow for the animator to blend the animation between standing still and running more naturally.
         MyAnimator.SetFloat(MoveSpeedAnimationParameter, Movement.magnitude * CurrentSpeed);
     }
+
+
 }

@@ -9,7 +9,7 @@ public class Weapon : MonoBehaviour
     private void OnTriggerEnter(Collider collision)
     {
         // Check if it is an enemy being attacked
-        Enemy enemy = collision.GetComponent<Enemy>();
+        Health enemy = collision.GetComponent<Health>();
         if (enemy != null)
         {
             enemy.TakeDamage(damage);

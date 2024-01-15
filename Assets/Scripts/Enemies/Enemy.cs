@@ -5,8 +5,8 @@ using UnityEngine;
 public abstract class Enemy : MonoBehaviour
 {
     Rigidbody rb;
-    [SerializeField] protected float health;
-    [SerializeField] protected float maxHealth;
+    /*[SerializeField] protected float health;
+    [SerializeField] protected float maxHealth;*/
     [SerializeField] protected float speed;
     [SerializeField] protected float attackRange;
     [SerializeField] protected float aggroRange;
@@ -18,7 +18,6 @@ public abstract class Enemy : MonoBehaviour
     // Start is called before the first frame update
     protected virtual void Start()
     {
-        health = maxHealth;
         target = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
     }
 
@@ -44,18 +43,25 @@ public abstract class Enemy : MonoBehaviour
         playerDirection.y = 0;
         if (playerDirection.magnitude <= aggroRange)
         {
-            playerDirection = playerDirection.normalized;
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(playerDirection), 0.15f);
-            transform.position = Vector3.MoveTowards(transform.position, new Vector3(target.position.x - playerDirection.x * attackRange, 0, target.position.z - playerDirection.z * attackRange), speed * Time.deltaTime);
+            if (playerDirection.magnitude - attackRange < 0.01)
+            {
+                Debug.Log("In range");
+            }
+            else
+            {
+                playerDirection = playerDirection.normalized;
+                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(playerDirection), 0.15f);
+                transform.position = Vector3.MoveTowards(transform.position, new Vector3(target.position.x - playerDirection.x * attackRange, 0, target.position.z - playerDirection.z * attackRange), speed * Time.deltaTime);
+            }
         }
     }
 
-    public virtual void TakeDamage(float damage)
+    /*public virtual void TakeDamage(float damage)
     {
         health -= damage;
         if (health <= 0)
         {
             Destroy(gameObject);
         }
-    }
+    }*/
 }

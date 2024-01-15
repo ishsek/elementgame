@@ -894,6 +894,7 @@ GameObject:
   - component: {fileID: 1332066310}
   - component: {fileID: 1332066309}
   - component: {fileID: 1332066311}
+  - component: {fileID: 1332066312}
   m_Layer: 0
   m_Name: Enemy Container
   m_TagString: Untagged
@@ -977,14 +978,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58c07fa4b384b104a803095f52b245ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 0
-  maxHealth: 300
   speed: 2
   attackRange: 1
   aggroRange: 5
   playerDirection: {x: 0, y: 0, z: 0}
   canMove: 1
   waypoint1: {fileID: 1002502026}
+--- !u!114 &1332066312
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1332066307}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7fb2d761eb97c5459c8323d16b91e5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 0
+  maxHealth: 200
 --- !u!1 &1363379707
 GameObject:
   m_ObjectHideFlags: 0
@@ -1519,9 +1532,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 2050488935045752777}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: de653d46ca290af44b0fa954b97b6823, type: 3}
+  m_Script: {fileID: 11500000, guid: d7fb2d761eb97c5459c8323d16b91e5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  health: 0
+  maxHealth: 100
 --- !u!65 &2050488935045752779
 BoxCollider:
   m_ObjectHideFlags: 0
