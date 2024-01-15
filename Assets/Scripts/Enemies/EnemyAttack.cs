@@ -34,7 +34,6 @@ public class EnemyAttack : MonoBehaviour
 
     void CheckMeleeTimer()
     {
-
         if (isAttacking)
         {
             // Check attack cooldown
