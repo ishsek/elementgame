@@ -4,7 +4,7 @@ using UnityEditor.Build;
 using UnityEngine.InputSystem;
 using UnityEngine;
 
-public class Attack : MonoBehaviour
+public class PlayerAttack : MonoBehaviour
 {
     public GameObject Melee;
     bool isAttacking = false;

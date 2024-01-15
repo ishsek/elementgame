@@ -45,7 +45,9 @@ public abstract class Enemy : MonoBehaviour
         {
             if (playerDirection.magnitude - attackRange < 0.01)
             {
-                Debug.Log("In range");
+                //Debug.Log("In range");
+                EnemyAttack attack = GetComponent<EnemyAttack>();
+                attack.OnAttack();
             }
             else
             {
