@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -24,6 +25,8 @@ public class EnemyAttack : MonoBehaviour
             //Melee.SetActive(true);
             isAttacking = true;
             // Call animator to play melee attack here
+            Enemy attacker = GetComponent<Enemy>();
+            attacker.Immobilize();
         }
     }
 
@@ -32,17 +35,19 @@ public class EnemyAttack : MonoBehaviour
         if (isAttacking)
         {
             atkTimer += Time.deltaTime;
-            // attack delay
-            if (atkTimer >= atkDelay)
-            {
-                Melee.SetActive(true);
-            }
+            Enemy attacker = GetComponent<Enemy>();
             // launch actual attack
-            else if (atkTimer >= atkDuration + atkDelay)
+            if (atkTimer >= atkDuration + atkDelay)
             {
                 atkTimer = 0;
                 isAttacking = false;
                 Melee.SetActive(false);
+                attacker.Mobilize();
+            }
+            // attack delay
+            else if (atkTimer >= atkDelay)
+            {
+                Melee.SetActive(true);
             }
         }
     }

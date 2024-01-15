@@ -57,13 +57,12 @@ public abstract class Enemy : MonoBehaviour
             }
         }
     }
-
-    /*public virtual void TakeDamage(float damage)
+    public void Immobilize()
     {
-        health -= damage;
-        if (health <= 0)
-        {
-            Destroy(gameObject);
-        }
-    }*/
+        canMove = false;
+    }
+    public void Mobilize()
+    {
+        canMove = true;
+    }
 }
