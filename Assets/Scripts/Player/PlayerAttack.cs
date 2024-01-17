@@ -21,6 +21,8 @@ public class PlayerAttack : MonoBehaviour
     private float shootTimer = 999999f;
     public float projectileLife = 2f;
 
+    public Animator PlayerAnimator;
+
 
     // Update is called once per frame
     void Update()
@@ -38,6 +40,8 @@ public class PlayerAttack : MonoBehaviour
                 Melee.SetActive(true);
                 isAttacking = true;
                 // Call animator to play melee attack here
+                //Refactor this to be a static location for the trigger names
+                PlayerAnimator.SetTrigger("SwordSlash1");
             }
         }
     }

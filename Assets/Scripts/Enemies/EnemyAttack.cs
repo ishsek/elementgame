@@ -14,6 +14,8 @@ public class EnemyAttack : MonoBehaviour
     public float cooldown = 1f; //seconds
     private float lastAttackedAt = -9999f;
 
+    public Enemy Attacker;
+
     // Update is called once per frame
     void Update()
     {
@@ -27,8 +29,7 @@ public class EnemyAttack : MonoBehaviour
             //Melee.SetActive(true);
             isAttacking = true;
             // Call animator to play melee attack here
-            Enemy attacker = GetComponent<Enemy>();
-            attacker.Immobilize();
+            Attacker.Immobilize();
         }
     }
 
@@ -47,8 +48,7 @@ public class EnemyAttack : MonoBehaviour
                     atkTimer = 0;
                     isAttacking = false;
                     Melee.SetActive(false);
-                    Enemy attacker = GetComponent<Enemy>();
-                    attacker.Mobilize();
+                    Attacker.Mobilize();
                     // Set timer for attack cooldown
                     lastAttackedAt = Time.time;
                 }
