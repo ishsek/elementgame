@@ -6,6 +6,8 @@ using UnityEngine.InputSystem;
 
 public class EnemyAttack : MonoBehaviour
 {
+    public Animator EnemyAnimator;
+
     public GameObject Melee;
     bool isAttacking = false;
     public float atkDuration = 0.3f;
@@ -29,6 +31,11 @@ public class EnemyAttack : MonoBehaviour
             //Melee.SetActive(true);
             isAttacking = true;
             // Call animator to play melee attack here
+            if (EnemyAnimator != null)
+            {
+                EnemyAnimator.SetTrigger(AnimationTriggersStatic.GetEnemyAttackTrigger());
+            }
+
             Attacker.Immobilize();
         }
     }

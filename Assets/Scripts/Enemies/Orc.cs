@@ -17,12 +17,27 @@ public class Orc : Enemy
         if (playerDirection.magnitude > aggroRange)
         {
             patrolDirection = (waypointTarget.position - transform.position);
+
             // Set y to zero to prevent vertical movement
             patrolDirection.y = 0;
             if (patrolDirection.magnitude > 0.1)
             {
                 transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(patrolDirection), 0.15f);
                 transform.position = Vector3.MoveTowards(transform.position, new Vector3(waypointTarget.position.x, 0, waypointTarget.position.z), speed * Time.deltaTime);
+
+                if (mMoving == false)
+                {
+                    mMoving = true;
+                    EnemyAnimator.SetTrigger(AnimationTriggersStatic.GetEnemyRunTrigger());
+                }
+            }
+            else
+            {
+                if (mMoving == true)
+                {
+                    mMoving = false;
+                    EnemyAnimator.SetTrigger(AnimationTriggersStatic.GetEnemyIdleTrigger());
+                }
             }
         }
     }

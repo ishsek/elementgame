@@ -4,6 +4,8 @@ using UnityEngine;
 
 public abstract class Enemy : MonoBehaviour
 {
+    [SerializeField] public Animator EnemyAnimator;
+
     Rigidbody rb;
     /*[SerializeField] protected float health;
     [SerializeField] protected float maxHealth;*/
@@ -14,6 +16,8 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField] protected Vector3 playerDirection; // Can remove serialize after testing
     protected Vector3 patrolDirection;
     public bool canMove = true;
+
+    protected bool mMoving = false;
 
     // Start is called before the first frame update
     protected virtual void Start()
@@ -45,12 +49,22 @@ public abstract class Enemy : MonoBehaviour
         {
             if (playerDirection.magnitude - attackRange < 0.01)
             {
+                mMoving = false;
                 //Debug.Log("In range");
                 EnemyAttack attack = GetComponent<EnemyAttack>();
                 attack.OnAttack();
             }
             else
             {
+                if (mMoving == false)
+                {
+                    mMoving = true;
+                    if (EnemyAnimator != null)
+                    {
+                        EnemyAnimator.SetTrigger(AnimationTriggersStatic.GetEnemyRunTrigger());
+                    }
+                }
+
                 playerDirection = playerDirection.normalized;
                 transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(playerDirection), 0.15f);
                 transform.position = Vector3.MoveTowards(transform.position, new Vector3(target.position.x - playerDirection.x * attackRange, 0, target.position.z - playerDirection.z * attackRange), speed * Time.deltaTime);

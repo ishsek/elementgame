@@ -1297,6 +1297,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58c07fa4b384b104a803095f52b245ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  EnemyAnimator: {fileID: 1885327139}
   speed: 2
   attackRange: 1
   aggroRange: 5
@@ -1330,6 +1331,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c1f65691d7f6eb48a0c3369baa95d88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  EnemyAnimator: {fileID: 1885327139}
   Melee: {fileID: 2080913968}
   atkDuration: 0.3
   atkDelay: 0.3
@@ -1584,7 +1586,7 @@ Animator:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1885327138}
   m_Enabled: 1
-  m_Avatar: {fileID: 0}
+  m_Avatar: {fileID: 9000000, guid: 6d630252b604e6945a2dd98d964abec0, type: 3}
   m_Controller: {fileID: 9100000, guid: f8fdef888b12b9e438f99b99daf0fa12, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
