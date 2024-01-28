@@ -4,6 +4,7 @@ using UnityEditor.Build;
 using UnityEngine.InputSystem;
 using UnityEngine;
 using System.Diagnostics;
+using System.Drawing;
 
 public class PlayerAttack : MonoBehaviour
 {
@@ -41,17 +42,32 @@ public class PlayerAttack : MonoBehaviour
     public void onAim(InputAction.CallbackContext context)
     {
         // Get input value for aim
+        aimInput = context.ReadValue<Vector2>();
 
+        // Handle gamepad control
         if (isGamepad)
         {
-            aimInput = context.ReadValue<Vector2>();
             print(aimInput);
             aimDirection = Vector3.right * aimInput.x + Vector3.forward * aimInput.y;
         }
+        // Handle mouse control
         else
         {
+            Ray ray = Camera.main.ScreenPointToRay(aimInput);
+            Plane groundPlane = new Plane(Vector3.up, Vector3.zero);
+            float rayDistance;
 
+            if (groundPlane.Raycast(ray, out rayDistance))
+            {
+                aimDirection = ray.GetPoint(rayDistance);
+            }
         }
+    }
+
+    private void LookAt(Vector3 lookPoint)
+    {
+        Vector3 heightCorrectedPoint = new Vector3(lookPoint.x, transform.position.y, lookPoint.z);
+        transform.LookAt(heightCorrectedPoint);
     }
 
     public void OnAttack(InputAction.CallbackContext context)
@@ -64,9 +80,16 @@ public class PlayerAttack : MonoBehaviour
                 Player.canMove = false;
 
                 // Rotate player to aim direction
-                if (aimDirection.sqrMagnitude > 0.0f)
+                if (isGamepad)
                 {
-                    transform.rotation = Quaternion.LookRotation(aimDirection, Vector3.up);
+                    if (aimDirection.sqrMagnitude > 0.0f)
+                    {
+                        transform.rotation = Quaternion.LookRotation(aimDirection, Vector3.up);
+                    }
+                }
+                else
+                {
+                    LookAt(aimDirection);
                 }
 
                 // Start melee hitbox timer
