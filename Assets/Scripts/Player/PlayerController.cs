@@ -12,9 +12,10 @@ public class PlayerController : MonoBehaviour
     [Header("Tuning")]
     public float MaxSpeed;
     public AnimationCurve MovementCurve;
+    public bool canMove;
 
     [Header("Read Only")]
-    // This tracks how long the player has been moving for. Left public for testing purposes. Switch to private later.
+    // This tracks how long the player has been moving for.
     [SerializeField, ReadOnlyInspector] private float MoveTime;
     // The current player speed as a percentage of the MaxSpeed.
     [SerializeField, ReadOnlyInspector] private float CurrentSpeed;
@@ -22,6 +23,7 @@ public class PlayerController : MonoBehaviour
     private Vector3 Movement;
     private Vector2 Move;
 
+    //**Consider consolidating move and aim inputs into a single function if merging attack and movement scripts**
     public void OnMove(InputAction.CallbackContext context)
     {
         Move = context.ReadValue<Vector2>();
@@ -32,6 +34,7 @@ public class PlayerController : MonoBehaviour
     {
         Movement = Vector3.zero;
         MoveTime = 0;
+        canMove = true;
     }
 
     // Update is called once per frame
@@ -43,23 +46,26 @@ public class PlayerController : MonoBehaviour
 
     private void MovePlayer()
     {
-        Movement.x = Move.x;
-        Movement.z = Move.y;
-
-        if (Movement.magnitude > 0)
+        if (canMove)
         {
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Movement), 0.15f);
-            // Update MoveTime to reflect how long the player has been in motion.
-            MoveTime += Time.deltaTime;
-            CurrentSpeed = MovementCurve.Evaluate(MoveTime);
-        }
-        else
-        {
-            // Reset movetime to zero when player stops moving.
-            MoveTime = 0;
-        }
+            Movement.x = Move.x;
+            Movement.z = Move.y;
 
-        transform.Translate(Movement * CurrentSpeed * MaxSpeed * Time.deltaTime, Space.World);
+            if (Movement.magnitude > 0)
+            {
+                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Movement), 0.15f);
+                // Update MoveTime to reflect how long the player has been in motion.
+                MoveTime += Time.deltaTime;
+                CurrentSpeed = MovementCurve.Evaluate(MoveTime);
+            }
+            else
+            {
+                // Reset movetime to zero when player stops moving.
+                MoveTime = 0;
+            }
+
+            transform.Translate(Movement * CurrentSpeed * MaxSpeed * Time.deltaTime, Space.World);
+        }
     }
 
     private void UpdateAnimation()
