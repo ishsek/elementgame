@@ -1335,6 +1335,7 @@ MonoBehaviour:
   Melee: {fileID: 2080913968}
   atkDuration: 0.3
   atkDelay: 0.3
+  atkRecovery: 0.3
   cooldown: 1
   Attacker: {fileID: 1332066311}
 --- !u!1 &1363379707
@@ -1846,7 +1847,7 @@ PrefabInstance:
     - target: {fileID: 2922025672014161721, guid: bd4c7b6d04f0ea840a6e644e3ce0bca6,
         type: 3}
       propertyPath: m_ActionEvents.Array.size
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 2922025672014161721, guid: bd4c7b6d04f0ea840a6e644e3ce0bca6,
         type: 3}
@@ -1865,6 +1866,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2922025672014161721, guid: bd4c7b6d04f0ea840a6e644e3ce0bca6,
         type: 3}
+      propertyPath: m_ActionEvents.Array.data[4].m_ActionId
+      value: d613ccd5-8749-4186-8af1-948b2660bf3c
+      objectReference: {fileID: 0}
+    - target: {fileID: 2922025672014161721, guid: bd4c7b6d04f0ea840a6e644e3ce0bca6,
+        type: 3}
       propertyPath: m_ActionEvents.Array.data[1].m_ActionName
       value: Player/Attack[/Mouse/leftButton]
       objectReference: {fileID: 0}
@@ -1877,6 +1883,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_ActionEvents.Array.data[3].m_ActionName
       value: Player/Aim[/Mouse/position,/XInputControllerWindows/rightStick]
+      objectReference: {fileID: 0}
+    - target: {fileID: 2922025672014161721, guid: bd4c7b6d04f0ea840a6e644e3ce0bca6,
+        type: 3}
+      propertyPath: m_ActionEvents.Array.data[4].m_ActionName
+      value: Player/Dodge[/XInputControllerWindows/buttonSouth,/Keyboard/space]
       objectReference: {fileID: 0}
     - target: {fileID: 2922025672014161721, guid: bd4c7b6d04f0ea840a6e644e3ce0bca6,
         type: 3}
@@ -1901,6 +1912,11 @@ PrefabInstance:
     - target: {fileID: 2922025672014161721, guid: bd4c7b6d04f0ea840a6e644e3ce0bca6,
         type: 3}
       propertyPath: m_ActionEvents.Array.data[3].m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2922025672014161721, guid: bd4c7b6d04f0ea840a6e644e3ce0bca6,
+        type: 3}
+      propertyPath: m_ActionEvents.Array.data[4].m_PersistentCalls.m_Calls.Array.size
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2922025672014161721, guid: bd4c7b6d04f0ea840a6e644e3ce0bca6,
@@ -1945,6 +1961,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2922025672014161721, guid: bd4c7b6d04f0ea840a6e644e3ce0bca6,
         type: 3}
+      propertyPath: m_ActionEvents.Array.data[4].m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2922025672014161721, guid: bd4c7b6d04f0ea840a6e644e3ce0bca6,
+        type: 3}
       propertyPath: m_ControlsChangedEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: OnDeviceChange
       objectReference: {fileID: 0}
@@ -1975,6 +1996,11 @@ PrefabInstance:
       objectReference: {fileID: 2050488935045752784}
     - target: {fileID: 2922025672014161721, guid: bd4c7b6d04f0ea840a6e644e3ce0bca6,
         type: 3}
+      propertyPath: m_ActionEvents.Array.data[4].m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2050488935045752786}
+    - target: {fileID: 2922025672014161721, guid: bd4c7b6d04f0ea840a6e644e3ce0bca6,
+        type: 3}
       propertyPath: m_ActionEvents.Array.data[0].m_PersistentCalls.m_Calls.Array.data[1].m_CallState
       value: 2
       objectReference: {fileID: 0}
@@ -2000,6 +2026,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2922025672014161721, guid: bd4c7b6d04f0ea840a6e644e3ce0bca6,
         type: 3}
+      propertyPath: m_ActionEvents.Array.data[4].m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2922025672014161721, guid: bd4c7b6d04f0ea840a6e644e3ce0bca6,
+        type: 3}
       propertyPath: m_ActionEvents.Array.data[0].m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
       value: OnAttack
       objectReference: {fileID: 0}
@@ -2017,6 +2048,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_ActionEvents.Array.data[3].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: onAim
+      objectReference: {fileID: 0}
+    - target: {fileID: 2922025672014161721, guid: bd4c7b6d04f0ea840a6e644e3ce0bca6,
+        type: 3}
+      propertyPath: m_ActionEvents.Array.data[4].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnDodge
       objectReference: {fileID: 0}
     - target: {fileID: 2922025672014161721, guid: bd4c7b6d04f0ea840a6e644e3ce0bca6,
         type: 3}
@@ -2050,6 +2086,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2922025672014161721, guid: bd4c7b6d04f0ea840a6e644e3ce0bca6,
         type: 3}
+      propertyPath: m_ActionEvents.Array.data[4].m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: PlayerController, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 2922025672014161721, guid: bd4c7b6d04f0ea840a6e644e3ce0bca6,
+        type: 3}
       propertyPath: m_ControlsChangedEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
@@ -2071,6 +2112,11 @@ PrefabInstance:
     - target: {fileID: 2922025672014161721, guid: bd4c7b6d04f0ea840a6e644e3ce0bca6,
         type: 3}
       propertyPath: m_ActionEvents.Array.data[3].m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 2922025672014161721, guid: bd4c7b6d04f0ea840a6e644e3ce0bca6,
+        type: 3}
+      propertyPath: m_ActionEvents.Array.data[4].m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 3964770846624126425, guid: bd4c7b6d04f0ea840a6e644e3ce0bca6,
@@ -2245,13 +2291,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Melee: {fileID: 1363379707}
+  atkStartup: 0.3
+  atkRecovery: 0.3
+  atkCooldown: 1
   projectileSpawn: {fileID: 1443986690}
   projectile: {fileID: 7337636041160478571, guid: 68cdf4f864792824e97fbc06c68001f2,
     type: 3}
   fireForce: 10
   shootCooldown: 0.5
   projectileLife: 2
+  shootRecovery: 0.3
   PlayerAnimator: {fileID: 1223262964}
+  actions: {fileID: -944628639613478452, guid: 2b19e9fa98b7fe547b72488882e64453, type: 3}
   Player: {fileID: 2050488935045752786}
 --- !u!114 &2050488935045752786 stripped
 MonoBehaviour:

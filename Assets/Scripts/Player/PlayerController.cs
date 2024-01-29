@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Tuning")]
     public float MaxSpeed;
+    public float DodgeSpeed;
     public AnimationCurve MovementCurve;
     public bool canMove;
 
@@ -19,6 +20,13 @@ public class PlayerController : MonoBehaviour
     [SerializeField, ReadOnlyInspector] private float MoveTime;
     // The current player speed as a percentage of the MaxSpeed.
     [SerializeField, ReadOnlyInspector] private float CurrentSpeed;
+
+    private enum State
+    {
+        Normal,
+        Dodging,
+    }
+    private State state;
 
     private Vector3 Movement;
     private Vector2 Move;
@@ -30,18 +38,29 @@ public class PlayerController : MonoBehaviour
     }
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         Movement = Vector3.zero;
         MoveTime = 0;
         canMove = true;
+        state = State.Normal;
     }
 
     // Update is called once per frame
     void Update()
     {
-        MovePlayer();
-        UpdateAnimation();
+        switch (state)
+        {
+            case State.Normal:
+                MovePlayer();
+                UpdateAnimation();
+                break;
+            case State.Dodging:
+                HandleDodge();
+                break;
+        }
+    MovePlayer();
+    UpdateAnimation();
     }
 
     private void MovePlayer()
@@ -61,6 +80,22 @@ public class PlayerController : MonoBehaviour
         {
             // Reset movetime to zero when player stops moving.
             MoveTime = 0;
+        }
+    }
+
+    public void OnDodge(InputAction.CallbackContext context)
+    {
+        state = State.Dodging;
+        DodgeSpeed = 50f;
+    }
+
+    private void HandleDodge()
+    {
+        transform.position += Movement * DodgeSpeed * Time.deltaTime;
+        DodgeSpeed -= DodgeSpeed * 10f * Time.deltaTime;
+        if (DodgeSpeed < 5f)
+        {
+            state = State.Normal;
         }
     }
 
