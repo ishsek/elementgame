@@ -46,25 +46,21 @@ public class PlayerController : MonoBehaviour
 
     private void MovePlayer()
     {
-        if (canMove)
+        Movement.x = Move.x;
+        Movement.z = Move.y;
+
+        if (canMove && Movement.magnitude > 0)
         {
-            Movement.x = Move.x;
-            Movement.z = Move.y;
-
-            if (Movement.magnitude > 0)
-            {
-                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Movement), 0.15f);
-                // Update MoveTime to reflect how long the player has been in motion.
-                MoveTime += Time.deltaTime;
-                CurrentSpeed = MovementCurve.Evaluate(MoveTime);
-            }
-            else
-            {
-                // Reset movetime to zero when player stops moving.
-                MoveTime = 0;
-            }
-
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Movement), 0.15f);
+            // Update MoveTime to reflect how long the player has been in motion.
+            MoveTime += Time.deltaTime;
+            CurrentSpeed = MovementCurve.Evaluate(MoveTime);
             transform.Translate(Movement * CurrentSpeed * MaxSpeed * Time.deltaTime, Space.World);
+        }
+        else
+        {
+            // Reset movetime to zero when player stops moving.
+            MoveTime = 0;
         }
     }
 

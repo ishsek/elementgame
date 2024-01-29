@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 using UnityEngine;
 using System.Diagnostics;
 using System.Drawing;
+using UnityEditor.Experimental.GraphView;
 
 public class PlayerAttack : MonoBehaviour
 {
@@ -13,14 +14,21 @@ public class PlayerAttack : MonoBehaviour
     bool isAttacking = false;
     float atkDuration = 0.3f;
     float atkTimer = 0f;
+    public float atkStartup = 0.5f;
+    public float atkRecovery = 0.3f;
+    public float atkCooldown = 1f;
+    private float atkCDTimer = 9999f;
+
 
     // Ranged variables
     public Transform projectileSpawn;
     public GameObject projectile;
     public float fireForce = 10f;
     public float shootCooldown = 0.5f;
-    private float shootTimer = 999999f;
+    private float shootTimer = 9999f;
     public float projectileLife = 2f;
+    public float shootRecovery = 0.3f;
+    private bool isShooting = false;
 
     public Animator PlayerAnimator;
 
@@ -36,7 +44,9 @@ public class PlayerAttack : MonoBehaviour
     void Update()
     {
         CheckMeleeTimer();
+        CheckShootRecovery();
         shootTimer += Time.deltaTime;
+        atkCDTimer += Time.deltaTime; 
     }
 
     public void onAim(InputAction.CallbackContext context)
@@ -64,6 +74,25 @@ public class PlayerAttack : MonoBehaviour
         }
     }
 
+    private void rotateToAim()
+    {
+        // Lock player movement
+        Player.canMove = false;
+
+        // Rotate player to aim direction
+        if (isGamepad)
+        {
+            if (aimDirection.sqrMagnitude > 0.0f)
+            {
+                transform.rotation = Quaternion.LookRotation(aimDirection, Vector3.up);
+            }
+        }
+        else
+        {
+            LookAt(aimDirection);
+        }
+    }
+
     private void LookAt(Vector3 lookPoint)
     {
         Vector3 heightCorrectedPoint = new Vector3(lookPoint.x, transform.position.y, lookPoint.z);
@@ -76,21 +105,7 @@ public class PlayerAttack : MonoBehaviour
         {
             if (!isAttacking)
             {
-                // Lock player movement
-                Player.canMove = false;
-
-                // Rotate player to aim direction
-                if (isGamepad)
-                {
-                    if (aimDirection.sqrMagnitude > 0.0f)
-                    {
-                        transform.rotation = Quaternion.LookRotation(aimDirection, Vector3.up);
-                    }
-                }
-                else
-                {
-                    LookAt(aimDirection);
-                }
+                rotateToAim();
 
                 // Start melee hitbox timer
                 Melee.SetActive(true);
@@ -110,14 +125,8 @@ public class PlayerAttack : MonoBehaviour
         {
             if (shootTimer > shootCooldown)
             {
-                // Lock player movement
-                Player.canMove = false;
-
-                // Rotate player to aim direction
-                if (aimDirection.sqrMagnitude > 0.0f)
-                {
-                    transform.rotation = Quaternion.LookRotation(aimDirection, Vector3.up);
-                }
+                isShooting = true;
+                rotateToAim();
 
                 // Fire Projectile
                 shootTimer = 0;
@@ -128,17 +137,42 @@ public class PlayerAttack : MonoBehaviour
         }
     }
 
+    private void CheckShootRecovery()
+    {
+        if (isShooting)
+        {
+            if (shootTimer > shootRecovery)
+            {
+                Player.canMove = true;
+                isShooting = false;
+            }
+        }
+    }
+
     void CheckMeleeTimer()
     {
         if (isAttacking)
         {
+            // Start attack process
             atkTimer += Time.deltaTime;
-            if (atkTimer >= atkDuration)
+
+            // Release character once recovery window has expired
+            if (atkTimer >= atkDuration + atkStartup + atkRecovery)
             {
-                atkTimer = 0;
-                isAttacking = false;
-                Melee.SetActive(false);
                 Player.canMove = true;
+                isAttacking = false;
+                atkTimer = 0;
+                atkCDTimer = 0;
+            }
+            // end attack if delay + attack time has expired
+            else if (atkTimer >= atkDuration + atkStartup)
+            {
+                Melee.SetActive(false);
+            }
+            // start attack if delay period has expired
+            else if (atkTimer >= atkStartup)
+            {
+                Melee.SetActive(true);
             }
         }
     }
