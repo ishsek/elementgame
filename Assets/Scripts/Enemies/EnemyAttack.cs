@@ -13,6 +13,7 @@ public class EnemyAttack : MonoBehaviour
     public float atkDuration = 0.3f;
     float atkTimer = 0f;
     public float atkDelay = 0.3f;
+    public float atkRecovery = 0.3f;
     public float cooldown = 1f; //seconds
     private float cdTimer = 9999f;
 
@@ -51,15 +52,19 @@ public class EnemyAttack : MonoBehaviour
         {
             // Start attack process
             atkTimer += Time.deltaTime;
-            // end attack if delay + attack time has expired
-            if (atkTimer >= atkDuration + atkDelay)
+
+            // Release character once recovery window has expired
+            if (atkTimer >= atkDuration + atkDelay + atkRecovery)
             {
-                atkTimer = 0;
-                isAttacking = false;
-                Melee.SetActive(false);
                 Attacker.Mobilize();
-                // Set timer for attack cooldown
+                isAttacking = false;
+                atkTimer = 0;
                 cdTimer = 0;
+            }
+            // end attack if delay + attack time has expired
+            else if (atkTimer >= atkDuration + atkDelay)
+            {
+                Melee.SetActive(false);
             }
             // start attack if delay period has expired
             else if (atkTimer >= atkDelay)
