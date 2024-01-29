@@ -37,22 +37,40 @@ public class PlayerAttack : MonoBehaviour
     private Vector2 aimInput;
     private Vector3 aimDirection;
 
+    public InputActionAsset actions;
+    private InputAction aimAction;
+
     // Reference allowing interaction with player movement.
     // **Consider removing this variable and merging this entire script with PlayerController.**
     public PlayerController Player;
 
+    private void Awake()
+    {
+        aimAction = actions.FindActionMap("Player").FindAction("Aim");
+    }
+
     void Update()
     {
+        HandleAim();
         CheckMeleeTimer();
         CheckShootRecovery();
         shootTimer += Time.deltaTime;
-        atkCDTimer += Time.deltaTime; 
+        atkCDTimer += Time.deltaTime;
     }
 
-    public void onAim(InputAction.CallbackContext context)
+    void OnEnable()
+    {
+        actions.FindActionMap("Player").Enable();
+    }
+    void OnDisable()
+    {
+        actions.FindActionMap("Player").Disable();
+    }
+
+    private void HandleAim()
     {
         // Get input value for aim
-        aimInput = context.ReadValue<Vector2>();
+        aimInput = aimAction.ReadValue<Vector2>();
 
         // Handle gamepad control
         if (isGamepad)
@@ -73,6 +91,30 @@ public class PlayerAttack : MonoBehaviour
             }
         }
     }
+    //public void onAim(InputAction.CallbackContext context)
+    //{
+    //    // Get input value for aim
+    //    aimInput = context.ReadValue<Vector2>();
+
+    //    // Handle gamepad control
+    //    if (isGamepad)
+    //    {
+    //        print(aimInput);
+    //        aimDirection = Vector3.right * aimInput.x + Vector3.forward * aimInput.y;
+    //    }
+    //    // Handle mouse control
+    //    else
+    //    {
+    //        Ray ray = Camera.main.ScreenPointToRay(aimInput);
+    //        Plane groundPlane = new Plane(Vector3.up, Vector3.zero);
+    //        float rayDistance;
+
+    //        if (groundPlane.Raycast(ray, out rayDistance))
+    //        {
+    //            aimDirection = ray.GetPoint(rayDistance);
+    //        }
+    //    }
+    //}
 
     private void rotateToAim()
     {
