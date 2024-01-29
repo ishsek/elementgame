@@ -75,7 +75,6 @@ public class PlayerAttack : MonoBehaviour
         // Handle gamepad control
         if (isGamepad)
         {
-            print(aimInput);
             aimDirection = Vector3.right * aimInput.x + Vector3.forward * aimInput.y;
         }
         // Handle mouse control
@@ -91,30 +90,6 @@ public class PlayerAttack : MonoBehaviour
             }
         }
     }
-    //public void onAim(InputAction.CallbackContext context)
-    //{
-    //    // Get input value for aim
-    //    aimInput = context.ReadValue<Vector2>();
-
-    //    // Handle gamepad control
-    //    if (isGamepad)
-    //    {
-    //        print(aimInput);
-    //        aimDirection = Vector3.right * aimInput.x + Vector3.forward * aimInput.y;
-    //    }
-    //    // Handle mouse control
-    //    else
-    //    {
-    //        Ray ray = Camera.main.ScreenPointToRay(aimInput);
-    //        Plane groundPlane = new Plane(Vector3.up, Vector3.zero);
-    //        float rayDistance;
-
-    //        if (groundPlane.Raycast(ray, out rayDistance))
-    //        {
-    //            aimDirection = ray.GetPoint(rayDistance);
-    //        }
-    //    }
-    //}
 
     private void rotateToAim()
     {
