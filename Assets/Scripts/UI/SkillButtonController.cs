@@ -15,10 +15,6 @@ public class SkillButtonController : MonoBehaviour
     [SerializeField] private Color ActiveButtonColor;
     [SerializeField] private Color CooldownButtonColor;
 
-    private string mCooldownFormat = "f1";
-    private float mCurrentCooldown;
-    private bool mButtonValid = true;
-
     public enum SkillButtonStates
     {
         Available,
@@ -27,6 +23,9 @@ public class SkillButtonController : MonoBehaviour
     }
 
     private SkillButtonStates mButtonState;
+    private string mCooldownFormat = "f1";
+    private float mCurrentCooldown;
+    private bool mButtonValid = true;
 
     private void Awake()
     {
