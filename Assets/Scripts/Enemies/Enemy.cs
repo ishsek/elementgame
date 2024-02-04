@@ -6,7 +6,7 @@ public abstract class Enemy : MonoBehaviour
 {
     [SerializeField] public Animator EnemyAnimator;
 
-    Rigidbody rb;
+    protected Rigidbody rb;
     [SerializeField] protected float speed;
     [SerializeField] protected float attackRange;
     [SerializeField] protected float aggroRange;
@@ -48,7 +48,7 @@ public abstract class Enemy : MonoBehaviour
             if (playerDirection.magnitude - attackRange < 0.01)
             {
                 mMoving = false;
-                //Debug.Log("In range");
+                rb.velocity = new Vector3(0, 0, 0);
                 EnemyAttack attack = GetComponent<EnemyAttack>();
                 attack.OnAttack();
             }
@@ -64,8 +64,10 @@ public abstract class Enemy : MonoBehaviour
                 }
 
                 playerDirection = playerDirection.normalized;
-                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(playerDirection), 0.15f);
-                transform.position = Vector3.MoveTowards(transform.position, new Vector3(target.position.x - playerDirection.x * attackRange, 0, target.position.z - playerDirection.z * attackRange), speed * Time.deltaTime);
+                //.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(playerDirection), 0.15f);
+                //transform.position = Vector3.MoveTowards(transform.position, new Vector3(target.position.x - playerDirection.x * attackRange, 0, target.position.z - playerDirection.z * attackRange), speed * Time.deltaTime);
+                rb.MoveRotation(Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(playerDirection), 0.15f));
+                rb.velocity = playerDirection * speed;
             }
         }
     }

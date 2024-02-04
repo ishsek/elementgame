@@ -22,8 +22,9 @@ public class Orc : Enemy
             patrolDirection.y = 0;
             if (patrolDirection.magnitude > 0.1)
             {
-                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(patrolDirection), 0.15f);
-                transform.position = Vector3.MoveTowards(transform.position, new Vector3(waypointTarget.position.x, 0, waypointTarget.position.z), speed * Time.deltaTime);
+                patrolDirection = patrolDirection.normalized;
+                rb.MoveRotation(Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(patrolDirection), 0.15f));
+                rb.velocity = patrolDirection * speed;
 
                 if (mMoving == false)
                 {
@@ -36,6 +37,7 @@ public class Orc : Enemy
                 if (mMoving == true)
                 {
                     mMoving = false;
+                    rb.velocity = new Vector3 (0, 0, 0);
                     EnemyAnimator.SetTrigger(AnimationTriggersStatic.GetEnemyIdleTrigger());
                 }
             }
