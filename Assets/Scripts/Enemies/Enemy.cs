@@ -7,8 +7,6 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField] public Animator EnemyAnimator;
 
     Rigidbody rb;
-    /*[SerializeField] protected float health;
-    [SerializeField] protected float maxHealth;*/
     [SerializeField] protected float speed;
     [SerializeField] protected float attackRange;
     [SerializeField] protected float aggroRange;

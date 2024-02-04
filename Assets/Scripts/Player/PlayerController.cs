@@ -2,12 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.InputSystem;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class PlayerController : MonoBehaviour
 {
     [Header("References")]
     public Animator MyAnimator;
     public string MoveSpeedAnimationParameter;
+    private Rigidbody rb;
 
     [Header("Tuning")]
     public float MaxSpeed;
@@ -40,6 +42,7 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
+        rb = GetComponent<Rigidbody>();
         Movement = Vector3.zero;
         MoveTime = 0;
         canMove = true;
@@ -70,16 +73,19 @@ public class PlayerController : MonoBehaviour
 
         if (canMove && Movement.magnitude > 0)
         {
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Movement), 0.15f);
+            //transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Movement), 0.15f);
+            rb.MoveRotation(Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Movement), 0.15f));
             // Update MoveTime to reflect how long the player has been in motion.
             MoveTime += Time.deltaTime;
             CurrentSpeed = MovementCurve.Evaluate(MoveTime);
-            transform.Translate(Movement * CurrentSpeed * MaxSpeed * Time.deltaTime, Space.World);
+            //transform.Translate(Movement * CurrentSpeed * MaxSpeed * Time.deltaTime, Space.World);
+            rb.velocity = Movement * MaxSpeed * CurrentSpeed;
         }
         else
         {
             // Reset movetime to zero when player stops moving.
             MoveTime = 0;
+            rb.velocity = new Vector3(0, 0, 0);
         }
     }
 

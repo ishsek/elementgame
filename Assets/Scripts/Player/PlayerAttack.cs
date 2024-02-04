@@ -11,12 +11,12 @@ public class PlayerAttack : MonoBehaviour
 {
     // Melee variables
     public GameObject Melee;
-    bool isAttacking = false;
-    float atkDuration = 0.3f;
-    float atkTimer = 0f;
     public float atkStartup = 0.5f;
     public float atkRecovery = 0.3f;
     public float atkCooldown = 1f;
+    private bool isAttacking = false;
+    private float atkDuration = 0.3f;
+    private float atkTimer = 0f;
     private float atkCDTimer = 9999f;
 
 
@@ -25,9 +25,9 @@ public class PlayerAttack : MonoBehaviour
     public GameObject projectile;
     public float fireForce = 10f;
     public float shootCooldown = 0.5f;
-    private float shootTimer = 9999f;
     public float projectileLife = 2f;
     public float shootRecovery = 0.3f;
+    private float shootTimer = 9999f;
     private bool isShooting = false;
 
     public Animator PlayerAnimator;
@@ -91,30 +91,6 @@ public class PlayerAttack : MonoBehaviour
             }
         }
     }
-    //public void onAim(InputAction.CallbackContext context)
-    //{
-    //    // Get input value for aim
-    //    aimInput = context.ReadValue<Vector2>();
-
-    //    // Handle gamepad control
-    //    if (isGamepad)
-    //    {
-    //        print(aimInput);
-    //        aimDirection = Vector3.right * aimInput.x + Vector3.forward * aimInput.y;
-    //    }
-    //    // Handle mouse control
-    //    else
-    //    {
-    //        Ray ray = Camera.main.ScreenPointToRay(aimInput);
-    //        Plane groundPlane = new Plane(Vector3.up, Vector3.zero);
-    //        float rayDistance;
-
-    //        if (groundPlane.Raycast(ray, out rayDistance))
-    //        {
-    //            aimDirection = ray.GetPoint(rayDistance);
-    //        }
-    //    }
-    //}
 
     private void rotateToAim()
     {
