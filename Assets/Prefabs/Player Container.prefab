@@ -515,7 +515,7 @@ Transform:
   - {fileID: 1214058973403805387}
   - {fileID: 2083644151884469896}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &511278644670675394
 MonoBehaviour:
@@ -532,7 +532,8 @@ MonoBehaviour:
   MyAnimator: {fileID: 5440961211098504273}
   MoveSpeedAnimationParameter: Move Speed
   MaxSpeed: 7
-  DodgeSpeed: 0
+  DodgeSpeed: 14
+  DodgeDuration: 0.3
   MovementCurve:
     serializedVersion: 2
     m_Curve:
@@ -562,6 +563,39 @@ MonoBehaviour:
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  DodgeCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 7.9900007
+      outSlope: 7.9900007
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.5006257
+      value: 5
+      inSlope: -0.010011673
+      outSlope: -0.010011673
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: -8.010024
+      outSlope: -8.010024
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2

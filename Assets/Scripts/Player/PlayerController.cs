@@ -13,8 +13,10 @@ public class PlayerController : MonoBehaviour
 
     [Header("Tuning")]
     public float MaxSpeed;
-    public float DodgeSpeed;
+    [SerializeField] private float DodgeSpeed;
+    [SerializeField] private float DodgeDuration;
     public AnimationCurve MovementCurve;
+    public AnimationCurve DodgeCurve;
     public bool canMove;
 
     [Header("Read Only")]
@@ -22,6 +24,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField, ReadOnlyInspector] private float MoveTime;
     // The current player speed as a percentage of the MaxSpeed.
     [SerializeField, ReadOnlyInspector] private float CurrentSpeed;
+    private float DodgeTime;
 
     private enum State
     {
@@ -56,13 +59,11 @@ public class PlayerController : MonoBehaviour
         {
             case State.Normal:
                 MovePlayer();
-                UpdateAnimation();
                 break;
             case State.Dodging:
                 HandleDodge();
                 break;
         }
-    MovePlayer();
     UpdateAnimation();
     }
 
@@ -91,17 +92,24 @@ public class PlayerController : MonoBehaviour
 
     public void OnDodge(InputAction.CallbackContext context)
     {
-        state = State.Dodging;
-        DodgeSpeed = 50f;
+        if (context.performed)
+        {
+            state = State.Dodging;
+            DodgeTime = 0f;
+            canMove = false;
+            //rb.AddForce(Movement * 50f, ForceMode.Impulse);
+        }
     }
 
     private void HandleDodge()
     {
-        transform.position += Movement * DodgeSpeed * Time.deltaTime;
-        DodgeSpeed -= DodgeSpeed * 10f * Time.deltaTime;
-        if (DodgeSpeed < 5f)
+        DodgeTime += Time.deltaTime;
+        Movement = Movement.normalized;
+        rb.velocity = Movement * DodgeSpeed * DodgeCurve.Evaluate(DodgeTime / DodgeDuration);
+        if (DodgeTime > DodgeDuration)
         {
             state = State.Normal;
+            canMove = true;
         }
     }
 
