@@ -803,7 +803,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Melee: {fileID: 6468703889929951277}
   atkStartup: 0.3
-  atkRecovery: 0.3
+  atkRecovery: 0.1
   atkCooldown: 1
   projectileSpawn: {fileID: 2083644151884469896}
   projectile: {fileID: 7337636041160478571, guid: 68cdf4f864792824e97fbc06c68001f2,

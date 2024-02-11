@@ -18,6 +18,8 @@ public class PlayerAttack : MonoBehaviour
     private float atkDuration = 0.3f;
     private float atkTimer = 0f;
     private float atkCDTimer = 9999f;
+    private float mComboTimer = 0f;
+    private float mComboWindow = 1f;
 
 
     // Ranged variables
@@ -37,12 +39,10 @@ public class PlayerAttack : MonoBehaviour
     private Vector2 aimInput;
     private Vector3 aimDirection;
 
+    // Movement and Input References
     public InputActionAsset actions;
-    private InputAction aimAction;
-
-    // Reference allowing interaction with player movement.
-    // **Consider removing this variable and merging this entire script with PlayerController.**
     public PlayerController Player;
+    private InputAction aimAction;
 
     private void Awake()
     {
@@ -117,6 +117,46 @@ public class PlayerAttack : MonoBehaviour
         transform.LookAt(heightCorrectedPoint);
     }
 
+    private void CheckShootRecovery()
+    {
+        if (isShooting)
+        {
+            if (shootTimer > shootRecovery)
+            {
+                Player.canMove = true;
+                isShooting = false;
+            }
+        }
+    }
+
+    private void CheckMeleeTimer()
+    {
+        if (isAttacking)
+        {
+            // Start attack process
+            atkTimer += Time.deltaTime;
+
+            // Release character once recovery window has expired
+            if (atkTimer >= atkDuration + atkStartup + atkRecovery)
+            {
+                Player.canMove = true;
+                isAttacking = false;
+                atkTimer = 0;
+                atkCDTimer = 0;
+            }
+            // end attack if delay + attack time has expired
+            else if (atkTimer >= atkDuration + atkStartup)
+            {
+                Melee.SetActive(false);
+            }
+            // start attack if delay period has expired
+            else if (atkTimer >= atkStartup)
+            {
+                Melee.SetActive(true);
+            }
+        }
+    }
+
     public void OnAttack(InputAction.CallbackContext context)
     {
         if (context.performed)
@@ -126,7 +166,6 @@ public class PlayerAttack : MonoBehaviour
                 rotateToAim();
 
                 // Start melee hitbox timer
-                Melee.SetActive(true);
                 isAttacking = true;
 
                 // Call animator to play melee attack here
@@ -151,46 +190,6 @@ public class PlayerAttack : MonoBehaviour
                 GameObject intProjectile = Instantiate(projectile, projectileSpawn.position, projectileSpawn.rotation);
                 intProjectile.GetComponent<Rigidbody>().AddForce(projectileSpawn.forward * fireForce, ForceMode.Impulse);
                 Destroy(intProjectile, projectileLife);
-            }
-        }
-    }
-
-    private void CheckShootRecovery()
-    {
-        if (isShooting)
-        {
-            if (shootTimer > shootRecovery)
-            {
-                Player.canMove = true;
-                isShooting = false;
-            }
-        }
-    }
-
-    void CheckMeleeTimer()
-    {
-        if (isAttacking)
-        {
-            // Start attack process
-            atkTimer += Time.deltaTime;
-
-            // Release character once recovery window has expired
-            if (atkTimer >= atkDuration + atkStartup + atkRecovery)
-            {
-                Player.canMove = true;
-                isAttacking = false;
-                atkTimer = 0;
-                atkCDTimer = 0;
-            }
-            // end attack if delay + attack time has expired
-            else if (atkTimer >= atkDuration + atkStartup)
-            {
-                Melee.SetActive(false);
-            }
-            // start attack if delay period has expired
-            else if (atkTimer >= atkStartup)
-            {
-                Melee.SetActive(true);
             }
         }
     }
