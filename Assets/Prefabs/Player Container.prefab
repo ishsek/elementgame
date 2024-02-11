@@ -802,9 +802,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Melee: {fileID: 6468703889929951277}
-  atkStartup: 0.3
-  atkRecovery: 0.1
-  atkCooldown: 1
   projectileSpawn: {fileID: 2083644151884469896}
   projectile: {fileID: 7337636041160478571, guid: 68cdf4f864792824e97fbc06c68001f2,
     type: 3}
@@ -1831,7 +1828,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6468703889929951277}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.6}
+  m_LocalPosition: {x: 0, y: 0, z: 1}
   m_LocalScale: {x: 1, y: 1.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

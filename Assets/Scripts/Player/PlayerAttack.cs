@@ -11,16 +11,18 @@ public class PlayerAttack : MonoBehaviour
 {
     // Melee variables
     public GameObject Melee;
-    public float atkStartup = 0.5f;
-    public float atkRecovery = 0.3f;
-    public float atkCooldown = 1f;
-    private bool isAttacking = false;
-    private float atkDuration = 0.3f;
-    private float atkTimer = 0f;
-    private float atkCDTimer = 9999f;
-    private float mComboTimer = 0f;
-    private float mComboWindow = 1f;
-
+    private float[] atkStartup = new float[] { 0.3f, 0.6f, 1.3f };
+    private float[] mAtkDuration = new float[] { 0.3f, 0.5f, 0.45f};
+    private float[] atkRecovery = new float[] { 0.25f, 0.5f, 0.5f};
+    private bool mIsAttacking = false;
+    private float mAtkTimer = 0f;
+    private float mComboTimer = 99f;
+    private float mComboWindow = 3f;
+    private int mCurrentCombo = 0;
+    private int mNextCombo = 0;
+    private int mMaxCombo = 3;
+    private bool mComboQueued = false;
+    private string[] mComboList = new string[] { "SwordSlash1", "SwordSlash2", "SwordSlash3" };
 
     // Ranged variables
     public Transform projectileSpawn;
@@ -55,7 +57,7 @@ public class PlayerAttack : MonoBehaviour
         CheckMeleeTimer();
         CheckShootRecovery();
         shootTimer += Time.deltaTime;
-        atkCDTimer += Time.deltaTime;
+        mComboTimer += Time.deltaTime;
     }
 
     void OnEnable()
@@ -75,7 +77,6 @@ public class PlayerAttack : MonoBehaviour
         // Handle gamepad control
         if (isGamepad)
         {
-            print(aimInput);
             aimDirection = Vector3.right * aimInput.x + Vector3.forward * aimInput.y;
         }
         // Handle mouse control
@@ -131,46 +132,69 @@ public class PlayerAttack : MonoBehaviour
 
     private void CheckMeleeTimer()
     {
-        if (isAttacking)
+        if (mIsAttacking)
         {
             // Start attack process
-            atkTimer += Time.deltaTime;
+            mAtkTimer += Time.deltaTime;
 
             // Release character once recovery window has expired
-            if (atkTimer >= atkDuration + atkStartup + atkRecovery)
+            if (mAtkTimer >= mAtkDuration[mCurrentCombo] + atkStartup[mCurrentCombo] + atkRecovery[mCurrentCombo])
             {
-                Player.canMove = true;
-                isAttacking = false;
-                atkTimer = 0;
-                atkCDTimer = 0;
+                if (mComboQueued)
+                {
+                    rotateToAim();
+                    CheckCombo();
+                    mComboQueued = false;
+                }
+                else
+                {
+                    Player.canMove = true;
+                    mIsAttacking = false;
+                }
+                mAtkTimer = 0;
             }
             // end attack if delay + attack time has expired
-            else if (atkTimer >= atkDuration + atkStartup)
+            else if (mAtkTimer >= mAtkDuration[mCurrentCombo] + atkStartup[mCurrentCombo])
             {
                 Melee.SetActive(false);
             }
             // start attack if delay period has expired
-            else if (atkTimer >= atkStartup)
+            else if (mAtkTimer >= atkStartup[mCurrentCombo])
             {
                 Melee.SetActive(true);
             }
         }
     }
 
+    private void CheckCombo()
+    {
+        // If within combo window, play the attack and update the combo counter
+        mCurrentCombo++;
+        if (mComboTimer > mComboWindow || mCurrentCombo >= mMaxCombo)
+        {
+            mCurrentCombo = 0;
+        }
+        PlayerAnimator.SetTrigger(mComboList[mCurrentCombo]);
+        mComboTimer = 0f;
+    }
+
     public void OnAttack(InputAction.CallbackContext context)
     {
         if (context.performed)
         {
-            if (!isAttacking)
+            if (!mIsAttacking)
             {
                 rotateToAim();
-
                 // Start melee hitbox timer
-                isAttacking = true;
+                mIsAttacking = true;
 
                 // Call animator to play melee attack here
                 //Refactor this to be a static location for the trigger names
-                PlayerAnimator.SetTrigger("SwordSlash1");
+                CheckCombo();
+            }
+            else if (!mComboQueued)
+            {
+                mComboQueued = true;
             }
         }
     }
