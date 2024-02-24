@@ -11,20 +11,22 @@ public class PlayerController : MonoBehaviour
     public string MoveSpeedAnimationParameter;
     private Rigidbody rb;
 
-    [Header("Tuning")]
-    public float MaxSpeed;
+    [Header("Dodging")]
+    public AnimationCurve DodgeCurve;
     [SerializeField] private float DodgeSpeed;
     [SerializeField] private float DodgeDuration;
-    public AnimationCurve MovementCurve;
-    public AnimationCurve DodgeCurve;
-    public bool canMove;
+    private float DodgeTime;
 
-    [Header("Read Only")]
+    [Header("Movement")]
+    public float MaxSpeed;
+    public AnimationCurve MovementCurve;
+    public bool canMove;
     // This tracks how long the player has been moving for.
     [SerializeField, ReadOnlyInspector] private float MoveTime;
     // The current player speed as a percentage of the MaxSpeed.
     [SerializeField, ReadOnlyInspector] private float CurrentSpeed;
-    private float DodgeTime;
+    private Vector3 Movement;
+    private Vector2 Move;
 
     private enum State
     {
@@ -32,9 +34,6 @@ public class PlayerController : MonoBehaviour
         Dodging,
     }
     private State state;
-
-    private Vector3 Movement;
-    private Vector2 Move;
 
     //**Consider consolidating move and aim inputs into a single function if merging attack and movement scripts**
     public void OnMove(InputAction.CallbackContext context)
