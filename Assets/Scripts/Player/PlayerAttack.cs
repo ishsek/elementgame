@@ -9,7 +9,7 @@ using UnityEditor.Experimental.GraphView;
 
 public class PlayerAttack : MonoBehaviour
 {
-    // Melee variables
+    [Header("Melee")]
     public GameObject Melee;
     private float[] atkStartup = new float[] { 0.3f, 0.6f, 1.3f };
     private float[] mAtkDuration = new float[] { 0.3f, 0.5f, 0.45f};
@@ -24,7 +24,7 @@ public class PlayerAttack : MonoBehaviour
     private bool mComboQueued = false;
     private string[] mComboList = new string[] { "SwordSlash1", "SwordSlash2", "SwordSlash3" };
 
-    // Ranged variables
+    [Header("Ranged")]
     public Transform projectileSpawn;
     public GameObject projectile;
     public float fireForce = 10f;
@@ -36,12 +36,12 @@ public class PlayerAttack : MonoBehaviour
 
     public Animator PlayerAnimator;
 
-    // Aim control variables
+    [Header("Aiming")]
     private bool isGamepad;
     private Vector2 aimInput;
     private Vector3 aimDirection;
 
-    // Movement and Input References
+    [Header("References")]
     public InputActionAsset actions;
     public PlayerController Player;
     private InputAction aimAction;
