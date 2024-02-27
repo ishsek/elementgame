@@ -19,7 +19,6 @@ public class PlayerAttack : MonoBehaviour
     private float mComboTimer = 99f;
     private float mComboWindow = 3f;
     private int mCurrentCombo = 0;
-    private int mNextCombo = 0;
     private int mMaxCombo = 3;
     private bool mComboQueued = false;
     private string[] mComboList = new string[] { "SwordSlash1", "SwordSlash2", "SwordSlash3" };

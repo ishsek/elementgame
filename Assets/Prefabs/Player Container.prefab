@@ -491,7 +491,7 @@ GameObject:
   - component: {fileID: 3452184737659694154}
   - component: {fileID: 3123965890183310533}
   - component: {fileID: 2102733433478663801}
-  - component: {fileID: 4612704171425146048}
+  - component: {fileID: 7978207243456297110}
   m_Layer: 0
   m_Name: Player Container
   m_TagString: Player
@@ -529,44 +529,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fa3a154791a5d8468e2f9777c2b5154, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  actions: {fileID: -944628639613478452, guid: 2b19e9fa98b7fe547b72488882e64453, type: 3}
   MyAnimator: {fileID: 5440961211098504273}
   MoveSpeedAnimationParameter: Move Speed
-  MaxSpeed: 7
-  DodgeSpeed: 14
-  DodgeDuration: 0.3
-  MovementCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 3.5308917
-      outSlope: 3.5308917
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.15646027
-    - serializedVersion: 3
-      time: 0.40794727
-      value: 0.8197057
-      inSlope: 0.7499083
-      outSlope: 0.7499083
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.20450477
-      outWeight: 0.11601178
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
   DodgeCurve:
     serializedVersion: 2
     m_Curve:
@@ -600,9 +565,50 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  DodgeSpeed: 14
+  DodgeDuration: 0.3
+  MaxSpeed: 7
+  MovementCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 3.5308917
+      outSlope: 3.5308917
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.15646027
+    - serializedVersion: 3
+      time: 0.40794727
+      value: 0.8197057
+      inSlope: 0.7499083
+      outSlope: 0.7499083
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.20450477
+      outWeight: 0.11601178
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   canMove: 0
   MoveTime: 0
   CurrentSpeed: 0
+  ActiveElement: 1
+  EquippedElement1: 0
+  EquippedElement2: 2
+  EquippedElement3: 3
+  EquippedElement4: 4
 --- !u!114 &2922025672014161721
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -628,7 +634,7 @@ MonoBehaviour:
   m_ControlsChangedEvent:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4612704171425146048}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: PlayerAttack, Assembly-CSharp
         m_MethodName: OnDeviceChange
         m_Mode: 0
@@ -659,41 +665,9 @@ MonoBehaviour:
     m_ActionName: Player/Move[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4612704171425146048}
+      - m_Target: {fileID: 511278644670675394}
         m_TargetAssemblyTypeName: PlayerAttack, Assembly-CSharp
-        m_MethodName: OnAttack
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 9acb12ee-407e-4651-8f6d-79f95372f1ce
-    m_ActionName: Player/Attack[/Mouse/leftButton]
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 4612704171425146048}
-        m_TargetAssemblyTypeName: PlayerAttack, Assembly-CSharp
-        m_MethodName: OnShoot
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 1edb69e1-fd8f-4ab0-bb72-fc80a91cbd1e
-    m_ActionName: Player/Attack2[/Mouse/rightButton]
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 4612704171425146048}
-        m_TargetAssemblyTypeName: PlayerAttack, Assembly-CSharp
-        m_MethodName: onAim
+        m_MethodName: 
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -709,7 +683,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 511278644670675394}
         m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
-        m_MethodName: OnDodge
+        m_MethodName: SwapToElement1
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -719,8 +693,56 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_ActionId: d613ccd5-8749-4186-8af1-948b2660bf3c
-    m_ActionName: Player/Dodge[/XInputControllerWindows/buttonSouth,/Keyboard/space]
+    m_ActionId: d4cc80a4-2f08-4af3-898b-77d6dd3e08fc
+    m_ActionName: Player/Element1[/Keyboard/1]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 2cef234e-3fe7-4f79-94e2-2548eb6a3eef
+    m_ActionName: Player/Element2[/Keyboard/2]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: b57f54d6-f5e9-4520-b2b4-76607fd455a8
+    m_ActionName: Player/Element3[/Keyboard/3]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: f0e4eaab-4bd2-4f5a-bf62-6487ed01d98d
+    m_ActionName: Player/Element4[/Keyboard/4]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7978207243456297110}
+        m_TargetAssemblyTypeName: Shadow, Assembly-CSharp
+        m_MethodName: Attack1
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 2c39e115-81fd-4294-b9ce-51499cd35bd7
+    m_ActionName: Shadow/Attack1[/Mouse/leftButton]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7978207243456297110}
+        m_TargetAssemblyTypeName: Shadow, Assembly-CSharp
+        m_MethodName: Attack2
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 8ea78017-54b0-420c-9461-2e2560b05889
+    m_ActionName: Shadow/Attack2[/Mouse/rightButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: fb96a5a5-8fae-41cc-967a-35af2e1494ef
+    m_ActionName: Shadow/Dodge[/Keyboard/space]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -789,7 +811,7 @@ MonoBehaviour:
   HealthBar: {fileID: 0}
   health: 0
   maxHealth: 100
---- !u!114 &4612704171425146048
+--- !u!114 &7978207243456297110
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -798,7 +820,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1692330624162870052}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6b021f3b07171434d8f90fb6b690a3f4, type: 3}
+  m_Script: {fileID: 11500000, guid: 6e1f2c928bb265141a4f69ae47c694ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Melee: {fileID: 6468703889929951277}
@@ -809,9 +831,16 @@ MonoBehaviour:
   shootCooldown: 0.5
   projectileLife: 2
   shootRecovery: 0.3
-  PlayerAnimator: {fileID: 5440961211098504273}
-  actions: {fileID: -944628639613478452, guid: 2b19e9fa98b7fe547b72488882e64453, type: 3}
+  DodgeCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  DodgeSpeed: 0
+  DodgeDuration: 0
   Player: {fileID: 511278644670675394}
+  MyAnimator: {fileID: 5440961211098504273}
 --- !u!1 &1700694333064827749
 GameObject:
   m_ObjectHideFlags: 0
