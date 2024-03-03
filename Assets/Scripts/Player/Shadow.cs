@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -23,10 +24,12 @@ public class Shadow : MonoBehaviour
     [Header("Ranged")]
     public Transform projectileSpawn;
     public GameObject projectile;
-    public float fireForce = 10f;
-    public float shootCooldown = 0.5f;
-    public float projectileLife = 2f;
-    public float shootRecovery = 0.3f;
+    [SerializeField] private float fireForce = 10f;
+    [SerializeField] private float shootCooldown = 0.5f;
+    [SerializeField] private float projectileLife = 2f;
+    [SerializeField] private float shootRecovery = 0.3f;
+    [SerializeField] private float shootDelay = 0.1f;
+    private bool hasFired = false;
     private float shootTimer = 9999f;
     private bool isShooting = false;
 
@@ -43,7 +46,7 @@ public class Shadow : MonoBehaviour
     void Update()
     {
         CheckMeleeTimer();
-        CheckShootRecovery();
+        CheckShootTimer();
         shootTimer += Time.deltaTime;
         mComboTimer += Time.deltaTime;
     }
@@ -81,12 +84,11 @@ public class Shadow : MonoBehaviour
                 Player.SetStateAttacking();
                 Player.rotateToAim();
                 isShooting = true;
+                hasFired = false;
 
                 // Fire Projectile
                 shootTimer = 0;
-                GameObject intProjectile = Instantiate(projectile, projectileSpawn.position, projectileSpawn.rotation);
-                intProjectile.GetComponent<Rigidbody>().AddForce(projectileSpawn.forward * fireForce, ForceMode.Impulse);
-                Destroy(intProjectile, projectileLife);
+
             }
         }
     }
@@ -111,20 +113,33 @@ public class Shadow : MonoBehaviour
 
     }
 
-    public void Dodge()
+    public void Dodge(InputAction.CallbackContext context)
     {
-
+        if (context.performed)
+        {
+            Player.OnDodge();
+        }
     }
 
-    private void CheckShootRecovery()
+    private void CheckShootTimer()
     {
         if (isShooting)
         {
-            if (shootTimer > shootRecovery)
+            if (shootTimer > shootDelay + shootRecovery)
             {
                 Player.SetStateNormal();
                 Player.canMove = true;
                 isShooting = false;
+            }
+            else if (shootTimer > shootDelay)
+            {
+                if (!hasFired)
+                {
+                    GameObject intProjectile = Instantiate(projectile, projectileSpawn.position, projectileSpawn.rotation);
+                    intProjectile.GetComponent<Rigidbody>().AddForce(projectileSpawn.forward * fireForce, ForceMode.Impulse);
+                    Destroy(intProjectile, projectileLife);
+                    hasFired = true;
+                }
             }
         }
     }

@@ -110,12 +110,10 @@ public class PlayerController : MonoBehaviour
 
         if (canMove && Movement.magnitude > 0)
         {
-            //transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Movement), 0.15f);
             rb.MoveRotation(Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Movement), 0.15f));
             // Update MoveTime to reflect how long the player has been in motion.
             MoveTime += Time.deltaTime;
             CurrentSpeed = MovementCurve.Evaluate(MoveTime);
-            //transform.Translate(Movement * CurrentSpeed * MaxSpeed * Time.deltaTime, Space.World);
             rb.velocity = Movement * MaxSpeed * CurrentSpeed;
         }
         else
@@ -125,15 +123,10 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void OnDodge(InputAction.CallbackContext context)
+    public void OnDodge()
     {
-        if (context.performed)
-        {
-            state = State.Dodging;
-            DodgeTime = 0f;
-            canMove = false;
-            //rb.AddForce(Movement * 50f, ForceMode.Impulse);
-        }
+        state = State.Dodging;
+        DodgeTime = 0f;
     }
 
     public void HaltMovement()
@@ -241,7 +234,6 @@ public class PlayerController : MonoBehaviour
     {
         if (context.performed)
         {
-            print("swap element");
             UpdateActiveElement(EquippedElement1);
         }
     }
@@ -323,9 +315,8 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void SetElementShadow()
+    private void SetElementShadow()
     {
-        // Add code to disable other elements here:
         playerInput.actions.FindActionMap("Shadow").Enable();
         ActiveElement = Element.Shadow;
     }
