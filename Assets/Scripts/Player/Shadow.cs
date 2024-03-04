@@ -19,6 +19,7 @@ public class Shadow : MonoBehaviour
     private int mCurrentCombo = 0;
     private int mMaxCombo = 3;
     private bool mComboQueued = false;
+    private bool mPrimaryActive = false;
     private string[] mComboList = new string[] { "SwordSlash1", "SwordSlash2", "SwordSlash3" };
 
     [Header("Ranged")]
@@ -37,7 +38,6 @@ public class Shadow : MonoBehaviour
     public AnimationCurve DodgeCurve;
     [SerializeField] private float DodgeSpeed;
     [SerializeField] private float DodgeDuration;
-    private float DodgeTime;
 
     [Header("References")]
     public PlayerController Player;
@@ -62,14 +62,16 @@ public class Shadow : MonoBehaviour
                 Player.rotateToAim();
                 // Start melee hitbox timer
                 mIsAttacking = true;
-
-                // Call animator to play melee attack here
-                //Refactor this to be a static location for the trigger names
+                mPrimaryActive = true;
+                mAtkTimer = 0;
                 CheckCombo();
             }
             else if (!mComboQueued)
             {
-                mComboQueued = true;
+                if (mCurrentCombo + 1 < mMaxCombo)
+                {
+                    mComboQueued = true;
+                }
             }
         }
     }
@@ -78,12 +80,13 @@ public class Shadow : MonoBehaviour
     {
         if (context.performed)
         {
-            if (shootTimer > shootCooldown)
+            if (shootTimer > shootCooldown && !mIsAttacking)
             {
                 Player.HaltMovement();
                 Player.SetStateAttacking();
                 Player.rotateToAim();
                 isShooting = true;
+                mIsAttacking = true;
                 hasFired = false;
 
                 // Fire Projectile
@@ -117,6 +120,7 @@ public class Shadow : MonoBehaviour
     {
         if (context.performed)
         {
+            InterruptAttack();
             Player.OnDodge();
         }
     }
@@ -128,8 +132,8 @@ public class Shadow : MonoBehaviour
             if (shootTimer > shootDelay + shootRecovery)
             {
                 Player.SetStateNormal();
-                Player.canMove = true;
                 isShooting = false;
+                mIsAttacking = false;
             }
             else if (shootTimer > shootDelay)
             {
@@ -146,7 +150,7 @@ public class Shadow : MonoBehaviour
 
     private void CheckMeleeTimer()
     {
-        if (mIsAttacking)
+        if (mPrimaryActive)
         {
             // Start attack process
             mAtkTimer += Time.deltaTime;
@@ -156,6 +160,7 @@ public class Shadow : MonoBehaviour
             {
                 if (mComboQueued)
                 {
+                    mAtkTimer = 0;
                     Player.rotateToAim();
                     CheckCombo();
                     mComboQueued = false;
@@ -163,10 +168,9 @@ public class Shadow : MonoBehaviour
                 else
                 {
                     Player.SetStateNormal();
-                    Player.canMove = true;
                     mIsAttacking = false;
+                    mPrimaryActive = false;
                 }
-                mAtkTimer = 0;
             }
             // end attack if delay + attack time has expired
             else if (mAtkTimer >= mAtkDuration[mCurrentCombo] + atkStartup[mCurrentCombo])
@@ -192,4 +196,23 @@ public class Shadow : MonoBehaviour
         MyAnimator.SetTrigger(mComboList[mCurrentCombo]);
         mComboTimer = 0f;
     }
+    private void InterruptAttack()
+    {
+        // Return to Normal State
+        Player.SetStateNormal();
+
+        // Interrupt Melee
+        mIsAttacking = false;
+        //if (mPrimaryActive)
+        //{
+        //    MyAnimator.ResetTrigger(mComboList[mCurrentCombo]);
+        //}
+        mPrimaryActive = false;
+        Melee.SetActive(false);
+        mComboQueued = false;
+
+        // Interrupt Ranged
+        isShooting = false;
+    }
+
 }

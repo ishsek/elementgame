@@ -538,17 +538,17 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 1
-      inSlope: 7.9900007
-      outSlope: 7.9900007
+      inSlope: 4
+      outSlope: 4
       tangentMode: 34
       weightedMode: 0
       inWeight: 0
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.5006257
-      value: 5
-      inSlope: -0.010011673
-      outSlope: -0.010011673
+      time: 0.5
+      value: 3
+      inSlope: 0
+      outSlope: 0
       tangentMode: 34
       weightedMode: 0
       inWeight: 0.33333334
@@ -556,8 +556,8 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 1
       value: 1
-      inSlope: -8.010024
-      outSlope: -8.010024
+      inSlope: -4
+      outSlope: -4
       tangentMode: 34
       weightedMode: 0
       inWeight: 0.33333334
@@ -565,7 +565,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  DodgeSpeed: 7
+  DodgeSpeed: 12
   DodgeDuration: 0.3
   MaxSpeed: 7
   MovementCurve:
@@ -604,7 +604,7 @@ MonoBehaviour:
   canMove: 0
   MoveTime: 0
   CurrentSpeed: 0
-  ActiveElement: 1
+  ActiveElement: 6
   EquippedElement1: 0
   EquippedElement2: 2
   EquippedElement3: 3

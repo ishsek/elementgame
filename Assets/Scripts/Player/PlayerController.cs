@@ -23,7 +23,6 @@ public class PlayerController : MonoBehaviour
     [Header("Movement")]
     public float MaxSpeed;
     public AnimationCurve MovementCurve;
-    public bool canMove;
     // This tracks how long the player has been moving for.
     [SerializeField, ReadOnlyInspector] private float MoveTime;
     // The current player speed as a percentage of the MaxSpeed.
@@ -55,6 +54,7 @@ public class PlayerController : MonoBehaviour
         Water,
         Air,
         Earth,
+        None,
     }
     [Header("Element Switching")]
     [SerializeField] private Element ActiveElement;
@@ -77,16 +77,16 @@ public class PlayerController : MonoBehaviour
         playerInput = GetComponent<PlayerInput>();
         Movement = Vector3.zero;
         MoveTime = 0;
-        canMove = true;
         state = State.Normal;
         aimAction = actions.FindActionMap("Player").FindAction("Aim");
 
-        //Shadow = GetComponent<Shadow>();
+        UpdateActiveElement(EquippedElement1);
     }
 
     // Update is called once per frame
     void Update()
     {
+        UpdateMovementInput();
         switch (state)
         {
             case State.Normal:
@@ -99,16 +99,19 @@ public class PlayerController : MonoBehaviour
                 
                 break;
         }
-    HandleAim();
-    UpdateAnimation();
+        HandleAim();
+        UpdateAnimation();
+    }
+
+    private void UpdateMovementInput()
+    {
+        Movement.x = Move.x;
+        Movement.z = Move.y;
     }
 
     private void MovePlayer()
     {
-        Movement.x = Move.x;
-        Movement.z = Move.y;
-
-        if (canMove && Movement.magnitude > 0)
+        if (Movement.magnitude > 0)
         {
             rb.MoveRotation(Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Movement), 0.15f));
             // Update MoveTime to reflect how long the player has been in motion.
@@ -125,8 +128,11 @@ public class PlayerController : MonoBehaviour
 
     public void OnDodge()
     {
-        state = State.Dodging;
-        DodgeTime = 0f;
+        if ( state == State.Normal)
+        {
+            state = State.Dodging;
+            DodgeTime = 0f;
+        }
     }
 
     public void HaltMovement()
@@ -143,7 +149,6 @@ public class PlayerController : MonoBehaviour
         if (DodgeTime > DodgeDuration)
         {
             state = State.Normal;
-            canMove = true;
         }
     }
 
@@ -189,9 +194,6 @@ public class PlayerController : MonoBehaviour
 
     public void rotateToAim()
     {
-        // Lock player movement
-        canMove = false;
-
         // Rotate player to aim direction
         if (isGamepad)
         {
@@ -287,6 +289,9 @@ public class PlayerController : MonoBehaviour
                 case Element.Earth:
 
                     break;
+                case Element.None:
+
+                    break;
             }
         }
     }
@@ -312,6 +317,9 @@ public class PlayerController : MonoBehaviour
             case Element.Earth:
 
                 break;
+            case Element.None:
+
+                break;
         }
     }
 
@@ -329,6 +337,7 @@ public class PlayerController : MonoBehaviour
     public void SetStateNormal()
     {
         state = State.Normal;
+        //MyAnimator.SetTrigger("Blend Tree");
     }
     public void SetStateDodging()
     {
