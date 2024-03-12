@@ -10,7 +10,7 @@ public class PlayerController : MonoBehaviour
     public InputActionAsset actions;
     public Animator MyAnimator;
     public string MoveSpeedAnimationParameter;
-    private Rigidbody rb;
+    public Rigidbody rb;
     private InputAction aimAction;
     private PlayerInput playerInput;
 
@@ -214,23 +214,6 @@ public class PlayerController : MonoBehaviour
         DirectionVector.y = 0;
         rb.rotation = Quaternion.LookRotation(DirectionVector, Vector3.up);
     }
-
-    //public void OnAttack(InputAction.CallbackContext context)
-    //{
-    //    if (context.performed)
-    //    {
-    //        Shadow.Attack1();
-    //    }
-    //}
-
-    //public void OnShoot(InputAction.CallbackContext context)
-    //{
-    //    //UnityEngine.Debug.Log("Firing");
-    //    if (context.performed)
-    //    {
-    //        Shadow.Attack2();
-    //    }
-    //}
 
     public void SwapToElement1(InputAction.CallbackContext context)
     {

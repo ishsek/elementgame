@@ -46,7 +46,7 @@ public class EnemyAttack : MonoBehaviour
         }
     }
 
-    void CheckMeleeTimer()
+    private void CheckMeleeTimer()
     {
         if (isAttacking)
         {

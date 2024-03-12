@@ -9,9 +9,11 @@ public class Shadow : MonoBehaviour
 
     [Header("Melee")]
     public GameObject Melee;
-    private float[] atkStartup = new float[] { 0.3f, 0.6f, 1.3f };
-    private float[] mAtkDuration = new float[] { 0.3f, 0.5f, 0.45f };
-    private float[] atkRecovery = new float[] { 0.25f, 0.5f, 0.5f };
+    [SerializeField] private float m_PrimaryAttackMoveSpeed;
+    [SerializeField] private List<AnimationCurve> m_PrimaryAttackCurves;
+    [SerializeField] private List<float> m_AtkStartup;// = new float[] { 0.3f, 0.6f, 1.3f };
+    [SerializeField] private List<float> m_AtkActive;// = new float[] { 0.3f, 0.5f, 0.45f };
+    [SerializeField] private List<float> m_AtkRecovery;// = new float[] { 0.25f, 0.5f, 0.5f };
     private bool mIsAttacking = false;
     private float mAtkTimer = 0f;
     private float mComboTimer = 99f;
@@ -153,10 +155,11 @@ public class Shadow : MonoBehaviour
         if (mPrimaryActive)
         {
             // Start attack process
+            float AttackDuration = m_AtkActive[mCurrentCombo] + m_AtkStartup[mCurrentCombo] + m_AtkRecovery[mCurrentCombo];
             mAtkTimer += Time.deltaTime;
-
+            Player.rb.velocity = transform.forward * m_PrimaryAttackCurves[mCurrentCombo].Evaluate(mAtkTimer / AttackDuration) * m_PrimaryAttackMoveSpeed;
             // Release character once recovery window has expired
-            if (mAtkTimer >= mAtkDuration[mCurrentCombo] + atkStartup[mCurrentCombo] + atkRecovery[mCurrentCombo])
+            if (mAtkTimer >= AttackDuration)
             {
                 if (mComboQueued)
                 {
@@ -173,12 +176,12 @@ public class Shadow : MonoBehaviour
                 }
             }
             // end attack if delay + attack time has expired
-            else if (mAtkTimer >= mAtkDuration[mCurrentCombo] + atkStartup[mCurrentCombo])
+            else if (mAtkTimer >= m_AtkActive[mCurrentCombo] + m_AtkStartup[mCurrentCombo])
             {
                 Melee.SetActive(false);
             }
             // start attack if delay period has expired
-            else if (mAtkTimer >= atkStartup[mCurrentCombo])
+            else if (mAtkTimer >= m_AtkStartup[mCurrentCombo])
             {
                 Melee.SetActive(true);
             }
@@ -203,10 +206,11 @@ public class Shadow : MonoBehaviour
 
         // Interrupt Melee
         mIsAttacking = false;
-        //if (mPrimaryActive)
-        //{
-        //    MyAnimator.ResetTrigger(mComboList[mCurrentCombo]);
-        //}
+        if (mPrimaryActive)
+        {
+            MyAnimator.SetTrigger("InterruptAttack");
+            Player.rb.velocity = new Vector3(0, 0, 0);
+        }
         mPrimaryActive = false;
         Melee.SetActive(false);
         mComboQueued = false;
