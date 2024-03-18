@@ -532,7 +532,17 @@ MonoBehaviour:
   actions: {fileID: -944628639613478452, guid: 2b19e9fa98b7fe547b72488882e64453, type: 3}
   MyAnimator: {fileID: 5440961211098504273}
   MoveSpeedAnimationParameter: Move Speed
-  rb: {fileID: 0}
+  rb: {fileID: 3452184737659694154}
+  aimAction:
+    m_Name: Aim
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 75503d8b-3a26-4e87-9114-9c92423db3a7
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  playerInput: {fileID: 2922025672014161721}
   DodgeCurve:
     serializedVersion: 2
     m_Curve:
@@ -604,6 +614,8 @@ MonoBehaviour:
     m_RotationOrder: 4
   MoveTime: 0
   CurrentSpeed: 0
+  isGamepad: 0
+  aimDirection: {x: 0, y: 0, z: 0}
   ActiveElement: 6
   EquippedElement1: 0
   EquippedElement2: 2
@@ -755,6 +767,34 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: fb96a5a5-8fae-41cc-967a-35af2e1494ef
     m_ActionName: Shadow/Dodge[/Keyboard/space]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 0c18f04a-1dfb-4f72-b778-49284b1217ab
+    m_ActionName: Shadow/Ability1[/Keyboard/q]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 371cb73a-427e-449e-b780-256953a7c426
+    m_ActionName: Shadow/Ability2[/Keyboard/e]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 9db309fe-af75-408b-9055-2bd38b1627fb
+    m_ActionName: Shadow/Ability3[/Keyboard/f]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7978207243456297110}
+        m_TargetAssemblyTypeName: Shadow, Assembly-CSharp
+        m_MethodName: Ability4
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 13fdbf26-059a-46d7-a3dd-3104a70f18bc
+    m_ActionName: Shadow/Ability4[/Keyboard/r]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -1014,6 +1054,8 @@ MonoBehaviour:
   projectileLife: 2
   shootRecovery: 0.3
   shootDelay: 0.1
+  VoidAoE: {fileID: 7332445863770519187, guid: 88dd6a05c9b82a049ae6af6f12d402db, type: 3}
+  VoidLife: 4
   DodgeCurve:
     serializedVersion: 2
     m_Curve: []

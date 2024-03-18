@@ -36,6 +36,10 @@ public class Shadow : MonoBehaviour
     private float shootTimer = 9999f;
     private bool isShooting = false;
 
+    [Header("Black Hole")]
+    [SerializeField] private GameObject VoidAoE;
+    [SerializeField] private float VoidLife;
+
     [Header("Dodging")]
     public AnimationCurve DodgeCurve;
     [SerializeField] private float DodgeSpeed;
@@ -113,9 +117,21 @@ public class Shadow : MonoBehaviour
 
     }
 
-    public void Ability4()
+    public void Ability4(InputAction.CallbackContext context)
     {
+        if (Player.isGamepad)
+        {
 
+        }
+        else
+        {
+            if (context.performed)
+            {
+                Debug.Log("Black Hole");
+                GameObject InstBlackHole = Instantiate(VoidAoE, Player.aimDirection, transform.rotation);
+                Destroy(InstBlackHole, VoidLife);
+            }
+        }
     }
 
     public void Dodge(InputAction.CallbackContext context)

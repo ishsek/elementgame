@@ -11,8 +11,8 @@ public class PlayerController : MonoBehaviour
     public Animator MyAnimator;
     public string MoveSpeedAnimationParameter;
     public Rigidbody rb;
-    private InputAction aimAction;
-    private PlayerInput playerInput;
+    public InputAction aimAction;
+    [SerializeField] private PlayerInput playerInput;
 
     [Header("Dodging")]
     public AnimationCurve DodgeCurve;
@@ -31,9 +31,9 @@ public class PlayerController : MonoBehaviour
     private Vector2 Move;
 
     [Header("Aiming")]
-    private bool isGamepad;
+    public bool isGamepad;
     private Vector2 aimInput;
-    private Vector3 aimDirection;
+    public Vector3 aimDirection;
 
     //private IElement Shadow;
 
@@ -73,8 +73,8 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        rb = GetComponent<Rigidbody>();
-        playerInput = GetComponent<PlayerInput>();
+        //rb = GetComponent<Rigidbody>();
+        //playerInput = GetComponent<PlayerInput>();
         Movement = Vector3.zero;
         MoveTime = 0;
         state = State.Normal;
