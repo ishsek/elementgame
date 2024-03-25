@@ -6,7 +6,7 @@ public abstract class Enemy : MonoBehaviour
 {
     [SerializeField] public Animator EnemyAnimator;
 
-    protected Rigidbody rb;
+    public Rigidbody rb;
     protected EnemyAttack mAttack;
     [SerializeField] protected float speed;
     [SerializeField] protected float attackRange;

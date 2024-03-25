@@ -38,7 +38,6 @@ public class Shadow : MonoBehaviour
 
     [Header("Black Hole")]
     [SerializeField] private GameObject VoidAoE;
-    [SerializeField] private float VoidLife;
 
     [Header("Dodging")]
     public AnimationCurve DodgeCurve;
@@ -127,9 +126,7 @@ public class Shadow : MonoBehaviour
         {
             if (context.performed)
             {
-                Debug.Log("Black Hole");
                 GameObject InstBlackHole = Instantiate(VoidAoE, Player.aimDirection, transform.rotation);
-                Destroy(InstBlackHole, VoidLife);
             }
         }
     }

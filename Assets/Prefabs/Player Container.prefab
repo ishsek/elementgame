@@ -1054,8 +1054,12 @@ MonoBehaviour:
   projectileLife: 2
   shootRecovery: 0.3
   shootDelay: 0.1
+  VoidDamage: 10
   VoidAoE: {fileID: 7332445863770519187, guid: 88dd6a05c9b82a049ae6af6f12d402db, type: 3}
-  VoidLife: 4
+  m_VoidDuration: 4
+  m_VoidPullStrength: 1
+  m_VoidTickRate: 0.25
+  m_VoidRadius: 2
   DodgeCurve:
     serializedVersion: 2
     m_Curve: []

@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 4255025459673093059}
   m_Layer: 0
   m_Name: Enemy Container
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -36,7 +36,7 @@ Transform:
   - {fileID: 7125357716958667478}
   - {fileID: 8133835186884660903}
   m_Father: {fileID: 0}
-  m_RootOrder: -1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!54 &1681454889729064682
 Rigidbody:
@@ -99,6 +99,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   EnemyAnimator: {fileID: 6605829306811959044}
+  rb: {fileID: 0}
   speed: 2
   attackRange: 1
   aggroRange: 5

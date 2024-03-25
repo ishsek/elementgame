@@ -24,7 +24,10 @@ public class Health : MonoBehaviour
     public virtual void TakeDamage(float damage)
     {
         health -= damage;
-        HealthBar.fillAmount = health / maxHealth;
+        if (HealthBar != null)
+        {
+            HealthBar.fillAmount = health / maxHealth;
+        }
 
         if (health <= 0)
         {
