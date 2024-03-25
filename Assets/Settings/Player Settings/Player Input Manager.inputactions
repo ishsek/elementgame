@@ -305,6 +305,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Ability4Controller",
+                    "type": "Button",
+                    "id": "565baa0e-c7ec-4583-89c6-1e13f6adcb22",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press(behavior=1)",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -453,12 +462,12 @@
                 },
                 {
                     "name": "",
-                    "id": "f40bb0e7-fd59-43b0-9c92-29ba4bc30f0d",
+                    "id": "adc4856e-20df-4b9a-8bcd-0671181c713a",
                     "path": "<Gamepad>/rightTrigger",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "Ability4",
+                    "action": "Ability4Controller",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

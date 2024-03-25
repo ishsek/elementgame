@@ -795,6 +795,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 13fdbf26-059a-46d7-a3dd-3104a70f18bc
     m_ActionName: Shadow/Ability4[/Keyboard/r]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7978207243456297110}
+        m_TargetAssemblyTypeName: Shadow, Assembly-CSharp
+        m_MethodName: Ability4
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 565baa0e-c7ec-4583-89c6-1e13f6adcb22
+    m_ActionName: Shadow/Ability4Controller[/XInputControllerWindows/rightTrigger]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -1054,12 +1070,7 @@ MonoBehaviour:
   projectileLife: 2
   shootRecovery: 0.3
   shootDelay: 0.1
-  VoidDamage: 10
   VoidAoE: {fileID: 7332445863770519187, guid: 88dd6a05c9b82a049ae6af6f12d402db, type: 3}
-  m_VoidDuration: 4
-  m_VoidPullStrength: 1
-  m_VoidTickRate: 0.25
-  m_VoidRadius: 2
   DodgeCurve:
     serializedVersion: 2
     m_Curve: []

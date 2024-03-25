@@ -120,7 +120,18 @@ public class Shadow : MonoBehaviour
     {
         if (Player.isGamepad)
         {
-
+            if (context.started)
+            {
+                Debug.Log("Started");
+            }
+            if (context.performed)
+            {
+                Debug.Log("Performed");
+            }
+            if (context.canceled)
+            {
+                Debug.Log("Cancelled");
+            }
         }
         else
         {
