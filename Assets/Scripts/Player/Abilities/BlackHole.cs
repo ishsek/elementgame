@@ -19,8 +19,6 @@ public class BlackHole : MonoBehaviour
     void Start()
     {
         mEndTime = Time.time + m_VoidDuration;
-        Debug.Log(Time.time);
-        Debug.Log(mEndTime);
     }
 
     void Update()

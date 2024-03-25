@@ -32,8 +32,11 @@ public class PlayerController : MonoBehaviour
 
     [Header("Aiming")]
     public bool isGamepad;
+    public GameObject AimPreview;
+    [SerializeField] private float m_AimSpeed;
     private Vector2 aimInput;
     public Vector3 aimDirection;
+
 
     //private IElement Shadow;
 
@@ -42,6 +45,7 @@ public class PlayerController : MonoBehaviour
         Normal,
         Dodging,
         Attacking,
+        ControllerAiming,
     }
     // Maybe this should be public given there is a public function to change this variable
     private State state;
@@ -87,6 +91,7 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         UpdateMovementInput();
+        HandleAim();
         switch (state)
         {
             case State.Normal:
@@ -98,8 +103,11 @@ public class PlayerController : MonoBehaviour
             case State.Attacking:
                 
                 break;
+            case State.ControllerAiming:
+                MovePlayer();
+                ControllerAimAbility();
+                break;
         }
-        HandleAim();
         UpdateAnimation();
     }
 
@@ -190,6 +198,11 @@ public class PlayerController : MonoBehaviour
                 aimDirection = ray.GetPoint(rayDistance);
             }
         }
+    }
+
+    private void ControllerAimAbility()
+    {
+        AimPreview.transform.Translate(aimDirection * m_AimSpeed, Space.World);
     }
 
     public void rotateToAim()
@@ -325,6 +338,11 @@ public class PlayerController : MonoBehaviour
     public void SetStateDodging()
     {
         state = State.Dodging;
+    }
+
+    public void SetStateControllerAiming()
+    {
+        state = State.ControllerAiming;
     }
 
     public void OnDeviceChange(PlayerInput input)

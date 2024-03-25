@@ -37,7 +37,9 @@ public class Shadow : MonoBehaviour
     private bool isShooting = false;
 
     [Header("Black Hole")]
+    public GameObject VoidAim;
     [SerializeField] private GameObject VoidAoE;
+    [SerializeField] private GameObject VoidAimIndicator;
 
     [Header("Dodging")]
     public AnimationCurve DodgeCurve;
@@ -120,18 +122,36 @@ public class Shadow : MonoBehaviour
     {
         if (Player.isGamepad)
         {
-            if (context.started)
-            {
-                Debug.Log("Started");
-            }
             if (context.performed)
             {
-                Debug.Log("Performed");
+                Player.SetStateControllerAiming();
+                Vector3 AimSpawn = transform.position;
+                AimSpawn.y = 0;
+                VoidAim = Instantiate(VoidAimIndicator, AimSpawn, transform.rotation);
+                Player.AimPreview = VoidAim;
             }
-            if (context.canceled)
+            else if (context.canceled)
             {
-                Debug.Log("Cancelled");
+                if (VoidAim != null)
+                {
+                    GameObject InstBlackHole = Instantiate(VoidAoE, VoidAim.transform.position, VoidAim.transform.rotation);
+                    Player.SetStateNormal();
+                    Player.AimPreview = null;
+                    Destroy(VoidAim);
+                }
             }
+            //if (context.started)
+            //{
+            //    Debug.Log("start");
+            //}
+            //else if (context.performed)
+            //{
+            //    Debug.Log("perf");
+            //}
+            //else if (context.canceled)
+            //{
+            //    Debug.Log("cancel");
+            //}
         }
         else
         {

@@ -464,7 +464,7 @@
                     "name": "",
                     "id": "adc4856e-20df-4b9a-8bcd-0671181c713a",
                     "path": "<Gamepad>/rightTrigger",
-                    "interactions": "",
+                    "interactions": "Press(pressPoint=1)",
                     "processors": "",
                     "groups": "Gamepad",
                     "action": "Ability4Controller",

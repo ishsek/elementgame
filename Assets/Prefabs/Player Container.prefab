@@ -615,6 +615,8 @@ MonoBehaviour:
   MoveTime: 0
   CurrentSpeed: 0
   isGamepad: 0
+  AimPreview: {fileID: 0}
+  m_AimSpeed: 0.3
   aimDirection: {x: 0, y: 0, z: 0}
   ActiveElement: 6
   EquippedElement1: 0
@@ -1070,7 +1072,10 @@ MonoBehaviour:
   projectileLife: 2
   shootRecovery: 0.3
   shootDelay: 0.1
+  VoidAim: {fileID: 0}
   VoidAoE: {fileID: 7332445863770519187, guid: 88dd6a05c9b82a049ae6af6f12d402db, type: 3}
+  VoidAimIndicator: {fileID: 7332445863770519187, guid: b6b7e53eb2a5a114091b18f0b8fa121f,
+    type: 3}
   DodgeCurve:
     serializedVersion: 2
     m_Curve: []
