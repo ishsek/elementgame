@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 using static UnityEngine.Rendering.DebugUI;
 using static Weapon;
 
@@ -30,12 +31,20 @@ public class BlackHole : MonoBehaviour
                 if (target.Key != null)
                 {
                     if (target.Key.TryGetComponent<Enemy>(out Enemy Enemy))
-                        {
-                            Enemy.Mobilize();
-                        }
+                    {
+                        Enemy.Mobilize();
+                    }
                 }
             }
             Destroy(gameObject);
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.TryGetComponent<Enemy>(out Enemy Enemy))
+        {
+            Enemy.Mobilize();
         }
     }
 
