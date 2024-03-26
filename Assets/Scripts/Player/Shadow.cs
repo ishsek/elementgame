@@ -40,6 +40,7 @@ public class Shadow : MonoBehaviour
     public GameObject VoidAim;
     [SerializeField] private GameObject VoidAoE;
     [SerializeField] private GameObject VoidAimIndicator;
+    private bool mAimingVoid = false;
 
     [Header("Dodging")]
     public AnimationCurve DodgeCurve;
@@ -122,8 +123,9 @@ public class Shadow : MonoBehaviour
     {
         if (Player.isGamepad)
         {
-            if (context.performed)
+            if (context.performed && !mAimingVoid)
             {
+                mAimingVoid = true;
                 Player.SetStateControllerAiming();
                 Vector3 AimSpawn = transform.position;
                 AimSpawn.y = 0;
@@ -138,6 +140,7 @@ public class Shadow : MonoBehaviour
                     Player.SetStateNormal();
                     Player.AimPreview = null;
                     Destroy(VoidAim);
+                    mAimingVoid = false;
                 }
             }
             //if (context.started)
