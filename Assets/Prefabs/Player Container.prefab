@@ -1073,17 +1073,46 @@ MonoBehaviour:
   shootRecovery: 0.3
   shootDelay: 0.1
   VoidAim: {fileID: 0}
-  VoidAoE: {fileID: 7332445863770519187, guid: 88dd6a05c9b82a049ae6af6f12d402db, type: 3}
-  VoidAimIndicator: {fileID: 7332445863770519187, guid: b6b7e53eb2a5a114091b18f0b8fa121f,
+  m_VoidAoE: {fileID: 7332445863770519187, guid: 88dd6a05c9b82a049ae6af6f12d402db,
     type: 3}
+  m_VoidAimIndicator: {fileID: 7332445863770519187, guid: b6b7e53eb2a5a114091b18f0b8fa121f,
+    type: 3}
+  m_VoidCD: 5
   DodgeCurve:
     serializedVersion: 2
-    m_Curve: []
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 4
+      outSlope: 4
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.5
+      value: 3
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: -4
+      outSlope: -4
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  DodgeSpeed: 0
-  DodgeDuration: 0
+  DodgeSpeed: 8
+  DodgeDuration: 0.3
   Player: {fileID: 511278644670675394}
   MyAnimator: {fileID: 5440961211098504273}
 --- !u!136 &1881057667793179750

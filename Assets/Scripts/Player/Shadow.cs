@@ -38,8 +38,10 @@ public class Shadow : MonoBehaviour
 
     [Header("Black Hole")]
     public GameObject VoidAim;
-    [SerializeField] private GameObject VoidAoE;
-    [SerializeField] private GameObject VoidAimIndicator;
+    [SerializeField] private GameObject m_VoidAoE;
+    [SerializeField] private GameObject m_VoidAimIndicator;
+    [SerializeField] private float m_VoidCD;
+    private float mVoidLastCastTime = -99999;
     private bool mAimingVoid = false;
 
     [Header("Dodging")]
@@ -121,46 +123,51 @@ public class Shadow : MonoBehaviour
 
     public void Ability4(InputAction.CallbackContext context)
     {
-        if (Player.isGamepad)
+        if (Time.time > mVoidLastCastTime + m_VoidCD)
         {
-            if (context.performed && !mAimingVoid)
+            if (Player.isGamepad)
             {
-                mAimingVoid = true;
-                Player.SetStateControllerAiming();
-                Vector3 AimSpawn = transform.position;
-                AimSpawn.y = 0;
-                VoidAim = Instantiate(VoidAimIndicator, AimSpawn, transform.rotation);
-                Player.AimPreview = VoidAim;
-            }
-            else if (context.canceled)
-            {
-                if (VoidAim != null)
+                if (context.performed && !mAimingVoid)
                 {
-                    GameObject InstBlackHole = Instantiate(VoidAoE, VoidAim.transform.position, VoidAim.transform.rotation);
-                    Player.SetStateNormal();
-                    Player.AimPreview = null;
-                    Destroy(VoidAim);
-                    mAimingVoid = false;
+                    mAimingVoid = true;
+                    Player.SetStateControllerAiming();
+                    Vector3 AimSpawn = transform.position;
+                    AimSpawn.y = 0;
+                    VoidAim = Instantiate(m_VoidAimIndicator, AimSpawn, transform.rotation);
+                    Player.AimPreview = VoidAim;
                 }
+                else if (context.canceled)
+                {
+                    if (VoidAim != null)
+                    {
+                        GameObject InstBlackHole = Instantiate(m_VoidAoE, VoidAim.transform.position, VoidAim.transform.rotation);
+                        Player.SetStateNormal();
+                        Player.AimPreview = null;
+                        Destroy(VoidAim);
+                        mAimingVoid = false;
+                        mVoidLastCastTime = Time.time;
+                    }
+                }
+                //if (context.started)
+                //{
+                //    Debug.Log("start");
+                //}
+                //else if (context.performed)
+                //{
+                //    Debug.Log("perf");
+                //}
+                //else if (context.canceled)
+                //{
+                //    Debug.Log("cancel");
+                //}
             }
-            //if (context.started)
-            //{
-            //    Debug.Log("start");
-            //}
-            //else if (context.performed)
-            //{
-            //    Debug.Log("perf");
-            //}
-            //else if (context.canceled)
-            //{
-            //    Debug.Log("cancel");
-            //}
-        }
-        else
-        {
-            if (context.performed)
+            else
             {
-                GameObject InstBlackHole = Instantiate(VoidAoE, Player.aimDirection, transform.rotation);
+                if (context.performed)
+                {
+                    GameObject InstBlackHole = Instantiate(m_VoidAoE, Player.aimDirection, transform.rotation);
+                    mVoidLastCastTime = Time.time;
+                }
             }
         }
     }
