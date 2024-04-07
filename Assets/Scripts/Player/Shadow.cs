@@ -36,6 +36,19 @@ public class Shadow : MonoBehaviour
     private float shootTimer = 9999f;
     private bool isShooting = false;
 
+    [Header("Dash Attack")]
+    [SerializeField] private float m_DashCD;
+    [SerializeField] private float m_DashMaxChargeTime;
+    [SerializeField] private float m_DashMaxDamage;
+    [SerializeField] private float m_DashMaxLength;
+    [SerializeField] private float m_DashBaseSpeed;
+    [SerializeField] private AnimationCurve DashAttackCurve;
+    private float mDashTime;
+    private float mDashChargeTime;
+    private float mDashLastCast = -99999;
+    private bool mChargingDash = false;
+    private bool mDashAttacking = false;
+
     [Header("Black Hole")]
     public GameObject VoidAim;
     [SerializeField] private GameObject m_VoidAoE;
@@ -57,6 +70,8 @@ public class Shadow : MonoBehaviour
     {
         CheckMeleeTimer();
         CheckShootTimer();
+        ChargeDash();
+        HandleDashAttack();
         shootTimer += Time.deltaTime;
         mComboTimer += Time.deltaTime;
     }
@@ -105,22 +120,64 @@ public class Shadow : MonoBehaviour
             }
         }
     }
-
+    //Projectile
     public void Ability1()
     {
 
     }
-
+    //Stab
     public void Ability2()
     {
 
     }
-
-    public void Ability3()
+    // Dash
+    public void Ability3(InputAction.CallbackContext context)
     {
-
+        if (Time.time > mDashLastCast + m_DashCD)
+        {
+            if (context.performed && !mChargingDash)
+            {
+                Player.SetStateAttacking();
+                mChargingDash = true;
+                mDashChargeTime = 0;
+                mDashTime = 0;
+            }
+            else if (mChargingDash && context.canceled)
+            {
+                mChargingDash = false;
+                mDashLastCast = Time.time;
+                if (mDashChargeTime > m_DashMaxChargeTime)
+                {
+                    mDashChargeTime = m_DashMaxChargeTime;
+                }
+                mDashAttacking = true;
+            }
+        }
+    }
+    private void ChargeDash()
+    {
+        if (mChargingDash)
+        {
+            Player.rotateToAim();
+            mDashChargeTime += Time.deltaTime;
+        }
+    }
+    private void HandleDashAttack()
+    {
+        if (mDashAttacking)
+        {
+            float DashDuration = mDashChargeTime / m_DashMaxChargeTime * m_DashMaxLength;
+            mDashTime += Time.deltaTime;
+            Player.rb.velocity = transform.forward * m_DashBaseSpeed * DashAttackCurve.Evaluate(mDashTime / DashDuration);
+            if (mDashTime > DashDuration)
+            {
+                mDashAttacking = false;
+                Player.SetStateNormal();
+            }
+        }
     }
 
+    //Black hole
     public void Ability4(InputAction.CallbackContext context)
     {
         if (Time.time > mVoidLastCastTime + m_VoidCD)
@@ -136,7 +193,7 @@ public class Shadow : MonoBehaviour
                     VoidAim = Instantiate(m_VoidAimIndicator, AimSpawn, transform.rotation);
                     Player.AimPreview = VoidAim;
                 }
-                else if (context.canceled)
+                else if (mAimingVoid && context.canceled)
                 {
                     if (VoidAim != null)
                     {

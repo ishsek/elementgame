@@ -778,7 +778,19 @@ MonoBehaviour:
     m_ActionId: 371cb73a-427e-449e-b780-256953a7c426
     m_ActionName: Shadow/Ability2[/Keyboard/e]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 7978207243456297110}
+        m_TargetAssemblyTypeName: Shadow, Assembly-CSharp
+        m_MethodName: Ability3
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 9db309fe-af75-408b-9055-2bd38b1627fb
     m_ActionName: Shadow/Ability3[/Keyboard/f]
   - m_PersistentCalls:
@@ -1072,6 +1084,44 @@ MonoBehaviour:
   projectileLife: 2
   shootRecovery: 0.3
   shootDelay: 0.1
+  m_DashCD: 2
+  m_DashMaxChargeTime: 1
+  m_DashMaxDamage: 200
+  m_DashMaxLength: 0.5
+  m_DashBaseSpeed: 30
+  DashAttackCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: -0.11580058
+      outSlope: -0.11580058
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.23694402
+    - serializedVersion: 3
+      time: 0.30150402
+      value: 0.5314424
+      inSlope: -1.383591
+      outSlope: -1.383591
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.045914393
+      outWeight: 0.14451443
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: -0.12588753
+      outSlope: -0.12588753
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.44398725
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   VoidAim: {fileID: 0}
   m_VoidAoE: {fileID: 7332445863770519187, guid: 88dd6a05c9b82a049ae6af6f12d402db,
     type: 3}
