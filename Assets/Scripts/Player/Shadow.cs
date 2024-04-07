@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class Shadow : MonoBehaviour
 {
@@ -150,6 +151,7 @@ public class Shadow : MonoBehaviour
                 {
                     mDashChargeTime = m_DashMaxChargeTime;
                 }
+                Physics.IgnoreLayerCollision(6, 7, true);
                 mDashAttacking = true;
             }
         }
@@ -173,6 +175,7 @@ public class Shadow : MonoBehaviour
             {
                 mDashAttacking = false;
                 Player.SetStateNormal();
+                Physics.IgnoreLayerCollision(6, 7, false);
             }
         }
     }
