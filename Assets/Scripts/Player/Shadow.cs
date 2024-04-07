@@ -38,6 +38,7 @@ public class Shadow : MonoBehaviour
     private bool isShooting = false;
 
     [Header("Dash Attack")]
+    [SerializeField] private GameObject m_DashWeapon;
     [SerializeField] private float m_DashCD;
     [SerializeField] private float m_DashMaxChargeTime;
     [SerializeField] private float m_DashMaxDamage;
@@ -138,6 +139,7 @@ public class Shadow : MonoBehaviour
         {
             if (context.performed && !mChargingDash)
             {
+                Player.HaltMovement();
                 Player.SetStateAttacking();
                 mChargingDash = true;
                 mDashChargeTime = 0;
@@ -151,8 +153,9 @@ public class Shadow : MonoBehaviour
                 {
                     mDashChargeTime = m_DashMaxChargeTime;
                 }
-                Physics.IgnoreLayerCollision(6, 7, true);
+                Player.DisableEnemyCollision();
                 mDashAttacking = true;
+                m_DashWeapon.SetActive(true);
             }
         }
     }
@@ -174,8 +177,9 @@ public class Shadow : MonoBehaviour
             if (mDashTime > DashDuration)
             {
                 mDashAttacking = false;
+                m_DashWeapon.SetActive(false);
                 Player.SetStateNormal();
-                Physics.IgnoreLayerCollision(6, 7, false);
+                Player.EnableEnemyCollision();
             }
         }
     }

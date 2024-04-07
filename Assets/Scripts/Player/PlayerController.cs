@@ -350,4 +350,13 @@ public class PlayerController : MonoBehaviour
         isGamepad = input.currentControlScheme.Equals("Gamepad") ? true : false;
     }
 
+    public void DisableEnemyCollision()
+    {
+        Physics.IgnoreLayerCollision(6, 7, true);
+    }
+
+    public void EnableEnemyCollision()
+    {
+        Physics.IgnoreLayerCollision(6, 7, false);
+    }
 }
