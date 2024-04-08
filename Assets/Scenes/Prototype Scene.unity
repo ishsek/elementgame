@@ -413,18 +413,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &404176110 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5207717244242729231, guid: 5f541eb9fc5d01d4bb93f0a1fb88cd0f,
-    type: 3}
-  m_PrefabInstance: {fileID: 1778812613716536568}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
@@ -1319,65 +1307,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 511278644670675394, guid: bd4c7b6d04f0ea840a6e644e3ce0bca6,
-        type: 3}
-      propertyPath: DodgeCurve.m_Curve.Array.data[1].value
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 511278644670675394, guid: bd4c7b6d04f0ea840a6e644e3ce0bca6,
-        type: 3}
-      propertyPath: DodgeCurve.m_Curve.Array.data[0].inSlope
-      value: 1.9975002
-      objectReference: {fileID: 0}
-    - target: {fileID: 511278644670675394, guid: bd4c7b6d04f0ea840a6e644e3ce0bca6,
-        type: 3}
-      propertyPath: DodgeCurve.m_Curve.Array.data[1].inSlope
-      value: -0.0025029182
-      objectReference: {fileID: 0}
-    - target: {fileID: 511278644670675394, guid: bd4c7b6d04f0ea840a6e644e3ce0bca6,
-        type: 3}
-      propertyPath: DodgeCurve.m_Curve.Array.data[2].inSlope
-      value: -2.002506
-      objectReference: {fileID: 0}
-    - target: {fileID: 511278644670675394, guid: bd4c7b6d04f0ea840a6e644e3ce0bca6,
-        type: 3}
-      propertyPath: DodgeCurve.m_Curve.Array.data[0].outSlope
-      value: 1.9975002
-      objectReference: {fileID: 0}
-    - target: {fileID: 511278644670675394, guid: bd4c7b6d04f0ea840a6e644e3ce0bca6,
-        type: 3}
-      propertyPath: DodgeCurve.m_Curve.Array.data[1].outSlope
-      value: -0.0025029182
-      objectReference: {fileID: 0}
-    - target: {fileID: 511278644670675394, guid: bd4c7b6d04f0ea840a6e644e3ce0bca6,
-        type: 3}
-      propertyPath: DodgeCurve.m_Curve.Array.data[2].outSlope
-      value: -2.002506
-      objectReference: {fileID: 0}
     - target: {fileID: 1692330624162870052, guid: bd4c7b6d04f0ea840a6e644e3ce0bca6,
         type: 3}
       propertyPath: m_Name
       value: Player Container
-      objectReference: {fileID: 0}
-    - target: {fileID: 2102733433478663801, guid: bd4c7b6d04f0ea840a6e644e3ce0bca6,
-        type: 3}
-      propertyPath: HealthBar
-      value: 
-      objectReference: {fileID: 404176110}
-    - target: {fileID: 3452184737659694154, guid: bd4c7b6d04f0ea840a6e644e3ce0bca6,
-        type: 3}
-      propertyPath: m_UseGravity
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3452184737659694154, guid: bd4c7b6d04f0ea840a6e644e3ce0bca6,
-        type: 3}
-      propertyPath: m_Interpolate
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3452184737659694154, guid: bd4c7b6d04f0ea840a6e644e3ce0bca6,
-        type: 3}
-      propertyPath: m_IsKinematic
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3964770846624126425, guid: bd4c7b6d04f0ea840a6e644e3ce0bca6,
         type: 3}
