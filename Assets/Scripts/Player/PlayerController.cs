@@ -139,6 +139,7 @@ public class PlayerController : MonoBehaviour
         if ( state == State.Normal)
         {
             state = State.Dodging;
+            DisableEnemyCollision();
             DodgeTime = 0f;
         }
     }
@@ -157,6 +158,7 @@ public class PlayerController : MonoBehaviour
         if (DodgeTime > DodgeDuration)
         {
             state = State.Normal;
+            EnableEnemyCollision();
         }
     }
 
