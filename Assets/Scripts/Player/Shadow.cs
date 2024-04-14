@@ -37,6 +37,21 @@ public class Shadow : MonoBehaviour
     private float shootTimer = 9999f;
     private bool isShooting = false;
 
+    [Header("Stab")]
+    [SerializeField] private GameObject m_StabWeaponObject;
+    [SerializeField] private Weapon m_StabWeaponScript;
+    [SerializeField] private float m_StabCD;
+    [SerializeField] private float m_StabMaxChargeTime;
+    [SerializeField] private float m_StabMaxDamage;
+    [SerializeField] private float m_StabBaseSpeed;
+    [SerializeField] private float m_StabDuration;
+    [SerializeField] private AnimationCurve StabAttackCurve;
+    private float mStabChargeTime;
+    private float mStabLastCast = -99999;
+    private float mStabTime = 0;
+    private bool mChargingStab = false;
+    private bool mStabAttacking = false;
+
     [Header("Dash Attack")]
     [SerializeField] private GameObject m_DashWeapon;
     [SerializeField] private float m_DashCD;
@@ -50,6 +65,7 @@ public class Shadow : MonoBehaviour
     private float mDashLastCast = -99999;
     private bool mChargingDash = false;
     private bool mDashAttacking = false;
+    private float mDashDuration;
 
     [Header("Black Hole")]
     public GameObject VoidAim;
@@ -74,6 +90,8 @@ public class Shadow : MonoBehaviour
         CheckShootTimer();
         ChargeDash();
         HandleDashAttack();
+        ChargeStab();
+        HandleStab();
         shootTimer += Time.deltaTime;
         mComboTimer += Time.deltaTime;
     }
@@ -128,10 +146,57 @@ public class Shadow : MonoBehaviour
 
     }
     //Stab
-    public void Ability2()
+    public void Ability2(InputAction.CallbackContext context)
     {
-
+        if (Time.time > mStabLastCast + m_StabCD)
+        {
+            if (context.performed && !mChargingStab)
+            {
+                Player.HaltMovement();
+                Player.SetStateAttacking();
+                mStabChargeTime = 0;
+                mChargingStab = true;
+            }
+            else if (mChargingStab && context.canceled)
+            {
+                mChargingStab = false;
+                mStabLastCast = Time.time;
+                if (mStabChargeTime > m_StabMaxChargeTime)
+                {
+                    mStabChargeTime = m_StabMaxChargeTime;
+                }
+                m_StabWeaponScript.damage = mStabChargeTime / m_StabMaxChargeTime * m_StabMaxDamage;
+                mStabTime = 0;
+                mStabAttacking = true;
+                m_StabWeaponObject.SetActive(true);
+            }
+        }
     }
+
+    private void ChargeStab()
+    {
+        if (mChargingStab)
+        {
+            Player.rotateToAim();
+            mStabChargeTime += Time.deltaTime;
+        }
+    }
+
+    private void HandleStab()
+    {
+        if (mStabAttacking)
+        {
+            mStabTime += Time.deltaTime;
+            Player.rb.velocity = transform.forward * m_StabBaseSpeed * StabAttackCurve.Evaluate(mStabTime / m_StabDuration);
+            if (mStabTime > m_StabDuration)
+            {
+                mStabAttacking = false;
+                m_StabWeaponObject.SetActive(false);
+                Player.SetStateNormal();
+            }
+        }
+    }
+
     // Dash
     public void Ability3(InputAction.CallbackContext context)
     {
@@ -141,9 +206,8 @@ public class Shadow : MonoBehaviour
             {
                 Player.HaltMovement();
                 Player.SetStateAttacking();
-                mChargingDash = true;
                 mDashChargeTime = 0;
-                mDashTime = 0;
+                mChargingDash = true;
             }
             else if (mChargingDash && context.canceled)
             {
@@ -153,7 +217,9 @@ public class Shadow : MonoBehaviour
                 {
                     mDashChargeTime = m_DashMaxChargeTime;
                 }
+                mDashDuration = mDashChargeTime / m_DashMaxChargeTime * m_DashMaxLength;
                 Player.DisableEnemyCollision();
+                mDashTime = 0;
                 mDashAttacking = true;
                 m_DashWeapon.SetActive(true);
             }
@@ -171,10 +237,9 @@ public class Shadow : MonoBehaviour
     {
         if (mDashAttacking)
         {
-            float DashDuration = mDashChargeTime / m_DashMaxChargeTime * m_DashMaxLength;
             mDashTime += Time.deltaTime;
-            Player.rb.velocity = transform.forward * m_DashBaseSpeed * DashAttackCurve.Evaluate(mDashTime / DashDuration);
-            if (mDashTime > DashDuration)
+            Player.rb.velocity = transform.forward * m_DashBaseSpeed * DashAttackCurve.Evaluate(mDashTime / mDashDuration);
+            if (mDashTime > mDashDuration)
             {
                 mDashAttacking = false;
                 m_DashWeapon.SetActive(false);
