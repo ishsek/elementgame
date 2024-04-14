@@ -1103,11 +1103,38 @@ MonoBehaviour:
   m_StabCD: 2
   m_StabMaxChargeTime: 1
   m_StabMaxDamage: 200
-  m_StabBaseSpeed: 1
-  m_StabDuration: 0.5
+  m_StabBaseSpeed: 3
+  m_StabDuration: 0.3
   StabAttackCurve:
     serializedVersion: 2
-    m_Curve: []
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.85
+      inSlope: 1.044147
+      outSlope: 1.044147
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.09398299
+    - serializedVersion: 3
+      time: 0.544928
+      value: 0.85911727
+      inSlope: -0.93557
+      outSlope: -0.93557
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: -1.8878711
+      outSlope: -1.8878711
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4

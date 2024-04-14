@@ -169,9 +169,9 @@ public class Shadow : MonoBehaviour
                     mStabChargeTime = m_StabMaxChargeTime;
                 }
                 m_StabWeaponScript.damage = mStabChargeTime / m_StabMaxChargeTime * m_StabMaxDamage;
-                mStabTime = 0;
                 mStabAttacking = true;
                 m_StabWeaponObject.SetActive(true);
+                mStabTime = 0;
             }
         }
     }
