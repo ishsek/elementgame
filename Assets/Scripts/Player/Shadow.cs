@@ -62,7 +62,7 @@ public class Shadow : MonoBehaviour
     [SerializeField] private AnimationCurve DashAttackCurve;
     private float mDashTime;
     private float mDashChargeTime;
-    private float mDashLastCast = -99999;
+    private float mDashLastCast = -9999;
     private bool mChargingDash = false;
     private bool mDashAttacking = false;
     private float mDashDuration;
@@ -72,13 +72,16 @@ public class Shadow : MonoBehaviour
     [SerializeField] private GameObject m_VoidAoE;
     [SerializeField] private GameObject m_VoidAimIndicator;
     [SerializeField] private float m_VoidCD;
-    private float mVoidLastCastTime = -99999;
+    private float mVoidLastCastTime = -9999;
     private bool mAimingVoid = false;
 
     [Header("Dodging")]
     public AnimationCurve DodgeCurve;
     [SerializeField] private float DodgeSpeed;
     [SerializeField] private float DodgeDuration;
+    [SerializeField] private float m_DodgeCD;
+    private float mLastDodgeTime = -9999;
+
 
     [Header("References")]
     public PlayerController Player;
@@ -305,8 +308,12 @@ public class Shadow : MonoBehaviour
     {
         if (context.performed)
         {
-            InterruptAttack();
-            Player.OnDodge();
+            if (Time.time > mLastDodgeTime + m_DodgeCD)
+            {
+                mLastDodgeTime = Time.time;
+                InterruptAttack();
+                Player.OnDodge();
+            }
         }
     }
 

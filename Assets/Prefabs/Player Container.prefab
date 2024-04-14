@@ -1191,6 +1191,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   DodgeSpeed: 8
   DodgeDuration: 0.3
+  m_DodgeCD: 2
   Player: {fileID: 511278644670675394}
   MyAnimator: {fileID: 5440961211098504273}
 --- !u!136 &1881057667793179750
