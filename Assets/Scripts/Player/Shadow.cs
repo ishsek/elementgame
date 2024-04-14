@@ -384,8 +384,6 @@ public class Shadow : MonoBehaviour
     }
     private void InterruptAttack()
     {
-        // Return to Normal State
-        Player.SetStateNormal();
 
         // Interrupt Melee
         mIsAttacking = false;
@@ -400,6 +398,19 @@ public class Shadow : MonoBehaviour
 
         // Interrupt Ranged
         isShooting = false;
+
+        // Interrupt Stab
+        mChargingStab = false;
+        mStabAttacking = false;
+        m_StabWeaponObject.SetActive(false);
+
+        // Interrupt Dash
+        mChargingDash = false;
+        mDashAttacking = false;
+        m_DashWeapon.SetActive(false);
+
+        // Return to Normal State
+        Player.SetStateNormal();
     }
 
 }
