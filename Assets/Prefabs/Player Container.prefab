@@ -2157,7 +2157,7 @@ GameObject:
   - component: {fileID: 822291162832732045}
   - component: {fileID: 2110073675123777686}
   - component: {fileID: 3378969566994234029}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DashAttack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2311,7 +2311,7 @@ GameObject:
   - component: {fileID: 7195623785811145387}
   - component: {fileID: 5925083135834884979}
   - component: {fileID: 329589128564662019}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Melee
   m_TagString: Untagged
   m_Icon: {fileID: 0}
