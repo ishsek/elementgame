@@ -11,11 +11,13 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField] protected float speed;
     [SerializeField] protected float attackRange;
     [SerializeField] protected float aggroRange;
+    [SerializeField] protected int InitialDifficultyLevel;
     protected Transform target;
     [SerializeField] protected Vector3 playerDirection; // Can remove serialize after testing
     protected Vector3 playerDirectionNorm;
     protected Vector3 patrolDirection;
     public bool canMove = true;
+    private GameObject playerReference;
 
     protected bool mMoving = false;
     private enum State
@@ -33,7 +35,12 @@ public abstract class Enemy : MonoBehaviour
     // Start is called before the first frame update
     protected virtual void Start()
     {
-        target = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
+        playerReference = GameObject.FindGameObjectWithTag("Player");
+
+        if (playerReference != null)
+        {
+            target = playerReference.GetComponent<Transform>();
+        }
     }
 
     protected virtual void Awake()
@@ -73,6 +80,11 @@ public abstract class Enemy : MonoBehaviour
     }
     protected virtual void LocatePlayer()
     {
+        if (playerReference == null)
+        {
+            return;
+        }
+
         // Check for location of player relative to enemy
         playerDirection = (target.position - transform.position);
         // Set y to zero to prevent vertical movement
@@ -144,5 +156,10 @@ public abstract class Enemy : MonoBehaviour
     public void Root()
     {
         state = State.Rooted;
+    }
+
+    public int GetInitialDifficultyLevel()
+    {
+        return InitialDifficultyLevel;
     }
 }

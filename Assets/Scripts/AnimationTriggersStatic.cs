@@ -5,6 +5,21 @@ using UnityEngine;
 public static class AnimationTriggersStatic
 {
     // Player
+    private static string PlayerAttack1 = "SwordSlash1";
+    public static string GetPlayerAttack1() { return PlayerAttack1; }
+
+    private static string PlayerAttack2 = "SwordSlash2";
+    public static string GetPlayerAttack2() { return PlayerAttack2; }
+
+    private static string PlayerAttack3 = "SwordSlash3";
+    public static string GetPlayerAttack3() { return PlayerAttack3; }
+
+    private static string InterruptToIdle = "InterruptAttack";
+    public static string GetInterruptToIdle() { return InterruptToIdle; }
+
+    // Shadow
+    private static string EnterShadowMode = "EnterShadowMode";
+    public static string GetEnterShadowMode() { return EnterShadowMode; }
 
     // Enemy
     private static string EnemyAttackTrigger = "Punch";
