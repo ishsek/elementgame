@@ -16,6 +16,11 @@ public class Orc : Enemy
         base.Move();
         if (playerDirection.magnitude > aggroRange)
         {
+            if (waypointTarget == null)
+            {
+                return;
+            }
+
             patrolDirection = (waypointTarget.position - transform.position);
 
             // Set y to zero to prevent vertical movement

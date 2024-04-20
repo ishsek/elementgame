@@ -103,6 +103,7 @@ MonoBehaviour:
   speed: 2
   attackRange: 1
   aggroRange: 5
+  InitialDifficultyLevel: 100
   playerDirection: {x: 0, y: 0, z: 0}
   canMove: 1
   waypoint1: {fileID: 0}
