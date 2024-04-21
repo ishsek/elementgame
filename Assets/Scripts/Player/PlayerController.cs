@@ -13,6 +13,8 @@ public class PlayerController : MonoBehaviour
     public Rigidbody rb;
     public InputAction aimAction;
     [SerializeField] private PlayerInput playerInput;
+    private int mPlayerLayer = 6;
+    private int mEnemyLayer = 7;
 
     [Header("Dodging")]
     public AnimationCurve DodgeCurve;
@@ -35,6 +37,7 @@ public class PlayerController : MonoBehaviour
     public GameObject AimPreview;
     [SerializeField] private float m_AimSpeed;
     private Vector2 aimInput;
+    private Queue<Vector3> ClickDirections = new Queue<Vector3>();
     public Vector3 aimDirection;
 
 
@@ -223,6 +226,45 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void QueueRotation()
+    {
+        // Rotate player to aim direction
+        if (isGamepad)
+        {
+            if (aimDirection.sqrMagnitude > 0.0f)
+            {
+                ClickDirections.Enqueue(aimDirection);
+            }
+            else
+            {
+                ClickDirections.Enqueue(transform.forward);
+            }
+        }
+        else
+        {
+            ClickDirections.Enqueue(aimDirection);
+        }
+    }
+
+    public void RotateToQueuedClick()
+    {
+        if (isGamepad)
+        {
+            {
+                rb.rotation = Quaternion.LookRotation(ClickDirections.Dequeue(), Vector3.up);
+            }
+        }
+        else
+        {
+            LookAt(ClickDirections.Dequeue());
+        }
+    }
+
+    public void ClearRotationQueue()
+    {
+        ClickDirections.Clear();
+    }
+
     private void LookAt(Vector3 lookPoint)
     {
         Vector3 DirectionVector = lookPoint - transform.position;
@@ -332,14 +374,29 @@ public class PlayerController : MonoBehaviour
         state = State.Attacking;
     }
 
+    public bool IsAttacking()
+    {
+        return state == State.Attacking;
+    }
+
     public void SetStateNormal()
     {
         state = State.Normal;
-        //MyAnimator.SetTrigger("Blend Tree");
     }
+
+    public bool IsNormal()
+    {
+        return state == State.Normal;
+    }
+
     public void SetStateDodging()
     {
         state = State.Dodging;
+    }
+
+    public bool IsDodging()
+    {
+        return (state == State.Dodging);
     }
 
     public void SetStateControllerAiming()
@@ -354,11 +411,11 @@ public class PlayerController : MonoBehaviour
 
     public void DisableEnemyCollision()
     {
-        Physics.IgnoreLayerCollision(6, 7, true);
+        Physics.IgnoreLayerCollision(mPlayerLayer, mEnemyLayer, true);
     }
 
     public void EnableEnemyCollision()
     {
-        Physics.IgnoreLayerCollision(6, 7, false);
+        Physics.IgnoreLayerCollision(mPlayerLayer, mEnemyLayer, false);
     }
 }

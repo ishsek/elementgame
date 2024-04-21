@@ -7,23 +7,31 @@ using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class Shadow : MonoBehaviour
 {
+    [Header("References")]
+    public PlayerController Player;
+    public Animator MyAnimator;
 
     [Header("Melee")]
     public GameObject Melee;
     [SerializeField] private float m_PrimaryAttackMoveSpeed;
     [SerializeField] private List<AnimationCurve> m_PrimaryAttackCurves;
-    [SerializeField] private List<float> m_AtkStartup;// = new float[] { 0.3f, 0.6f, 1.3f };
-    [SerializeField] private List<float> m_AtkActive;// = new float[] { 0.3f, 0.5f, 0.45f };
-    [SerializeField] private List<float> m_AtkRecovery;// = new float[] { 0.25f, 0.5f, 0.5f };
-    private bool mIsAttacking = false;
-    private float mAtkTimer = 0f;
+    [SerializeField] private float m_PrimaryStepSpeed;
+    [SerializeField] private float m_PrimaryStepDuration;
+    //[SerializeField] private List<float> m_AtkStartup;// = new float[] { 0.3f, 0.6f, 1.3f };
+    //[SerializeField] private List<float> m_AtkActive;// = new float[] { 0.3f, 0.5f, 0.45f };
+    //[SerializeField] private List<float> m_AtkRecovery;// = new float[] { 0.25f, 0.5f, 0.5f };
+    [SerializeField] private AnimationCurve m_PrimaryStepCurve;
+    private float mAttackMovementTimer = 0;
+    private bool mPrimaryStepping = false;
+    //private bool mIsAttacking = false;
+    //private float mAtkTimer = 0f;
     private float mComboTimer = 99f;
     private float mComboWindow = 3f;
     private int mCurrentCombo = 0;
     private int mMaxCombo = 3;
     private bool mComboQueued = false;
     private bool mPrimaryActive = false;
-    private string[] mComboList = new string[] { "SwordSlash1", "SwordSlash2", "SwordSlash3" };
+    private string[] mComboList = new string[] { AnimationTriggersStatic.GetPlayerAttack1(), AnimationTriggersStatic.GetPlayerAttack2(), AnimationTriggersStatic.GetPlayerAttack3() };
 
     [Header("Ranged")]
     public Transform projectileSpawn;
@@ -82,14 +90,10 @@ public class Shadow : MonoBehaviour
     [SerializeField] private float m_DodgeCD;
     private float mLastDodgeTime = -9999;
 
-
-    [Header("References")]
-    public PlayerController Player;
-    public Animator MyAnimator;
-
     void Update()
     {
-        CheckMeleeTimer();
+        //CheckMeleeTimer();
+        HandlePrimaryStep();
         CheckShootTimer();
         ChargeDash();
         HandleDashAttack();
@@ -103,44 +107,109 @@ public class Shadow : MonoBehaviour
     {
         if (context.performed)
         {
-            if (!mIsAttacking)
+            if (Player.IsNormal())
             {
                 Player.HaltMovement();
                 Player.SetStateAttacking();
                 Player.rotateToAim();
                 // Start melee hitbox timer
-                mIsAttacking = true;
+                // mIsAttacking = true;
                 mPrimaryActive = true;
-                mAtkTimer = 0;
+                //mAtkTimer = 0;
                 CheckCombo();
             }
-            else if (!mComboQueued)
+            else if (mPrimaryActive && !mComboQueued)
             {
                 if (mCurrentCombo + 1 < mMaxCombo)
                 {
                     mComboQueued = true;
+                    Player.QueueRotation();
+                    CheckCombo();
                 }
+            }
+        }
+    }
+
+    public void EnablePrimaryCollider()
+    {
+        if (mPrimaryActive)
+        {
+            Melee.SetActive(true);
+        }
+    }
+
+    public void DisablePrimaryCollider()
+    {
+        Melee.SetActive(false);
+    }
+
+    public void EndPrimaryAttack()
+    {
+        if(mPrimaryActive)
+        {
+            if (mComboQueued)
+            {
+                //mAtkTimer = 0;
+                Player.RotateToQueuedClick();
+                mComboQueued = false;
+            }
+            else
+            {
+                Player.SetStateNormal();
+                //mIsAttacking = false;
+                mPrimaryActive = false;
+            }
+        }
+    }
+
+    private void CheckCombo()
+    {
+        // If within combo window, play the attack and update the combo counter
+        mCurrentCombo++;
+        if (mComboTimer > mComboWindow || mCurrentCombo >= mMaxCombo)
+        {
+            mCurrentCombo = 0;
+        }
+        MyAnimator.SetTrigger(mComboList[mCurrentCombo]);
+        mComboTimer = 0f;
+    }
+
+    public void PrimaryStep()
+    {
+        mAttackMovementTimer = 0;
+        mPrimaryStepping = true;
+    }
+
+    private void HandlePrimaryStep()
+    {
+        if (mPrimaryActive && mPrimaryStepping)
+        {
+            if (mAttackMovementTimer < m_PrimaryStepDuration)
+            {
+                mAttackMovementTimer += Time.deltaTime;
+                float MovePercentage = mAttackMovementTimer / m_PrimaryStepDuration;
+                Player.rb.velocity = transform.forward * m_PrimaryStepSpeed * m_PrimaryStepCurve.Evaluate(MovePercentage);
+            }
+            else
+            {
+                mPrimaryStepping = false;
             }
         }
     }
 
     public void Attack2(InputAction.CallbackContext context)
     {
-        if (context.performed)
+        if (shootTimer > shootCooldown && Player.IsNormal() && context.performed)
         {
-            if (shootTimer > shootCooldown && !mIsAttacking)
-            {
                 Player.HaltMovement();
                 Player.SetStateAttacking();
                 Player.rotateToAim();
                 isShooting = true;
-                mIsAttacking = true;
+                //mIsAttacking = true;
                 hasFired = false;
 
                 // Fire Projectile
                 shootTimer = 0;
-
-            }
         }
     }
     //Projectile
@@ -153,7 +222,7 @@ public class Shadow : MonoBehaviour
     {
         if (Time.time > mStabLastCast + m_StabCD)
         {
-            if (context.performed && !mChargingStab)
+            if (Player.IsNormal() && context.performed && !mChargingStab)
             {
                 Player.HaltMovement();
                 Player.SetStateAttacking();
@@ -205,7 +274,7 @@ public class Shadow : MonoBehaviour
     {
         if (Time.time > mDashLastCast + m_DashCD)
         {
-            if (context.performed && !mChargingDash)
+            if (Player.IsNormal() && context.performed && !mChargingDash)
             {
                 Player.HaltMovement();
                 Player.SetStateAttacking();
@@ -259,7 +328,7 @@ public class Shadow : MonoBehaviour
         {
             if (Player.isGamepad)
             {
-                if (context.performed && !mAimingVoid)
+                if (Player.IsNormal() && context.performed && !mAimingVoid)
                 {
                     mAimingVoid = true;
                     Player.SetStateControllerAiming();
@@ -325,7 +394,7 @@ public class Shadow : MonoBehaviour
             {
                 Player.SetStateNormal();
                 isShooting = false;
-                mIsAttacking = false;
+                //mIsAttacking = false;
             }
             else if (shootTimer > shootDelay)
             {
@@ -340,66 +409,60 @@ public class Shadow : MonoBehaviour
         }
     }
 
-    private void CheckMeleeTimer()
-    {
-        if (mPrimaryActive)
-        {
-            // Start attack process
-            float AttackDuration = m_AtkActive[mCurrentCombo] + m_AtkStartup[mCurrentCombo] + m_AtkRecovery[mCurrentCombo];
-            mAtkTimer += Time.deltaTime;
-            Player.rb.velocity = transform.forward * m_PrimaryAttackCurves[mCurrentCombo].Evaluate(mAtkTimer / AttackDuration) * m_PrimaryAttackMoveSpeed;
-            // Release character once recovery window has expired
-            if (mAtkTimer >= AttackDuration)
-            {
-                if (mComboQueued)
-                {
-                    mAtkTimer = 0;
-                    Player.rotateToAim();
-                    CheckCombo();
-                    mComboQueued = false;
-                }
-                else
-                {
-                    Player.SetStateNormal();
-                    mIsAttacking = false;
-                    mPrimaryActive = false;
-                }
-            }
-            // end attack if delay + attack time has expired
-            else if (mAtkTimer >= m_AtkActive[mCurrentCombo] + m_AtkStartup[mCurrentCombo])
-            {
-                Melee.SetActive(false);
-            }
-            // start attack if delay period has expired
-            else if (mAtkTimer >= m_AtkStartup[mCurrentCombo])
-            {
-                Melee.SetActive(true);
-            }
-        }
-    }
-
-    private void CheckCombo()
-    {
-        // If within combo window, play the attack and update the combo counter
-        mCurrentCombo++;
-        if (mComboTimer > mComboWindow || mCurrentCombo >= mMaxCombo)
-        {
-            mCurrentCombo = 0;
-        }
-        MyAnimator.SetTrigger(mComboList[mCurrentCombo]);
-        mComboTimer = 0f;
-    }
+    //private void CheckMeleeTimer()
+    //{
+    //    if (mPrimaryActive)
+    //    {
+    //        // Start attack process
+    //        float AttackDuration = m_AtkActive[mCurrentCombo] + m_AtkStartup[mCurrentCombo] + m_AtkRecovery[mCurrentCombo];
+    //        mAtkTimer += Time.deltaTime;
+    //        Player.rb.velocity = transform.forward * m_PrimaryAttackCurves[mCurrentCombo].Evaluate(mAtkTimer / AttackDuration) * m_PrimaryAttackMoveSpeed;
+    //        // Release character once recovery window has expired
+    //        if (mAtkTimer >= AttackDuration)
+    //        {
+    //            if (mComboQueued)
+    //            {
+    //                mAtkTimer = 0;
+    //                Player.rotateToAim();
+    //                CheckCombo();
+    //                mComboQueued = false;
+    //            }
+    //            else
+    //            {
+    //                Player.SetStateNormal();
+    //                mIsAttacking = false;
+    //                mPrimaryActive = false;
+    //            }
+    //        }
+    //        // end attack if delay + attack time has expired
+    //        else if (mAtkTimer >= m_AtkActive[mCurrentCombo] + m_AtkStartup[mCurrentCombo])
+    //        {
+    //            //Melee.SetActive(false);
+    //        }
+    //        // start attack if delay period has expired
+    //        else if (mAtkTimer >= m_AtkStartup[mCurrentCombo])
+    //        {
+    //            //Melee.SetActive(true);
+    //        }
+    //    }
+    //}
     private void InterruptAttack()
     {
+        // Return to Normal State
+        Player.SetStateNormal();
+
+        // Clear Queued Attack Clicks
+        Player.ClearRotationQueue();
 
         // Interrupt Melee
-        mIsAttacking = false;
+        //mIsAttacking = false;
         if (mPrimaryActive)
         {
-            MyAnimator.SetTrigger("InterruptAttack");
+            MyAnimator.SetTrigger(AnimationTriggersStatic.GetInterruptToIdle());
             Player.rb.velocity = new Vector3(0, 0, 0);
         }
         mPrimaryActive = false;
+        mPrimaryStepping = false;
         Melee.SetActive(false);
         mComboQueued = false;
 
@@ -415,9 +478,6 @@ public class Shadow : MonoBehaviour
         mChargingDash = false;
         mDashAttacking = false;
         m_DashWeapon.SetActive(false);
-
-        // Return to Normal State
-        Player.SetStateNormal();
     }
 
 }

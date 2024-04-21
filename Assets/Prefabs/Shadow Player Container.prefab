@@ -161,6 +161,17 @@ MonoBehaviour:
   actions: {fileID: -944628639613478452, guid: 2b19e9fa98b7fe547b72488882e64453, type: 3}
   MyAnimator: {fileID: 130389154609704126}
   MoveSpeedAnimationParameter: Move Speed
+  rb: {fileID: 0}
+  aimAction:
+    m_Name: Aim
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 43ee7eed-1b4b-4e91-8318-c12296569224
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  playerInput: {fileID: 0}
   DodgeCurve:
     serializedVersion: 2
     m_Curve:
@@ -232,6 +243,10 @@ MonoBehaviour:
     m_RotationOrder: 4
   MoveTime: 0
   CurrentSpeed: 0
+  isGamepad: 0
+  AimPreview: {fileID: 0}
+  m_AimSpeed: 0
+  aimDirection: {x: 0, y: 0, z: 0}
   ActiveElement: 6
   EquippedElement1: 0
   EquippedElement2: 2
@@ -383,6 +398,26 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: fb96a5a5-8fae-41cc-967a-35af2e1494ef
     m_ActionName: Shadow/Dodge[/Keyboard/space]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 0c18f04a-1dfb-4f72-b778-49284b1217ab
+    m_ActionName: Shadow/Ability1[/Keyboard/q]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 371cb73a-427e-449e-b780-256953a7c426
+    m_ActionName: Shadow/Ability2[/Keyboard/e]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 9db309fe-af75-408b-9055-2bd38b1627fb
+    m_ActionName: Shadow/Ability3[/Keyboard/f]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 13fdbf26-059a-46d7-a3dd-3104a70f18bc
+    m_ActionName: Shadow/Ability4[/Keyboard/r]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 565baa0e-c7ec-4583-89c6-1e13f6adcb22
+    m_ActionName: Shadow/Ability4Controller
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -442,19 +477,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e1f2c928bb265141a4f69ae47c694ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Player: {fileID: 511278644670675394}
+  MyAnimator: {fileID: 130389154609704126}
   Melee: {fileID: 6468703889929951277}
-  atkStartup:
-  - 0.3
-  - 0.6
-  - 1.3
-  mAtkDuration:
-  - 0.3
-  - 0.5
-  - 0.45
-  atkRecovery:
-  - 0.25
-  - 0.5
-  - 0.5
+  m_PrimaryAttackMoveSpeed: 0
+  m_PrimaryAttackCurves: []
+  m_AtkStartup: []
+  m_AtkActive: []
+  m_AtkRecovery: []
   projectileSpawn: {fileID: 2083644151884469896}
   projectile: {fileID: 7337636041160478571, guid: 68cdf4f864792824e97fbc06c68001f2,
     type: 3}
@@ -463,6 +493,35 @@ MonoBehaviour:
   projectileLife: 2
   shootRecovery: 0.3
   shootDelay: 0.1
+  m_StabWeaponObject: {fileID: 0}
+  m_StabWeaponScript: {fileID: 0}
+  m_StabCD: 0
+  m_StabMaxChargeTime: 0
+  m_StabMaxDamage: 0
+  m_StabBaseSpeed: 0
+  m_StabDuration: 0
+  StabAttackCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  m_DashWeapon: {fileID: 0}
+  m_DashCD: 0
+  m_DashMaxChargeTime: 0
+  m_DashMaxDamage: 0
+  m_DashMaxLength: 0
+  m_DashBaseSpeed: 0
+  DashAttackCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  VoidAim: {fileID: 0}
+  m_VoidAoE: {fileID: 0}
+  m_VoidAimIndicator: {fileID: 0}
+  m_VoidCD: 0
   DodgeCurve:
     serializedVersion: 2
     m_Curve: []
@@ -471,8 +530,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   DodgeSpeed: 0
   DodgeDuration: 0
-  Player: {fileID: 511278644670675394}
-  MyAnimator: {fileID: 130389154609704126}
+  m_DodgeCD: 0
 --- !u!136 &1881057667793179750
 CapsuleCollider:
   m_ObjectHideFlags: 0
