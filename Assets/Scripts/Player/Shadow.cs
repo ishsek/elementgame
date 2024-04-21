@@ -62,6 +62,7 @@ public class Shadow : MonoBehaviour
 
     [Header("Dash Attack")]
     [SerializeField] private GameObject m_DashWeapon;
+    [SerializeField] private Weapon m_DashWeaponScript;
     [SerializeField] private float m_DashCD;
     [SerializeField] private float m_DashMaxChargeTime;
     [SerializeField] private float m_DashMaxDamage;
@@ -290,6 +291,7 @@ public class Shadow : MonoBehaviour
                     mDashChargeTime = m_DashMaxChargeTime;
                 }
                 mDashDuration = mDashChargeTime / m_DashMaxChargeTime * m_DashMaxLength;
+                m_DashWeaponScript.damage = mDashChargeTime / m_DashMaxChargeTime * m_DashMaxDamage;
                 Player.DisableEnemyCollision();
                 mDashTime = 0;
                 mDashAttacking = true;

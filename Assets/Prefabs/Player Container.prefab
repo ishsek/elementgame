@@ -1165,6 +1165,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   m_DashWeapon: {fileID: 6058331112918773595}
+  m_DashWeaponScript: {fileID: 3378969566994234029}
   m_DashCD: 2
   m_DashMaxChargeTime: 1
   m_DashMaxDamage: 200
