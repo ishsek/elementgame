@@ -459,6 +459,7 @@ public class Shadow : MonoBehaviour
         if (mPrimaryActive)
         {
             MyAnimator.SetTrigger(AnimationTriggersStatic.GetInterruptToIdle());
+            MyAnimator.ResetTrigger(mComboList[mCurrentCombo]);
             Player.rb.velocity = new Vector3(0, 0, 0);
         }
         mPrimaryActive = false;
