@@ -21,6 +21,12 @@ public static class AnimationTriggersStatic
     private static string EnterShadowMode = "EnterShadowMode";
     public static string GetEnterShadowMode() { return EnterShadowMode; }
 
+    private static string ShadowDodge = "ShadowDodge";
+    public static string GetShadowDodge() { return ShadowDodge; }
+
+    private static string ShadowBlackhole = "ShadowBlackhole";
+    public static string GetShadowBlackhole() { return ShadowBlackhole; }
+
     // Enemy
     private static string EnemyAttackTrigger = "Punch";
     public static string GetEnemyAttackTrigger() { return EnemyAttackTrigger; }

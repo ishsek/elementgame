@@ -351,18 +351,6 @@ public class Shadow : MonoBehaviour
                         mVoidLastCastTime = Time.time;
                     }
                 }
-                //if (context.started)
-                //{
-                //    Debug.Log("start");
-                //}
-                //else if (context.performed)
-                //{
-                //    Debug.Log("perf");
-                //}
-                //else if (context.canceled)
-                //{
-                //    Debug.Log("cancel");
-                //}
             }
             else
             {
@@ -382,7 +370,7 @@ public class Shadow : MonoBehaviour
             if (Time.time > mLastDodgeTime + m_DodgeCD)
             {
                 mLastDodgeTime = Time.time;
-                InterruptAttack();
+                DodgeInterrupt();
                 Player.OnDodge();
             }
         }
@@ -448,6 +436,11 @@ public class Shadow : MonoBehaviour
     //        }
     //    }
     //}
+    private void DodgeInterrupt()
+    {
+        InterruptAttack();
+        MyAnimator.SetTrigger(AnimationTriggersStatic.GetShadowDodge()); ;
+    }
     private void InterruptAttack()
     {
         // Return to Normal State
@@ -460,7 +453,7 @@ public class Shadow : MonoBehaviour
         //mIsAttacking = false;
         if (mPrimaryActive)
         {
-            MyAnimator.SetTrigger(AnimationTriggersStatic.GetInterruptToIdle());
+            //MyAnimator.SetTrigger(AnimationTriggersStatic.GetInterruptToIdle());
             MyAnimator.ResetTrigger(mComboList[mCurrentCombo]);
             Player.rb.velocity = new Vector3(0, 0, 0);
         }
