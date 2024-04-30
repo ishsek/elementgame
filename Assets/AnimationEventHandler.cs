@@ -43,4 +43,40 @@ public class AnimationEventHandler : MonoBehaviour
     {
         m_Shadow.EndSecondaryAttack();
     }
+
+    public void ShadowProjectileEnd()
+    {
+        m_Shadow.EndProjectileAttack();
+    }
+
+    public void ShadowProjectileFire()
+    {
+        m_Shadow.FireProjectile();
+    }
+
+    public void ShadowProjectileStep()
+    {
+        m_Shadow.RangedStep();
+    }
+
+    public void ShadowStabCharge()
+    {
+        m_Shadow.FireProjectile();
+    }
+
+    public void ShadowStabFire()
+    {
+        m_Shadow.FireProjectile();
+    }
+
+    public void ShadowDashCharge()
+    {
+        m_Shadow.FireProjectile();
+    }
+
+    public void ShadowDashFire()
+    {
+        m_Shadow.FireProjectile();
+    }
+
 }

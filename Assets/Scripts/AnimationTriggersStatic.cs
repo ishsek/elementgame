@@ -30,8 +30,26 @@ public static class AnimationTriggersStatic
     private static string ShadowHeavy2 = "ShadowHeavy2";
     public static string GetShadowHeavy2() { return ShadowHeavy2; }
 
-    private static string ShadowBlackhole = "ShadowBlackhole";
-    public static string GetShadowBlackhole() { return ShadowBlackhole; }
+    private static string ShadowProjectile = "ShadowProjectile";
+    public static string GetShadowProjectile() { return ShadowProjectile; }
+
+    private static string ShadowBlackholeCharge = "ShadowBlackholeCharge";
+    public static string GetShadowBlackholeCharge() { return ShadowBlackholeCharge; }
+
+    private static string ShadowBlackholeFire = "ShadowBlackholeFire";
+    public static string GetShadowBlackholeFire() { return ShadowBlackholeFire; }
+
+    private static string ShadowStabCharge = "ShadowStabCharge";
+    public static string GetShadowStabCharge() { return ShadowStabCharge; }
+
+    private static string ShadowStabFire = "ShadowStabFire";
+    public static string GetShadowStabFire() { return ShadowStabFire; }
+
+    private static string ShadowDashCharge = "ShadowDashCharge";
+    public static string GetShadowDashCharge() { return ShadowDashCharge; }
+
+    private static string ShadowDashFire = "ShadowDashFire";
+    public static string GetShadowDashFire() { return ShadowDashFire; }
 
     // Enemy
     private static string EnemyAttackTrigger = "Punch";

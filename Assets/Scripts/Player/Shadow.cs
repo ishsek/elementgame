@@ -56,13 +56,14 @@ public class Shadow : MonoBehaviour
     public Transform projectileSpawn;
     public GameObject projectile;
     [SerializeField] private float fireForce = 10f;
-    [SerializeField] private float shootCooldown = 0.5f;
+    [SerializeField] private float shootCooldown = 1f;
     [SerializeField] private float projectileLife = 2f;
-    [SerializeField] private float shootRecovery = 0.3f;
-    [SerializeField] private float shootDelay = 0.1f;
-    private bool hasFired = false;
-    private float shootTimer = 9999f;
-    private bool isShooting = false;
+    [SerializeField] private float m_ShotMovementSpeed = 0.1f;
+    [SerializeField] private float m_ShotMovementDuration = 0.1f;
+    [SerializeField] private AnimationCurve m_ShotMovement;
+    private float mShotMovementTimer = 0;
+    private bool mRangedStepping = false;
+    private float mLastShot = -9999;
 
     [Header("Stab")]
     [SerializeField] private GameObject m_StabWeaponObject;
@@ -115,12 +116,12 @@ public class Shadow : MonoBehaviour
         //CheckMeleeTimer();
         HandlePrimaryStep();
         HandleSecondaryStep();
-        CheckShootTimer();
+        HandleRangedStep();
+        //CheckShootTimer();
         ChargeDash();
         HandleDashAttack();
         ChargeStab();
         HandleStab();
-        shootTimer += Time.deltaTime;
         //mComboTimer += Time.deltaTime;
     }
 
@@ -221,16 +222,12 @@ public class Shadow : MonoBehaviour
 
     public void Attack2(InputAction.CallbackContext context)
     {
-        if (shootTimer > shootCooldown && Player.IsNormal() && context.performed)
+        if (Time.time > (mLastShot + shootCooldown) && Player.IsNormal() && context.performed)
         {
-                Player.HaltMovement();
-                Player.SetStateAttacking();
-                Player.rotateToAim();
-                isShooting = true;
-                hasFired = false;
-
-                // Fire Projectile
-                shootTimer = 0;
+            Player.HaltMovement();
+            Player.SetStateAttacking();
+            Player.rotateToAim();
+            MyAnimator.SetTrigger(AnimationTriggersStatic.GetShadowProjectile());
         }
     }
 
@@ -299,7 +296,6 @@ public class Shadow : MonoBehaviour
         {
             if (mSecondaryMovementTimer < m_SecondaryStepDuration[mSecondaryCurrentStep])
             {
-                Debug.Log(mSecondaryCurrentStep);
                 mSecondaryMovementTimer += Time.deltaTime;
                 float MovePercentage = mSecondaryMovementTimer / m_SecondaryStepDuration[mSecondaryCurrentStep];
                 Player.rb.velocity = transform.forward * m_SecondaryStepSpeed[mSecondaryCurrentStep] * m_SecondaryStepCurves[mSecondaryCurrentStep].Evaluate(MovePercentage);
@@ -336,6 +332,42 @@ public class Shadow : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void FireProjectile()
+    {
+        mLastShot = Time.time;
+        GameObject intProjectile = Instantiate(projectile, projectileSpawn.position, projectileSpawn.rotation);
+        intProjectile.GetComponent<Rigidbody>().AddForce(projectileSpawn.forward * fireForce, ForceMode.Impulse);
+        Destroy(intProjectile, projectileLife);
+    }
+
+    public void EndProjectileAttack()
+    {
+        Player.SetStateNormal();
+    }
+
+    public void HandleRangedStep()
+    {
+        if (mRangedStepping)
+        {
+            if (mShotMovementTimer < m_ShotMovementDuration)
+            {
+                mShotMovementTimer += Time.deltaTime;
+                float MovePercentage = mShotMovementTimer / m_ShotMovementDuration;
+                Player.rb.velocity = transform.forward * m_ShotMovementSpeed * m_ShotMovement.Evaluate(MovePercentage);
+            }
+            else
+            {
+                mRangedStepping = false;
+            }
+        }
+    }
+
+    public void RangedStep()
+    {
+        mShotMovementTimer = 0;
+        mRangedStepping = true;
     }
     //Stab
     public void Ability2(InputAction.CallbackContext context)
@@ -495,27 +527,27 @@ public class Shadow : MonoBehaviour
         }
     }
 
-    private void CheckShootTimer()
-    {
-        if (isShooting)
-        {
-            if (shootTimer > shootDelay + shootRecovery)
-            {
-                Player.SetStateNormal();
-                isShooting = false;
-            }
-            else if (shootTimer > shootDelay)
-            {
-                if (!hasFired)
-                {
-                    GameObject intProjectile = Instantiate(projectile, projectileSpawn.position, projectileSpawn.rotation);
-                    intProjectile.GetComponent<Rigidbody>().AddForce(projectileSpawn.forward * fireForce, ForceMode.Impulse);
-                    Destroy(intProjectile, projectileLife);
-                    hasFired = true;
-                }
-            }
-        }
-    }
+    //private void CheckShootTimer()
+    //{
+    //    if (isShooting)
+    //    {
+    //        if (shootTimer > shootDelay + shootRecovery)
+    //        {
+    //            Player.SetStateNormal();
+    //            isShooting = false;
+    //        }
+    //        else if (shootTimer > shootDelay)
+    //        {
+    //            if (!hasFired)
+    //            {
+    //                GameObject intProjectile = Instantiate(projectile, projectileSpawn.position, projectileSpawn.rotation);
+    //                intProjectile.GetComponent<Rigidbody>().AddForce(projectileSpawn.forward * fireForce, ForceMode.Impulse);
+    //                Destroy(intProjectile, projectileLife);
+    //                hasFired = true;
+    //            }
+    //        }
+    //    }
+    //}
 
     private void DodgeInterrupt()
     {
@@ -554,8 +586,8 @@ public class Shadow : MonoBehaviour
             mSecondaryComboQueued = false;
         }
 
-        // Interrupt Ranged
-        isShooting = false;
+        // Interrupt Ranged Attack
+        
 
         // Interrupt Stab
         mChargingStab = false;
