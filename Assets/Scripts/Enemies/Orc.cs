@@ -9,7 +9,7 @@ public class Orc : Enemy
     protected override void Awake()
     {
         base.Awake();
-        waypointTarget = waypoint1;
+        waypointTarget = waypoint1 = mWaypoint;
     }
     protected override void Move()
     {

@@ -123,6 +123,18 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!114 &125730925 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5069487955372170766, guid: 5f541eb9fc5d01d4bb93f0a1fb88cd0f,
+    type: 3}
+  m_PrefabInstance: {fileID: 1778812613716536568}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 806732ba10418c64ab5ce467e6e3238a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &329937670
 GameObject:
   m_ObjectHideFlags: 0
@@ -711,6 +723,18 @@ Transform:
   m_Father: {fileID: 1284422891}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1099992029 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5207717244242729231, guid: 5f541eb9fc5d01d4bb93f0a1fb88cd0f,
+    type: 3}
+  m_PrefabInstance: {fileID: 1778812613716536568}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1138308592
 GameObject:
   m_ObjectHideFlags: 0
@@ -956,6 +980,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 473648300458674262}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1445409436 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7913470863306190076, guid: 5f541eb9fc5d01d4bb93f0a1fb88cd0f,
+    type: 3}
+  m_PrefabInstance: {fileID: 1778812613716536568}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 806732ba10418c64ab5ce467e6e3238a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1989837560
 GameObject:
   m_ObjectHideFlags: 0
@@ -1254,11 +1290,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6902789293706771175, guid: 5f541eb9fc5d01d4bb93f0a1fb88cd0f,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 7776211512889223309, guid: 5f541eb9fc5d01d4bb93f0a1fb88cd0f,
         type: 3}
       propertyPath: m_Name
@@ -1312,6 +1343,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player Container
       objectReference: {fileID: 0}
+    - target: {fileID: 2102733433478663801, guid: bd4c7b6d04f0ea840a6e644e3ce0bca6,
+        type: 3}
+      propertyPath: HealthBar
+      value: 
+      objectReference: {fileID: 1099992029}
     - target: {fileID: 3964770846624126425, guid: bd4c7b6d04f0ea840a6e644e3ce0bca6,
         type: 3}
       propertyPath: m_RootOrder
@@ -1367,6 +1403,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7978207243456297110, guid: bd4c7b6d04f0ea840a6e644e3ce0bca6,
+        type: 3}
+      propertyPath: m_DodgeUI
+      value: 
+      objectReference: {fileID: 125730925}
+    - target: {fileID: 7978207243456297110, guid: bd4c7b6d04f0ea840a6e644e3ce0bca6,
+        type: 3}
+      propertyPath: m_DashAttackUI
+      value: 
+      objectReference: {fileID: 1445409436}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

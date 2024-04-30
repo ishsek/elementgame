@@ -98,7 +98,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58c07fa4b384b104a803095f52b245ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HealthBarPrefab: {fileID: 1642356983623816845, guid: e2518a357933fe44d89fe172fb170689,
+    type: 3}
+  HealthBarLocation: {fileID: 2740233082828483715}
+  HealthScript: {fileID: 8474195679463185928}
   EnemyAnimator: {fileID: 6605829306811959044}
+  WaypointPrefab: {fileID: 8063987161175795617, guid: ee60583e4e84c8f4c8aad495cd76fd09,
+    type: 3}
   rb: {fileID: 0}
   speed: 2
   attackRange: 1
@@ -261,6 +267,37 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 25
   weaponType: 0
+--- !u!1 &6868092403094862757
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2740233082828483715}
+  m_Layer: 0
+  m_Name: HealthBarLocation
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2740233082828483715
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6868092403094862757}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.862, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7125357716958667478}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &7307339344570058045
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -331,7 +368,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 6d630252b604e6945a2dd98d964abec0,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2740233082828483715}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 6d630252b604e6945a2dd98d964abec0,
         type: 3}

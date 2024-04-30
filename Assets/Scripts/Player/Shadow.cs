@@ -69,6 +69,7 @@ public class Shadow : MonoBehaviour
     [SerializeField] private float m_DashMaxLength;
     [SerializeField] private float m_DashBaseSpeed;
     [SerializeField] private AnimationCurve DashAttackCurve;
+    [SerializeField] private SkillButtonController m_DashAttackUI;
     private float mDashTime;
     private float mDashChargeTime;
     private float mDashLastCast = -9999;
@@ -89,6 +90,7 @@ public class Shadow : MonoBehaviour
     [SerializeField] private float DodgeSpeed;
     [SerializeField] private float DodgeDuration;
     [SerializeField] private float m_DodgeCD;
+    [SerializeField] private SkillButtonController m_DodgeUI;
     private float mLastDodgeTime = -9999;
 
     void Update()
@@ -296,6 +298,7 @@ public class Shadow : MonoBehaviour
                 mDashTime = 0;
                 mDashAttacking = true;
                 m_DashWeapon.SetActive(true);
+                m_DashAttackUI.ChangeButtonState(SkillButtonController.SkillButtonStates.Cooldown, m_DashCD);
             }
         }
     }
@@ -372,6 +375,7 @@ public class Shadow : MonoBehaviour
                 mLastDodgeTime = Time.time;
                 DodgeInterrupt();
                 Player.OnDodge();
+                m_DodgeUI.ChangeButtonState(SkillButtonController.SkillButtonStates.Cooldown, m_DodgeCD);
             }
         }
     }

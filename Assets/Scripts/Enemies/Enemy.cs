@@ -4,7 +4,11 @@ using UnityEngine;
 
 public abstract class Enemy : MonoBehaviour
 {
+    [SerializeField] public HealthBarUIController HealthBarPrefab;
+    [SerializeField] public Transform HealthBarLocation;
+    [SerializeField] public Health HealthScript;
     [SerializeField] public Animator EnemyAnimator;
+    [SerializeField] public Transform WaypointPrefab;
 
     public Rigidbody rb;
     protected EnemyAttack mAttack;
@@ -18,6 +22,9 @@ public abstract class Enemy : MonoBehaviour
     protected Vector3 patrolDirection;
     public bool canMove = true;
     private GameObject playerReference;
+
+    protected HealthBarUIController mHealthBar;
+    protected Transform mWaypoint;
 
     protected bool mMoving = false;
     private enum State
@@ -48,6 +55,16 @@ public abstract class Enemy : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         mAttack = GetComponent<EnemyAttack>();
         state = State.Normal;
+
+        mWaypoint = Instantiate(WaypointPrefab, transform.position, transform.rotation);
+        
+        mHealthBar = Instantiate(HealthBarPrefab);
+        mHealthBar.SetTarget(HealthBarLocation);
+        
+        if (HealthScript != null)
+        {
+            HealthScript.SetHealthBar(mHealthBar.GetHealthBarImage());
+        }
     }
 
     // Update is called once per frame
