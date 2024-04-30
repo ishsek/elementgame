@@ -909,6 +909,7 @@ MonoBehaviour:
   HealthBar: {fileID: 0}
   health: 0
   maxHealth: 100
+  m_HealthDecayDuration: 0.5
 --- !u!114 &7978207243456297110
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1360,6 +1361,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  m_DashAttackUI: {fileID: 0}
   VoidAim: {fileID: 0}
   m_VoidAoE: {fileID: 7332445863770519187, guid: 88dd6a05c9b82a049ae6af6f12d402db,
     type: 3}
@@ -1402,6 +1404,7 @@ MonoBehaviour:
   DodgeSpeed: 9
   DodgeDuration: 0.3
   m_DodgeCD: 2
+  m_DodgeUI: {fileID: 0}
 --- !u!136 &1881057667793179750
 CapsuleCollider:
   m_ObjectHideFlags: 0

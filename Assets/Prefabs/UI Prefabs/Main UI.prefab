@@ -77,7 +77,7 @@ GameObject:
   - component: {fileID: 2862087534234267704}
   - component: {fileID: 4282297416901437570}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: Main UI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -98,7 +98,7 @@ RectTransform:
   - {fileID: 6902789293706771175}
   - {fileID: 7007023774865144466}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -234,7 +234,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 21300000, guid: 1dea15d8f7d63f04dae43c5ab0d78582, type: 3}
   m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
