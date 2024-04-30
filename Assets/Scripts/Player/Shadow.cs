@@ -376,6 +376,7 @@ public class Shadow : MonoBehaviour
         {
             if (Player.IsNormal() && context.performed && !mChargingStab)
             {
+                MyAnimator.SetTrigger(AnimationTriggersStatic.GetShadowStabCharge());
                 Player.HaltMovement();
                 Player.SetStateAttacking();
                 mStabChargeTime = 0;
@@ -383,6 +384,7 @@ public class Shadow : MonoBehaviour
             }
             else if (mChargingStab && context.canceled)
             {
+                MyAnimator.SetTrigger(AnimationTriggersStatic.GetShadowStabFire());
                 mChargingStab = false;
                 mStabLastCast = Time.time;
                 if (mStabChargeTime > m_StabMaxChargeTime)
@@ -428,6 +430,7 @@ public class Shadow : MonoBehaviour
         {
             if (Player.IsNormal() && context.performed && !mChargingDash)
             {
+                MyAnimator.SetTrigger(AnimationTriggersStatic.GetShadowDashCharge());
                 Player.HaltMovement();
                 Player.SetStateAttacking();
                 mDashChargeTime = 0;
@@ -435,6 +438,7 @@ public class Shadow : MonoBehaviour
             }
             else if (mChargingDash && context.canceled)
             {
+                MyAnimator.SetTrigger(AnimationTriggersStatic.GetShadowDashFire());
                 mChargingDash = false;
                 mDashLastCast = Time.time;
                 if (mDashChargeTime > m_DashMaxChargeTime)
