@@ -225,12 +225,27 @@ public class Shadow : MonoBehaviour
 
     public void Attack2(InputAction.CallbackContext context)
     {
-        if (Time.time > (mLastShot + shootCooldown) && Player.IsNormal() && context.performed)
+        if (context.performed)
         {
-            Player.HaltMovement();
-            Player.SetStateAttacking();
-            Player.rotateToAim();
-            MyAnimator.SetTrigger(AnimationTriggersStatic.GetShadowProjectile());
+            if (Player.IsNormal())
+            {
+                Player.HaltMovement();
+                Player.SetStateAttacking();
+                Player.rotateToAim();
+                // Start melee hitbox timer
+                mSecondaryActive = true;
+                //mAtkTimer = 0;
+                CheckSecondaryCombo();
+            }
+            else if (mSecondaryActive && !mSecondaryComboQueued)
+            {
+                if (mSecondaryCurrentCombo + 1 < mSecondaryMaxCombo)
+                {
+                    mSecondaryComboQueued = true;
+                    Player.QueueRotation();
+                    CheckSecondaryCombo();
+                }
+            }
         }
     }
 
@@ -313,27 +328,12 @@ public class Shadow : MonoBehaviour
     //Projectile
     public void Ability1(InputAction.CallbackContext context)
     {
-        if (context.performed)
+        if (Time.time > (mLastShot + shootCooldown) && Player.IsNormal() && context.performed)
         {
-            if (Player.IsNormal())
-            {
-                Player.HaltMovement();
-                Player.SetStateAttacking();
-                Player.rotateToAim();
-                // Start melee hitbox timer
-                mSecondaryActive = true;
-                //mAtkTimer = 0;
-                CheckSecondaryCombo();
-            }
-            else if (mSecondaryActive && !mSecondaryComboQueued)
-            {
-                if (mSecondaryCurrentCombo + 1 < mSecondaryMaxCombo)
-                {
-                    mSecondaryComboQueued = true;
-                    Player.QueueRotation();
-                    CheckSecondaryCombo();
-                }
-            }
+            Player.HaltMovement();
+            Player.SetStateAttacking();
+            Player.rotateToAim();
+            MyAnimator.SetTrigger(AnimationTriggersStatic.GetShadowProjectile());
         }
     }
 

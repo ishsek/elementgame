@@ -754,7 +754,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 7978207243456297110}
         m_TargetAssemblyTypeName: Shadow, Assembly-CSharp
-        m_MethodName: Ability1
+        m_MethodName: Attack2
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -786,7 +786,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 7978207243456297110}
         m_TargetAssemblyTypeName: Shadow, Assembly-CSharp
-        m_MethodName: Attack2
+        m_MethodName: Ability1
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -909,7 +909,6 @@ MonoBehaviour:
   HealthBar: {fileID: 0}
   health: 0
   maxHealth: 100
-  m_HealthDecayDuration: 0.5
 --- !u!114 &7978207243456297110
 MonoBehaviour:
   m_ObjectHideFlags: 0
