@@ -24,6 +24,12 @@ public static class AnimationTriggersStatic
     private static string ShadowDodge = "ShadowDodge";
     public static string GetShadowDodge() { return ShadowDodge; }
 
+    private static string ShadowHeavy1 = "ShadowHeavy1";
+    public static string GetShadowHeavy1() { return ShadowHeavy1; }
+
+    private static string ShadowHeavy2 = "ShadowHeavy2";
+    public static string GetShadowHeavy2() { return ShadowHeavy2; }
+
     private static string ShadowBlackhole = "ShadowBlackhole";
     public static string GetShadowBlackhole() { return ShadowBlackhole; }
 
