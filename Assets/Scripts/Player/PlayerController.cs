@@ -108,7 +108,7 @@ public class PlayerController : MonoBehaviour
                 
                 break;
             case State.ControllerAiming:
-                MovePlayer();
+                //MovePlayer();
                 ControllerAimAbility();
                 break;
         }
@@ -210,7 +210,15 @@ public class PlayerController : MonoBehaviour
 
     private void ControllerAimAbility()
     {
-        AimPreview.transform.Translate(aimDirection * m_AimSpeed, Space.World);
+        if (isGamepad)
+        {
+            AimPreview.transform.Translate(aimDirection * m_AimSpeed, Space.World);
+        }
+        else
+        {
+            AimPreview.transform.position = aimDirection;
+        }
+        rotateToAim();
     }
 
     public void rotateToAim()

@@ -103,6 +103,7 @@ public class Shadow : MonoBehaviour
     [SerializeField] private float m_VoidCD;
     private float mVoidLastCastTime = -9999;
     private bool mAimingVoid = false;
+    private Vector3 AimSpawn;
 
     [Header("Dodging")]
     public AnimationCurve DodgeCurve;
@@ -478,40 +479,39 @@ public class Shadow : MonoBehaviour
         }
     }
 
-    //Black hole
+    //Blackhole
     public void Ability4(InputAction.CallbackContext context)
     {
         if (Time.time > mVoidLastCastTime + m_VoidCD)
         {
-            if (Player.isGamepad)
+            if (Player.IsNormal() && context.performed && !mAimingVoid)
             {
-                if (Player.IsNormal() && context.performed && !mAimingVoid)
+                Player.HaltMovement();
+                MyAnimator.SetTrigger(AnimationTriggersStatic.GetShadowBlackholeCharge());
+                mAimingVoid = true;
+                Player.SetStateControllerAiming();
+                if (Player.isGamepad)
                 {
-                    mAimingVoid = true;
-                    Player.SetStateControllerAiming();
-                    Vector3 AimSpawn = transform.position;
-                    AimSpawn.y = 0;
-                    VoidAim = Instantiate(m_VoidAimIndicator, AimSpawn, transform.rotation);
-                    Player.AimPreview = VoidAim;
+                    AimSpawn = transform.position;
                 }
-                else if (mAimingVoid && context.canceled)
+                else
                 {
-                    if (VoidAim != null)
-                    {
-                        GameObject InstBlackHole = Instantiate(m_VoidAoE, VoidAim.transform.position, VoidAim.transform.rotation);
-                        Player.SetStateNormal();
-                        Player.AimPreview = null;
-                        Destroy(VoidAim);
-                        mAimingVoid = false;
-                        mVoidLastCastTime = Time.time;
-                    }
+                    AimSpawn = Player.aimDirection;
                 }
+                AimSpawn.y = 0;
+                VoidAim = Instantiate(m_VoidAimIndicator, AimSpawn, transform.rotation);
+                Player.AimPreview = VoidAim;
             }
-            else
+            else if (mAimingVoid && context.canceled)
             {
-                if (context.performed)
+                if (VoidAim != null)
                 {
-                    GameObject InstBlackHole = Instantiate(m_VoidAoE, Player.aimDirection, transform.rotation);
+                    MyAnimator.SetTrigger(AnimationTriggersStatic.GetShadowBlackholeFire());
+                    GameObject InstBlackHole = Instantiate(m_VoidAoE, VoidAim.transform.position, VoidAim.transform.rotation);
+                    Player.SetStateNormal();
+                    Player.AimPreview = null;
+                    Destroy(VoidAim);
+                    mAimingVoid = false;
                     mVoidLastCastTime = Time.time;
                 }
             }
@@ -572,7 +572,7 @@ public class Shadow : MonoBehaviour
         {
             //MyAnimator.SetTrigger(AnimationTriggersStatic.GetInterruptToIdle());
             MyAnimator.ResetTrigger(mComboList[mCurrentCombo]);
-            Player.rb.velocity = new Vector3(0, 0, 0);
+            Player.HaltMovement();
             mPrimaryActive = false;
             mPrimaryStepping = false;
             Melee.SetActive(false);
