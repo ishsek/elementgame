@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private PlayerInput playerInput;
     private int mPlayerLayer = 6;
     private int mEnemyLayer = 7;
+    private int mEnemyWeaponLayer = 9;
 
     [Header("Dodging")]
     public AnimationCurve DodgeCurve;
@@ -143,6 +144,7 @@ public class PlayerController : MonoBehaviour
         {
             state = State.Dodging;
             DisableEnemyCollision();
+            SetUntartetable();
             DodgeTime = 0f;
         }
     }
@@ -162,6 +164,7 @@ public class PlayerController : MonoBehaviour
         {
             state = State.Normal;
             EnableEnemyCollision();
+            SetTargetable();
         }
     }
 
@@ -417,5 +420,15 @@ public class PlayerController : MonoBehaviour
     public void EnableEnemyCollision()
     {
         Physics.IgnoreLayerCollision(mPlayerLayer, mEnemyLayer, false);
+    }
+
+    public void SetUntartetable()
+    {
+        Physics.IgnoreLayerCollision(mPlayerLayer, mEnemyWeaponLayer, true);
+    }
+
+    public void SetTargetable()
+    {
+        Physics.IgnoreLayerCollision(mPlayerLayer, mEnemyWeaponLayer, false);
     }
 }
