@@ -105,7 +105,8 @@ MonoBehaviour:
   EnemyAnimator: {fileID: 6605829306811959044}
   WaypointPrefab: {fileID: 8063987161175795617, guid: ee60583e4e84c8f4c8aad495cd76fd09,
     type: 3}
-  rb: {fileID: 0}
+  rb: {fileID: 1681454889729064682}
+  mAttack: {fileID: 4255025459673093059}
   speed: 2
   attackRange: 1
   aggroRange: 5

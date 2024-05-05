@@ -190,7 +190,7 @@ public class Shadow : MonoBehaviour
     {
         // If within combo window, play the attack and update the combo counter
         mCurrentCombo++;
-        if (mLastPrimary > Time.time + m_ComboWindow || mCurrentCombo >= mMaxCombo)
+        if (Time.time > mLastPrimary + m_ComboWindow || mCurrentCombo >= mMaxCombo)
         {
             mCurrentCombo = 0;
             mComboQueued = false;

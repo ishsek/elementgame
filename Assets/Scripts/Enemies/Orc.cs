@@ -48,4 +48,10 @@ public class Orc : Enemy
             }
         }
     }
+
+    public override void SetStun(float duration)
+    {
+        base.SetStun(duration);
+        EnemyAnimator.SetTrigger(AnimationTriggersStatic.GetEnemyIdleTrigger());
+    }
 }

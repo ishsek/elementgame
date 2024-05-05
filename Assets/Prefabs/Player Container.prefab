@@ -2159,6 +2159,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 100
   weaponType: 0
+  mStunLength: 1.25
+  mKnockback: 150
 --- !u!1 &4526554575570026548
 GameObject:
   m_ObjectHideFlags: 0
@@ -2621,6 +2623,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 200
   weaponType: 0
+  mStunLength: 1
+  mKnockback: 200
 --- !u!1 &6058331112918773595
 GameObject:
   m_ObjectHideFlags: 0
@@ -2741,6 +2745,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 100
   weaponType: 0
+  mStunLength: 0.5
+  mKnockback: 0
 --- !u!1 &6302960134315998540
 GameObject:
   m_ObjectHideFlags: 0
@@ -2895,6 +2901,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 50
   weaponType: 0
+  mStunLength: 1
+  mKnockback: 75
 --- !u!1 &6596851721109129179
 GameObject:
   m_ObjectHideFlags: 0

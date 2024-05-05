@@ -4,6 +4,7 @@ using UnityEngine;
 
 public abstract class Enemy : MonoBehaviour
 {
+    [Header("References")]
     [SerializeField] public HealthBarUIController HealthBarPrefab;
     [SerializeField] public Transform HealthBarLocation;
     [SerializeField] public Health HealthScript;
@@ -11,7 +12,7 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField] public Transform WaypointPrefab;
 
     public Rigidbody rb;
-    protected EnemyAttack mAttack;
+    [SerializeField] protected EnemyAttack mAttack;
     [SerializeField] protected float speed;
     [SerializeField] protected float attackRange;
     [SerializeField] protected float aggroRange;
@@ -52,8 +53,8 @@ public abstract class Enemy : MonoBehaviour
 
     protected virtual void Awake()
     {
-        rb = GetComponent<Rigidbody>();
-        mAttack = GetComponent<EnemyAttack>();
+        //rb = GetComponent<Rigidbody>();
+        //mAttack = GetComponent<EnemyAttack>();
         state = State.Normal;
 
         mWaypoint = Instantiate(WaypointPrefab, transform.position, transform.rotation);
@@ -152,13 +153,15 @@ public abstract class Enemy : MonoBehaviour
             mStunDuration = 0f;
             mStunTimer = 0f;
             state = State.Normal;
+            EnemyAnimator.ResetTrigger(AnimationTriggersStatic.GetEnemyIdleTrigger());
         }
     }
 
-    public void SetStun(float duration)
+    public virtual void SetStun(float duration)
     {
         mStunDuration += duration;
         state = State.Stunned;
+        mMoving = false;
     }
 
     public void Immobilize()
