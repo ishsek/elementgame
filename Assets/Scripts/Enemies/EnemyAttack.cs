@@ -56,7 +56,7 @@ public class EnemyAttack : MonoBehaviour
             // Release character once recovery window has expired
             if (atkTimer >= atkDuration + atkDelay + atkRecovery)
             {
-                Attacker.Mobilize();
+                Attacker.SetStateNormal();
                 isAttacking = false;
                 atkTimer = 0;
                 cdTimer = 0;

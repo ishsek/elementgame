@@ -4,54 +4,45 @@ using UnityEngine;
 
 public class Orc : Enemy
 {
-    private Transform waypointTarget;
-    public Transform waypoint1; // alternate target between multiple waypoints to create patrolling enemies 
-    protected override void Awake()
-    {
-        base.Awake();
-        waypointTarget = waypoint1 = mWaypoint;
-    }
-    protected override void Move()
-    {
-        base.Move();
-        if (playerDirection.magnitude > aggroRange)
-        {
-            if (waypointTarget == null)
-            {
-                return;
-            }
-
-            patrolDirection = (waypointTarget.position - transform.position);
-
-            // Set y to zero to prevent vertical movement
-            patrolDirection.y = 0;
-            if (patrolDirection.magnitude > 0.1)
-            {
-                patrolDirection = patrolDirection.normalized;
-                rb.MoveRotation(Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(patrolDirection), 0.15f));
-                rb.velocity = patrolDirection * speed;
-
-                if (mMoving == false)
-                {
-                    mMoving = true;
-                    EnemyAnimator.SetTrigger(AnimationTriggersStatic.GetEnemyRunTrigger());
-                }
-            }
-            else
-            {
-                if (mMoving == true)
-                {
-                    mMoving = false;
-                    rb.velocity = new Vector3 (0, 0, 0);
-                    EnemyAnimator.SetTrigger(AnimationTriggersStatic.GetEnemyIdleTrigger());
-                }
-            }
-        }
-    }
-
     public override void SetStun(float duration)
     {
-        base.SetStun(duration);
         EnemyAnimator.SetTrigger(AnimationTriggersStatic.GetEnemyIdleTrigger());
+        if (state == State.Attacking)
+        {
+            EnemyAnimator.ResetTrigger(AnimationTriggersStatic.GetEnemyAttackTrigger());
+        }
+        EnemyAnimator.ResetTrigger(AnimationTriggersStatic.GetEnemyRunTrigger());
+        base.SetStun(duration);
+    }
+
+    public override void SetStateAgro()
+    {
+        base.SetStateAgro();
+        EnemyAnimator.SetTrigger(AnimationTriggersStatic.GetEnemyRunTrigger());
+    }
+  
+
+    public override void SetStateLeash()
+    {
+        base.SetStateLeash();
+        EnemyAnimator.SetTrigger(AnimationTriggersStatic.GetEnemyRunTrigger());
+    }
+
+    public override void SetStateAttacking()
+    {
+        base.SetStateAttacking();
+        EnemyAnimator.ResetTrigger(AnimationTriggersStatic.GetEnemyRunTrigger());
+        EnemyAnimator.SetTrigger(AnimationTriggersStatic.GetEnemyAttackTrigger());
+    }
+
+    public override void SetStateNormal()
+    {
+        base.SetStateNormal();
+        EnemyAnimator.ResetTrigger(AnimationTriggersStatic.GetEnemyRunTrigger());
+        EnemyAnimator.SetTrigger(AnimationTriggersStatic.GetEnemyIdleTrigger());
+    }
+    public void EndAttack()
+    {
+        SetStateNormal();
     }
 }

@@ -32,7 +32,7 @@ public class BlackHole : MonoBehaviour
                 {
                     if (target.Key.TryGetComponent<Enemy>(out Enemy Enemy))
                     {
-                        Enemy.Mobilize();
+                        Enemy.SetStateNormal();
                     }
                 }
             }
@@ -44,7 +44,7 @@ public class BlackHole : MonoBehaviour
     {
         if (other.TryGetComponent<Enemy>(out Enemy Enemy))
         {
-            Enemy.Mobilize();
+            Enemy.SetStateNormal();
         }
     }
 
