@@ -60,4 +60,7 @@ public static class AnimationTriggersStatic
 
     private static string EnemyIdleTrigger = "Idle";
     public static string GetEnemyIdleTrigger() { return EnemyIdleTrigger; }
+
+    private static string EnemyDeathTrigger = "Death";
+    public static string GetEnemyDeathTrigger() { return EnemyDeathTrigger; }
 }
