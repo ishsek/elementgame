@@ -40,4 +40,11 @@ public class Watcher2 : Enemy
             }
         }
     }
+
+    public override void SetStun(float duration)
+    {
+        mFiring = false;
+        base.SetStun(duration);
+    }
+
 }
