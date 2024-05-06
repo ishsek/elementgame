@@ -43,6 +43,6 @@ public class Orc : Enemy
     }
     public void EndAttack()
     {
-        SetStateNormal();
+        SetStateTargeting();
     }
 }

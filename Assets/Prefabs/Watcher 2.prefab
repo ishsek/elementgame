@@ -145,12 +145,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1705259908886899325}
-  - component: {fileID: 2785150204309134549}
   - component: {fileID: 716264826382627842}
   - component: {fileID: 4050034514257829557}
   - component: {fileID: 6000508407594266294}
+  - component: {fileID: -7030233496537107007}
   m_Layer: 7
-  m_Name: Watcher
+  m_Name: Watcher 2
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -174,37 +174,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2785150204309134549
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7911696227624428730}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 13dc11167f29f7140bd0c1fa0e38a499, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  HealthBarPrefab: {fileID: 1642356983623816845, guid: e2518a357933fe44d89fe172fb170689,
-    type: 3}
-  HealthBarLocation: {fileID: 220428329502692365}
-  HealthScript: {fileID: 716264826382627842}
-  EnemyAnimator: {fileID: 7443865047096613595}
-  WaypointPrefab: {fileID: 8063987161175795617, guid: ee60583e4e84c8f4c8aad495cd76fd09,
-    type: 3}
-  rb: {fileID: 4050034514257829557}
-  m_AttackCD: 3
-  speed: 1
-  attackRange: 10
-  aggroRange: 15
-  InitialDifficultyLevel: 0
-  playerDirection: {x: 0, y: 0, z: 0}
-  projectileSpawn: {fileID: 1434158462194472591}
-  projectile: {fileID: 7337636041160478571, guid: a08b82056bc2e3f46bf5431402fd1d13,
-    type: 3}
-  fireForce: 10
-  projectileLife: 2
 --- !u!114 &716264826382627842
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -268,6 +237,38 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &-7030233496537107007
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7911696227624428730}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 000f7a5b18d658749ac8b6971586d4bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HealthBarPrefab: {fileID: 1642356983623816845, guid: e2518a357933fe44d89fe172fb170689,
+    type: 3}
+  HealthBarLocation: {fileID: 220428329502692365}
+  HealthScript: {fileID: 716264826382627842}
+  EnemyAnimator: {fileID: 0}
+  WaypointPrefab: {fileID: 8063987161175795617, guid: ee60583e4e84c8f4c8aad495cd76fd09,
+    type: 3}
+  rb: {fileID: 4050034514257829557}
+  m_AttackCD: 6
+  speed: 1
+  attackRange: 4
+  aggroRange: 10
+  InitialDifficultyLevel: 0
+  playerDirection: {x: 0, y: 0, z: 0}
+  projectileSpawn: {fileID: 1434158462194472591}
+  projectile: {fileID: 7337636041160478571, guid: 4cd5660053600b7419e04ef310f197c0,
+    type: 3}
+  fireForce: 10
+  projectileLife: 1
+  BeamDuration: 2
 --- !u!1 &8687050489699560788
 GameObject:
   m_ObjectHideFlags: 0

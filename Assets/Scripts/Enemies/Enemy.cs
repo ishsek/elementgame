@@ -18,7 +18,7 @@ public abstract class Enemy : MonoBehaviour
 
     [Header("General Attack Settings")]
     [SerializeField] private float m_AttackCD = 1f; //seconds
-    private float mLastAttack = -9999f;
+    protected float mLastAttack = -9999f;
     [SerializeField] protected float speed;
     [SerializeField] protected float attackRange;
     [SerializeField] protected float aggroRange;
@@ -31,10 +31,11 @@ public abstract class Enemy : MonoBehaviour
     protected bool mMoving = false;
     protected enum State
     {
+        Normal,
         Agro,
         Leash,
         Attacking,
-        Normal,
+        Targeting,
         Stunned,
         Rooted,
         Immobilized,
@@ -79,21 +80,29 @@ public abstract class Enemy : MonoBehaviour
         {
             case State.Normal:
                 LocatePlayer();
-                CheckAgro();
+                ChooseMovementOption();
                 break;
+
             case State.Leash:
                 LocatePlayer();
-                CheckAgro();
+                ChooseMovementOption();
                 Leashing();
                 break;
+
             case State.Agro:
                 LocatePlayer();
-                CheckAgro();
+                ChooseMovementOption();
                 Agroing();
                 break;
+
             case State.Attacking:
-                //LocatePlayer();
-                //CheckAttack();
+                DoAttack();
+                break;
+
+            case State.Targeting:
+                LocatePlayer();
+                RotateToPlayer();
+                CheckTargetInRange();
                 break;
 
             case State.Stunned:
@@ -103,13 +112,12 @@ public abstract class Enemy : MonoBehaviour
             case State.Rooted:
                 LocatePlayer();
                 RotateToPlayer();
-                CheckAttack();
+                //CheckTargetInRange();
                 break;
 
             case State.Immobilized:
                 LocatePlayer();
                 break;
-
         }
     }
     protected virtual void LocatePlayer()
@@ -126,44 +134,76 @@ public abstract class Enemy : MonoBehaviour
         playerDirectionNorm = playerDirection.normalized;
     }
 
-    private bool CheckAttack()
+    protected virtual void ChooseMovementOption()
     {
-        if (playerDirection.magnitude - attackRange < 0.01 && Time.time > mLastAttack + m_AttackCD)
+        if (CheckAttackRange() && CheckAttackCD())
         {
             SetStateAttacking();
+            return;
+        }
+        else if (CheckAgro())
+        {
+            SetStateAgro();
+            return;
+        }
+        else if (CheckLeash())
+        {
+            SetStateLeash();
+            return;
+        }
+        SetStateNormal();
+    }
+
+    private void CheckTargetInRange()
+    {
+        if (CheckAttackRange())
+        {
+            if (CheckAttackCD())
+            {
+                SetStateAttacking();
+                return;
+            }
+            return;
+        }
+        SetStateNormal();
+    }
+
+    private bool CheckAttackRange()
+    {
+        if (playerDirection.magnitude - attackRange < 0.01)
+        {
             return true;
         }
         return false;
     }
 
-    protected void CheckAgro()
+    private bool CheckAttackCD()
     {
-        if (CheckAttack())
+        if (Time.time > mLastAttack + m_AttackCD)
         {
-            return;
+            return true;
         }
-        else if (playerDirection.magnitude <= aggroRange)
-        {
-            SetStateAgro();
-        }
-        else
-        {
-            CheckLeash();
-        }
+        return false;
     }
 
-    private void CheckLeash()
+    protected bool CheckAgro()
+    {
+        if (playerDirection.magnitude <= aggroRange)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    protected bool CheckLeash()
     {
         patrolDirection = (mWaypoint.position - transform.position);
         patrolDirection.y = 0;
         if (patrolDirection.magnitude > 1)
         {
-            SetStateLeash();
+            return true;
         }
-        else
-        {
-            SetStateNormal();
-        }
+        return false;
     }
 
     protected virtual void RotateToPlayer()
@@ -183,6 +223,11 @@ public abstract class Enemy : MonoBehaviour
         }
     }
 
+    protected virtual void DoAttack()
+    {
+        return;
+    }
+
     protected virtual void Leashing()
     {
         patrolDirection = patrolDirection.normalized;
@@ -195,8 +240,6 @@ public abstract class Enemy : MonoBehaviour
         rb.MoveRotation(Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(playerDirectionNorm), 0.15f));
         rb.velocity = playerDirectionNorm * speed;
     }
-
-
 
     public virtual void SetStun(float duration)
     {
@@ -247,6 +290,12 @@ public abstract class Enemy : MonoBehaviour
         {
             state = State.Normal;
         }
+        // Add idle animation call in subclass override
+    }
+
+    public virtual void SetStateTargeting()
+    {
+        state = State.Targeting;
         // Add idle animation call in subclass override
     }
 
