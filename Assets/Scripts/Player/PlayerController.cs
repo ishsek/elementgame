@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     public Rigidbody rb;
     public InputAction aimAction;
     [SerializeField] private PlayerInput playerInput;
+    [SerializeField] private Transform m_CameraTransform;
     private int mPlayerLayer = 6;
     private int mEnemyLayer = 7;
     private int mEnemyWeaponLayer = 9;
@@ -119,6 +120,7 @@ public class PlayerController : MonoBehaviour
     {
         Movement.x = Move.x;
         Movement.z = Move.y;
+        Movement = Quaternion.AngleAxis(m_CameraTransform.rotation.eulerAngles.y, Vector3.up) * Movement;
     }
 
     private void MovePlayer()

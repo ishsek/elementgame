@@ -16,7 +16,7 @@ public class EnemySpawnArea : MonoBehaviour
     [SerializeField] private WeightedEnemy[] m_PossibleEnemies;
 
     private List<Enemy> mEnemyWeightedList;
-    private List<Enemy> mEnemySpawnedTracker;
+    [SerializeField] private List<Enemy> mEnemySpawnedTracker;
     private float mRemainingDifficulty = 0;
 
     // Start is called before the first frame update
@@ -44,6 +44,7 @@ public class EnemySpawnArea : MonoBehaviour
             if (mEnemySpawnedTracker[i] == null)
             {
                 mEnemySpawnedTracker.RemoveAt(i);
+                i--;
             }
         }
 
@@ -98,8 +99,8 @@ public class EnemySpawnArea : MonoBehaviour
         {
             enemyToSpawn = enemyReturned;
             Transform spawnLocation = m_SpawnLocations[spawnLocationIndex];
-            Instantiate(enemyToSpawn, spawnLocation.transform.position, spawnLocation.transform.rotation);
-            mEnemySpawnedTracker.Add(enemyToSpawn);
+            Enemy spawnedEnemy = Instantiate(enemyToSpawn, spawnLocation.transform.position, spawnLocation.transform.rotation);
+            mEnemySpawnedTracker.Add(spawnedEnemy);
             enemyReturned = SelectAnEnemyToSpawn();
             
             spawnLocationIndex++;

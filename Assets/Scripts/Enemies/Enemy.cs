@@ -39,6 +39,7 @@ public abstract class Enemy : MonoBehaviour
         Stunned,
         Rooted,
         Immobilized,
+        Dead,
     }
 
     protected State state;
@@ -69,13 +70,20 @@ public abstract class Enemy : MonoBehaviour
 
         if (HealthScript != null)
         {
-            HealthScript.SetHealthBar(mHealthBar.GetHealthBarImage());
+            HealthScript.SetHealthBar(mHealthBar.GetHealthBarImage(), mHealthBar.GetDecayingHealthBarImage());
         }
     }
 
     // Update is called once per frame
     protected virtual void Update()
     {
+        if ((state != State.Dead) && (HealthScript.GetHealth() <= 0))
+        {
+            state = State.Dead;
+            // do a ragdoll or something
+            EnemyAnimator.SetTrigger(AnimationTriggersStatic.GetEnemyDeathTrigger());
+        }
+
         switch (state)
         {
             case State.Normal:
@@ -117,6 +125,12 @@ public abstract class Enemy : MonoBehaviour
 
             case State.Immobilized:
                 LocatePlayer();
+                break;
+
+            case State.Dead:
+                break;
+
+            default:
                 break;
         }
     }

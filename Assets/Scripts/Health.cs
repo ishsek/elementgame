@@ -7,6 +7,7 @@ using static UnityEngine.GraphicsBuffer;
 public class Health : MonoBehaviour
 {
     [SerializeField] private Image HealthBar;
+    [SerializeField] private Image m_BackgroundHealthBar;
 
     [SerializeField] protected float health;
     [SerializeField] protected float maxHealth;
@@ -41,32 +42,34 @@ public class Health : MonoBehaviour
                 mHealthDecaying = false;
             }
 
-            HealthBar.fillAmount = mCurrentHealthOnUI / maxHealth;
+            m_BackgroundHealthBar.fillAmount = mCurrentHealthOnUI / maxHealth;
         }
     }
 
     public virtual void TakeDamage(float damage)
     {
-        HealthBar.fillAmount = health / maxHealth;
+        m_BackgroundHealthBar.fillAmount = health / maxHealth;
         mCurrentHealthOnUI = health;
 
         health -= damage;
 
-        if (HealthBar != null)
-        {
-            mHealthDecaying = true;
-            mHealthDecayPerSecond = (mCurrentHealthOnUI - health) / m_HealthDecayDuration;
-        }
-
+        HealthBar.fillAmount = health / maxHealth;
+        mHealthDecaying = true;
+        mHealthDecayPerSecond = (mCurrentHealthOnUI - health) / m_HealthDecayDuration;
+        
         if (health <= 0)
         {
-            gameObject.SetActive(false);
+            // because this script is being used for enemies and players and we don't want
+            // to destroy the gameobjects, each player or enemy script should be checking the health
+            // value on this script to determine what to do when the enemy is dead.
+            //Destroy(gameObject);
         }
     }
 
-    public void SetHealthBar(Image healthBarRef)
+    public void SetHealthBar(Image healthBarRef, Image backgorundHealthBarRef)
     {
         HealthBar = healthBarRef;
+        m_BackgroundHealthBar = backgorundHealthBarRef;
     }
 
     public float GetHealth()
