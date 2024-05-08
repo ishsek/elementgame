@@ -257,9 +257,12 @@ public abstract class Enemy : MonoBehaviour
 
     public virtual void SetStun(float duration)
     {
-        mStunDuration += duration;
-        state = State.Stunned;
-        // add idle/stagger animation call in subclass 
+        if (state != State.Dead)
+        {
+            mStunDuration += duration;
+            state = State.Stunned;
+            // add idle/stagger animation call in subclass
+        }
     }
 
     public void Immobilize()
