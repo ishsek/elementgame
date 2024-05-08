@@ -112,6 +112,7 @@ MonoBehaviour:
   aggroRange: 5
   InitialDifficultyLevel: 100
   playerDirection: {x: 0, y: 0, z: 0}
+  m_AttackHitbox: {fileID: 4525616761048888970}
 --- !u!114 &8474195679463185928
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -125,6 +126,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HealthBar: {fileID: 0}
+  m_BackgroundHealthBar: {fileID: 0}
   health: 0
   maxHealth: 200
 --- !u!114 &4255025459673093059

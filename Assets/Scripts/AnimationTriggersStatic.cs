@@ -63,4 +63,7 @@ public static class AnimationTriggersStatic
 
     private static string EnemyDeathTrigger = "Death";
     public static string GetEnemyDeathTrigger() { return EnemyDeathTrigger; }
+
+    private static string EnemyInterruptTrigger = "Interrupt";
+    public static string GetEnemyInterruptTrigger() { return EnemyInterruptTrigger; }
 }

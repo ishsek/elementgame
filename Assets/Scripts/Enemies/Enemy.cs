@@ -77,6 +77,7 @@ public abstract class Enemy : MonoBehaviour
     // Update is called once per frame
     protected virtual void Update()
     {
+        Debug.Log(state);
         if ((state != State.Dead) && (HealthScript.GetHealth() <= 0))
         {
             state = State.Dead;

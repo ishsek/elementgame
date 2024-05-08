@@ -4,45 +4,63 @@ using UnityEngine;
 
 public class Orc : Enemy
 {
+    [SerializeField] private GameObject m_AttackHitbox;
     public override void SetStun(float duration)
     {
-        EnemyAnimator.SetTrigger(AnimationTriggersStatic.GetEnemyIdleTrigger());
-        if (state == State.Attacking)
-        {
-            EnemyAnimator.ResetTrigger(AnimationTriggersStatic.GetEnemyAttackTrigger());
-        }
-        EnemyAnimator.ResetTrigger(AnimationTriggersStatic.GetEnemyRunTrigger());
         base.SetStun(duration);
+        EnemyAnimator.SetTrigger(AnimationTriggersStatic.GetEnemyInterruptTrigger());
+        if (mMoving)
+        {
+            mMoving = false;
+        }
+        m_AttackHitbox.SetActive(false);
     }
 
     public override void SetStateAgro()
     {
         base.SetStateAgro();
-        EnemyAnimator.SetTrigger(AnimationTriggersStatic.GetEnemyRunTrigger());
+        if (!mMoving)
+        {
+            EnemyAnimator.SetTrigger(AnimationTriggersStatic.GetEnemyRunTrigger());
+            mMoving = true;
+        }   
     }
   
 
     public override void SetStateLeash()
     {
         base.SetStateLeash();
-        EnemyAnimator.SetTrigger(AnimationTriggersStatic.GetEnemyRunTrigger());
+        if (!mMoving)
+        {
+            EnemyAnimator.SetTrigger(AnimationTriggersStatic.GetEnemyRunTrigger());
+            mMoving = true;
+        }
     }
 
     public override void SetStateAttacking()
     {
-        base.SetStateAttacking();
-        EnemyAnimator.ResetTrigger(AnimationTriggersStatic.GetEnemyRunTrigger());
-        EnemyAnimator.SetTrigger(AnimationTriggersStatic.GetEnemyAttackTrigger());
+        if (state != State.Attacking)
+        {
+            EnemyAnimator.SetTrigger(AnimationTriggersStatic.GetEnemyAttackTrigger());
+            mMoving = false;
+            base.SetStateAttacking();
+        }
     }
 
     public override void SetStateNormal()
     {
         base.SetStateNormal();
-        EnemyAnimator.ResetTrigger(AnimationTriggersStatic.GetEnemyRunTrigger());
-        EnemyAnimator.SetTrigger(AnimationTriggersStatic.GetEnemyIdleTrigger());
+        if (mMoving)
+        {
+            EnemyAnimator.SetTrigger(AnimationTriggersStatic.GetEnemyIdleTrigger());
+            mMoving = false;
+        }
     }
     public void EndAttack()
     {
-        SetStateTargeting();
+        if (state == State.Attacking)
+        {
+            SetStateTargeting();
+        }
     }
 }
