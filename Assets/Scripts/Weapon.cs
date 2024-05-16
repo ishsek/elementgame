@@ -28,14 +28,9 @@ public class Weapon : MonoBehaviour
             {
                 if (collision.TryGetComponent(out Rigidbody rb))
                 {
-                    //Vector3 PushDirection = collision.transform.position - transform.position;
                     Vector3 PushDirection = transform.forward;
-                    //PushDirection.y = 0;
-                    //PushDirection = PushDirection.normalized;
-                    Debug.Log(PushDirection);
                     PushDirection = PushDirection * mKnockback;
                     rb.AddForce(PushDirection, ForceMode.Impulse);
-                    Debug.Log(PushDirection);
                 }
             }
             if (weaponType == WeaponType.Projectile)
