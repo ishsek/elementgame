@@ -261,7 +261,11 @@ public abstract class Enemy : MonoBehaviour
         {
             mStunDuration += duration;
             state = State.Stunned;
-            // add idle/stagger animation call in subclass
+            EnemyAnimator.SetTrigger(AnimationTriggersStatic.GetEnemyInterruptTrigger());
+            if (mMoving)
+            {
+                mMoving = false;
+            }
         }
     }
 
@@ -277,9 +281,14 @@ public abstract class Enemy : MonoBehaviour
 
     public virtual void SetStateAttacking()
     {
-        state = State.Attacking;
-        rb.velocity = new Vector3(0, 0, 0);
-        mLastAttack = Time.time;
+        if (state != State.Attacking)
+        {
+            state = State.Attacking;
+            rb.velocity = new Vector3(0, 0, 0);
+            mLastAttack = Time.time;
+            mMoving = false;
+            EnemyAnimator.SetTrigger(AnimationTriggersStatic.GetEnemyAttackTrigger());
+        }
         // Add attack animation call and actual attack in subclass override
     }
 
@@ -287,6 +296,11 @@ public abstract class Enemy : MonoBehaviour
     {
         if (state != State.Agro)
         {
+            if (!mMoving)
+            {
+                EnemyAnimator.SetTrigger(AnimationTriggersStatic.GetEnemyRunTrigger());
+                mMoving = true;
+            }
             state = State.Agro;
         }
         // Add move animation call in subclass override
@@ -296,6 +310,11 @@ public abstract class Enemy : MonoBehaviour
     {
         if (state != State.Leash)
         {
+            if (!mMoving)
+            {
+                EnemyAnimator.SetTrigger(AnimationTriggersStatic.GetEnemyRunTrigger());
+                mMoving = true;
+            }
             state = State.Leash;
         }
         // Add move animation call in subclass override
@@ -305,6 +324,11 @@ public abstract class Enemy : MonoBehaviour
     {
         if (state != State.Normal)
         {
+            if (mMoving)
+            {
+                EnemyAnimator.SetTrigger(AnimationTriggersStatic.GetEnemyIdleTrigger());
+                mMoving = false;
+            }
             state = State.Normal;
         }
         // Add idle animation call in subclass override
@@ -312,8 +336,23 @@ public abstract class Enemy : MonoBehaviour
 
     public virtual void SetStateTargeting()
     {
-        state = State.Targeting;
+        if (state != State.Targeting)
+        {
+            if (mMoving)
+            {
+                EnemyAnimator.SetTrigger(AnimationTriggersStatic.GetEnemyIdleTrigger());
+                mMoving = false;
+            }
+            state = State.Targeting;
+        }
         // Add idle animation call in subclass override
+    }
+    public virtual void EndAttack()
+    {
+        if (state == State.Attacking)
+        {
+            SetStateTargeting();
+        }
     }
 
     public int GetInitialDifficultyLevel()

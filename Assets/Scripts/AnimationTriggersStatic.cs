@@ -51,24 +51,8 @@ public static class AnimationTriggersStatic
     private static string ShadowDashFire = "ShadowDashFire";
     public static string GetShadowDashFire() { return ShadowDashFire; }
 
-    // Grunt
-    private static string GruntAttackTrigger = "Punch";
-    public static string GetGruntAttackTrigger() { return GruntAttackTrigger; }
-
-    private static string GruntRunTrigger = "Run";
-    public static string GetGruntRunTrigger() { return GruntRunTrigger; }
-
-    private static string GruntIdleTrigger = "Idle";
-    public static string GetGruntIdleTrigger() { return GruntIdleTrigger; }
-
-    private static string GruntDeathTrigger = "Death";
-    public static string GetGruntDeathTrigger() { return GruntDeathTrigger; }
-
-    private static string GruntInterruptTrigger = "Interrupt";
-    public static string GetGruntInterruptTrigger() { return GruntInterruptTrigger; }
-
     // Enemy
-    private static string EnemyAttackTrigger = "Punch";
+    private static string EnemyAttackTrigger = "Attack";
     public static string GetEnemyAttackTrigger() { return EnemyAttackTrigger; }
 
     private static string EnemyRunTrigger = "Run";
