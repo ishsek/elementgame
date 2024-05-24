@@ -41,7 +41,7 @@ public class EnemySpawnArea : MonoBehaviour
 
         for (int i = 0; i < mEnemySpawnedTracker.Count; i++)
         {
-            if (mEnemySpawnedTracker[i] == null)
+            if (mEnemySpawnedTracker[i].GetState() == Enemy.State.Dead)
             {
                 mEnemySpawnedTracker.RemoveAt(i);
                 i--;

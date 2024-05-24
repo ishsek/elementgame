@@ -1390,6 +1390,30 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5f541eb9fc5d01d4bb93f0a1fb88cd0f, type: 3}
+--- !u!114 &1778812613716536569 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3810035143648214821, guid: 5f541eb9fc5d01d4bb93f0a1fb88cd0f,
+    type: 3}
+  m_PrefabInstance: {fileID: 1778812613716536568}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 806732ba10418c64ab5ce467e6e3238a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1778812613716536570 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6770009063417998378, guid: 5f541eb9fc5d01d4bb93f0a1fb88cd0f,
+    type: 3}
+  m_PrefabInstance: {fileID: 1778812613716536568}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 806732ba10418c64ab5ce467e6e3238a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2050488935045752776
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1475,14 +1499,24 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7978207243456297110, guid: bd4c7b6d04f0ea840a6e644e3ce0bca6,
         type: 3}
-      propertyPath: m_DodgeUI
+      propertyPath: m_BlackHoleUI
       value: 
-      objectReference: {fileID: 125730925}
+      objectReference: {fileID: 1445409436}
     - target: {fileID: 7978207243456297110, guid: bd4c7b6d04f0ea840a6e644e3ce0bca6,
         type: 3}
       propertyPath: m_DashAttackUI
       value: 
-      objectReference: {fileID: 1445409436}
+      objectReference: {fileID: 125730925}
+    - target: {fileID: 7978207243456297110, guid: bd4c7b6d04f0ea840a6e644e3ce0bca6,
+        type: 3}
+      propertyPath: m_StabAttackUI
+      value: 
+      objectReference: {fileID: 1778812613716536569}
+    - target: {fileID: 7978207243456297110, guid: bd4c7b6d04f0ea840a6e644e3ce0bca6,
+        type: 3}
+      propertyPath: m_RangedAttackUI
+      value: 
+      objectReference: {fileID: 1778812613716536570}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

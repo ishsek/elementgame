@@ -4,6 +4,19 @@ using UnityEngine;
 
 public abstract class Enemy : MonoBehaviour
 {
+    public enum State
+    {
+        Normal,
+        Agro,
+        Leash,
+        Attacking,
+        Targeting,
+        Stunned,
+        Rooted,
+        Immobilized,
+        Dead,
+    }
+
     [Header("References")]
     [SerializeField] public HealthBarUIController HealthBarPrefab;
     [SerializeField] public Transform HealthBarLocation;
@@ -29,18 +42,6 @@ public abstract class Enemy : MonoBehaviour
     protected Vector3 patrolDirection;
 
     protected bool mMoving = false;
-    protected enum State
-    {
-        Normal,
-        Agro,
-        Leash,
-        Attacking,
-        Targeting,
-        Stunned,
-        Rooted,
-        Immobilized,
-        Dead,
-    }
 
     protected State state;
     private float mStunTimer = 0f;
@@ -365,5 +366,10 @@ public abstract class Enemy : MonoBehaviour
     public int GetInitialDifficultyLevel()
     {
         return InitialDifficultyLevel;
+    }
+
+    public State GetState()
+    {
+        return state;
     }
 }
