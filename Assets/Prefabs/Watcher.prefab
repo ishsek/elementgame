@@ -90,10 +90,10 @@ MonoBehaviour:
     type: 3}
   rb: {fileID: 4050034514257829557}
   m_AttackCD: 3
-  speed: 1
+  speed: 8
   attackRange: 10
-  aggroRange: 15
-  InitialDifficultyLevel: 0
+  aggroRange: 18
+  InitialDifficultyLevel: 100
   playerDirection: {x: 0, y: 0, z: 0}
   projectileSpawn: {fileID: 1434158462194472591}
   projectile: {fileID: 7337636041160478571, guid: a08b82056bc2e3f46bf5431402fd1d13,
@@ -115,7 +115,7 @@ MonoBehaviour:
   HealthBar: {fileID: 0}
   m_BackgroundHealthBar: {fileID: 0}
   health: 0
-  maxHealth: 100
+  maxHealth: 150
 --- !u!54 &4050034514257829557
 Rigidbody:
   m_ObjectHideFlags: 0

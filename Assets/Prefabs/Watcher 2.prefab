@@ -187,6 +187,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HealthBar: {fileID: 0}
+  m_BackgroundHealthBar: {fileID: 0}
   health: 0
   maxHealth: 100
 --- !u!54 &4050034514257829557
@@ -258,7 +259,7 @@ MonoBehaviour:
     type: 3}
   rb: {fileID: 4050034514257829557}
   m_AttackCD: 6
-  speed: 1
+  speed: 8
   attackRange: 4
   aggroRange: 10
   InitialDifficultyLevel: 0
