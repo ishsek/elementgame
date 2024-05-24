@@ -9,6 +9,7 @@ public class SkillButtonController : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private Image m_ButtonImage;
+    [SerializeField] private Image m_ChargeAmountImage;
     [SerializeField] private TextMeshProUGUI m_CooldownText;
 
     [Header("Design")]
@@ -20,6 +21,7 @@ public class SkillButtonController : MonoBehaviour
         Available,
         Disabled,
         Cooldown,
+        Charging,
     }
 
     private SkillButtonStates mButtonState;
@@ -47,7 +49,7 @@ public class SkillButtonController : MonoBehaviour
     }
 
     // Internal set button state to be used within this class
-    private void SetButtonState(SkillButtonStates newButtonState, float newCooldownTime = 0)
+    private void SetButtonState(SkillButtonStates newButtonState, float newCooldownTime = 0, float chargePercentage = 0)
     {
         if (mButtonValid == false)
         {
@@ -61,11 +63,16 @@ public class SkillButtonController : MonoBehaviour
                 m_ButtonImage.color = ActiveButtonColor;
                 mCurrentCooldown = 0;
                 m_CooldownText.SetText("");
+                m_ChargeAmountImage.fillAmount = 0;
                 break;
             case SkillButtonStates.Cooldown:
                 m_ButtonImage.color = CooldownButtonColor;
                 mCurrentCooldown = newCooldownTime;
                 m_CooldownText.SetText(mCurrentCooldown.ToString(mCooldownFormat));
+                m_ChargeAmountImage.fillAmount = 0;
+                break;
+            case SkillButtonStates.Charging:
+                m_ChargeAmountImage.fillAmount = chargePercentage;
                 break;
             case SkillButtonStates.Disabled:
                 break;
@@ -94,6 +101,8 @@ public class SkillButtonController : MonoBehaviour
                 }
 
                 break;
+            case SkillButtonStates.Charging:
+                break;
             case SkillButtonStates.Disabled:
                 break;
             default:
@@ -102,8 +111,8 @@ public class SkillButtonController : MonoBehaviour
     }
 
     // External change button state function. Use this to change state from other scripts
-    public void ChangeButtonState(SkillButtonStates newButtonState, float newCooldownTime = 0)
+    public void ChangeButtonState(SkillButtonStates newButtonState, float newCooldownTime = 0, float chargePercentage = 0)
     {
-        SetButtonState(newButtonState, newCooldownTime);
+        SetButtonState(newButtonState, newCooldownTime, chargePercentage);
     }
 }

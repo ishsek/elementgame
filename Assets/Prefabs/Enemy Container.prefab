@@ -107,9 +107,9 @@ MonoBehaviour:
     type: 3}
   rb: {fileID: 1681454889729064682}
   m_AttackCD: 1
-  speed: 2
+  speed: 4
   attackRange: 1
-  aggroRange: 5
+  aggroRange: 10
   InitialDifficultyLevel: 100
   playerDirection: {x: 0, y: 0, z: 0}
   m_AttackHitbox: {fileID: 4525616761048888970}
@@ -128,7 +128,7 @@ MonoBehaviour:
   HealthBar: {fileID: 0}
   m_BackgroundHealthBar: {fileID: 0}
   health: 0
-  maxHealth: 200
+  maxHealth: 150
 --- !u!114 &4255025459673093059
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -266,7 +266,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c65dbc358c0076439cb98a1308ac7cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 25
+  damage: 10
   weaponType: 0
   mStunLength: 0
   mKnockback: 0

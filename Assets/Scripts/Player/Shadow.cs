@@ -61,6 +61,7 @@ public class Shadow : MonoBehaviour
     [SerializeField] private float m_ShotMovementSpeed = 0.1f;
     [SerializeField] private float m_ShotMovementDuration = 0.1f;
     [SerializeField] private AnimationCurve m_ShotMovement;
+    [SerializeField] private SkillButtonController m_RangedAttackUI;
     private float mShotMovementTimer = 0;
     private bool mRangedStepping = false;
     private float mLastShot = -9999;
@@ -74,6 +75,7 @@ public class Shadow : MonoBehaviour
     [SerializeField] private float m_StabBaseSpeed;
     [SerializeField] private float m_StabDuration;
     [SerializeField] private AnimationCurve StabAttackCurve;
+    [SerializeField] private SkillButtonController m_StabAttackUI;
     private float mStabChargeTime;
     private float mStabLastCast = -99999;
     private float mStabTime = 0;
@@ -102,6 +104,7 @@ public class Shadow : MonoBehaviour
     [SerializeField] private GameObject m_VoidAoE;
     [SerializeField] private GameObject m_VoidAimIndicator;
     [SerializeField] private float m_VoidCD;
+    [SerializeField] private SkillButtonController m_BlackHoleUI;
     private float mVoidLastCastTime = -9999;
     private bool mAimingVoid = false;
     private Vector3 AimSpawn;
@@ -334,6 +337,7 @@ public class Shadow : MonoBehaviour
             Player.SetStateAttacking();
             Player.rotateToAim();
             MyAnimator.SetTrigger(AnimationTriggersStatic.GetShadowProjectile());
+            m_RangedAttackUI?.ChangeButtonState(SkillButtonController.SkillButtonStates.Cooldown, shootCooldown);
         }
     }
 
@@ -398,6 +402,7 @@ public class Shadow : MonoBehaviour
                 mStabAttacking = true;
                 m_StabWeaponObject.SetActive(true);
                 mStabTime = 0;
+                m_StabAttackUI?.ChangeButtonState(SkillButtonController.SkillButtonStates.Cooldown, m_StabCD);
             }
         }
     }
@@ -454,7 +459,7 @@ public class Shadow : MonoBehaviour
                 mDashTime = 0;
                 mDashAttacking = true;
                 m_DashWeapon.SetActive(true);
-                m_DashAttackUI.ChangeButtonState(SkillButtonController.SkillButtonStates.Cooldown, m_DashCD);
+                m_DashAttackUI?.ChangeButtonState(SkillButtonController.SkillButtonStates.Cooldown, m_DashCD);
             }
         }
     }
@@ -464,6 +469,7 @@ public class Shadow : MonoBehaviour
         {
             Player.rotateToAim();
             mDashChargeTime += Time.deltaTime;
+            m_DashAttackUI.ChangeButtonState(SkillButtonController.SkillButtonStates.Charging, chargePercentage : (mDashChargeTime / m_DashMaxChargeTime));
         }
     }
     private void HandleDashAttack()
@@ -516,6 +522,7 @@ public class Shadow : MonoBehaviour
                     Destroy(VoidAim);
                     mAimingVoid = false;
                     mVoidLastCastTime = Time.time;
+                    m_BlackHoleUI?.ChangeButtonState(SkillButtonController.SkillButtonStates.Cooldown, m_VoidCD);
                 }
             }
         }
@@ -530,7 +537,7 @@ public class Shadow : MonoBehaviour
                 mLastDodgeTime = Time.time;
                 DodgeInterrupt();
                 Player.OnDodge();
-                m_DodgeUI.ChangeButtonState(SkillButtonController.SkillButtonStates.Cooldown, m_DodgeCD);
+                m_DodgeUI?.ChangeButtonState(SkillButtonController.SkillButtonStates.Cooldown, m_DodgeCD);
             }
         }
     }
