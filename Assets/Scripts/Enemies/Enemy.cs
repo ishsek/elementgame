@@ -276,7 +276,14 @@ public abstract class Enemy : MonoBehaviour
 
     public void Root()
     {
-        state = State.Rooted;
+        if (state != State.Dead)
+        {
+            if (mMoving)
+            {
+                mMoving = false;
+            }
+            state = State.Rooted;
+        }
     }
 
     public virtual void SetStateAttacking()

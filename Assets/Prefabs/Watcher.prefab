@@ -89,8 +89,8 @@ MonoBehaviour:
   WaypointPrefab: {fileID: 8063987161175795617, guid: ee60583e4e84c8f4c8aad495cd76fd09,
     type: 3}
   rb: {fileID: 4050034514257829557}
-  m_AttackCD: 3
-  speed: 8
+  m_AttackCD: 1
+  speed: 3
   attackRange: 10
   aggroRange: 18
   InitialDifficultyLevel: 100
@@ -162,10 +162,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.35
   m_Height: 2
   m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 1, z: -0.1}
 --- !u!1 &8687050489699560788
 GameObject:
   m_ObjectHideFlags: 0
