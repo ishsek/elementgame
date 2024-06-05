@@ -23,11 +23,11 @@ public class Mage : Enemy
     public override void SetStun(float duration)
     {
         base.SetStun(duration);
+        mCurrentStage = AttackStage.Charging;
         if (mAimIndicator != null )
         {
             Destroy(mAimIndicator);
         }
-        mCurrentStage = AttackStage.Charging;
     }
 
     public void Aim()

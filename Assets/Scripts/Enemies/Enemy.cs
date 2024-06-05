@@ -282,6 +282,7 @@ public abstract class Enemy : MonoBehaviour
             if (mMoving)
             {
                 mMoving = false;
+                EnemyAnimator.SetTrigger(AnimationTriggersStatic.GetEnemyIdleTrigger());
             }
             state = State.Rooted;
         }
@@ -289,7 +290,7 @@ public abstract class Enemy : MonoBehaviour
 
     public virtual void SetStateAttacking()
     {
-        if (state != State.Attacking)
+        if (state != State.Attacking && state != State.Dead)
         {
             state = State.Attacking;
             rb.velocity = new Vector3(0, 0, 0);
@@ -302,7 +303,7 @@ public abstract class Enemy : MonoBehaviour
 
     public virtual void SetStateAgro()
     {
-        if (state != State.Agro)
+        if (state != State.Agro && state != State.Dead)
         {
             if (!mMoving)
             {
@@ -316,7 +317,7 @@ public abstract class Enemy : MonoBehaviour
 
     public virtual void SetStateLeash()
     {
-        if (state != State.Leash)
+        if (state != State.Leash && state != State.Dead)
         {
             if (!mMoving)
             {
@@ -330,7 +331,7 @@ public abstract class Enemy : MonoBehaviour
 
     public virtual void SetStateNormal()
     {
-        if (state != State.Normal)
+        if (state != State.Normal && state != State.Dead)
         {
             if (mMoving)
             {
@@ -344,7 +345,7 @@ public abstract class Enemy : MonoBehaviour
 
     public virtual void SetStateTargeting()
     {
-        if (state != State.Targeting)
+        if (state != State.Targeting && state != State.Dead)
         {
             if (mMoving)
             {
