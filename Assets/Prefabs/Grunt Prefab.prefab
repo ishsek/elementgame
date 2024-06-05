@@ -125,9 +125,9 @@ MonoBehaviour:
     type: 3}
   rb: {fileID: 1681454889729064682}
   m_AttackCD: 2
-  speed: 2
+  speed: 5
   attackRange: 1
-  aggroRange: 5
+  aggroRange: 20
   InitialDifficultyLevel: 100
   playerDirection: {x: 0, y: 0, z: 0}
   m_AttackHitbox: {fileID: 4525616761048888970}

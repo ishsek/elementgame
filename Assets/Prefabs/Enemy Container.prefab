@@ -109,7 +109,7 @@ MonoBehaviour:
   m_AttackCD: 1
   speed: 4
   attackRange: 1
-  aggroRange: 10
+  aggroRange: 20
   InitialDifficultyLevel: 100
   playerDirection: {x: 0, y: 0, z: 0}
   m_AttackHitbox: {fileID: 4525616761048888970}

@@ -165,7 +165,7 @@ Transform:
   - {fileID: 7805516325775664342}
   - {fileID: 6091583681999700230}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &7640428426509790836
 MeshFilter:
@@ -260,7 +260,10 @@ MonoBehaviour:
   - {fileID: 7805516325775664342}
   - {fileID: 6091583681999700230}
   m_PossibleEnemies:
-  - EnemyType: {fileID: 8671574860220423560, guid: 379b770706acb7b40a539e1b02e4a3f3,
+  - EnemyType: {fileID: 788628788038836307, guid: 7923a9d8df90f344c92329176bd5c7aa,
+      type: 3}
+    EnemyWeight: 3
+  - EnemyType: {fileID: 2785150204309134549, guid: 07fff53bb12d5194e81cf9ff50abaf72,
       type: 3}
     EnemyWeight: 3
   mEnemySpawnedTracker: []

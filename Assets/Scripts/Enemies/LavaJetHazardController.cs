@@ -34,4 +34,9 @@ public class LavaJetHazardController : MonoBehaviour
             mCurrentTime = 0;
         }
     }
+
+    public bool GetFirePlaying()
+    {
+        return mFirePlaying;
+    }
 }
