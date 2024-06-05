@@ -11,7 +11,6 @@ public class BlackHole : MonoBehaviour
     public float VoidDamage;
     [SerializeField] private float m_VoidPullStrength;
     [SerializeField] private float m_VoidTickRate;
-    [SerializeField] private float m_VoidRadius;
     [SerializeField] private float m_VoidDuration;
     private float mEndTime;
     // Table that records when the next damage tick should occur for each enemy present.

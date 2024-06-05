@@ -121,5 +121,5 @@ MonoBehaviour:
   VoidDamage: 5
   m_VoidPullStrength: 3
   m_VoidTickRate: 0.25
-  m_VoidRadius: 0
+  m_VoidRadius: 0.5
   m_VoidDuration: 4
