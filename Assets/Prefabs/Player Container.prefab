@@ -547,6 +547,8 @@ MonoBehaviour:
     m_SingletonActionBindings: []
     m_Flags: 0
   playerInput: {fileID: 2922025672014161721}
+  m_CameraTransform: {fileID: 0}
+  m_ShadowScript: {fileID: 7978207243456297110}
   DodgeCurve:
     serializedVersion: 2
     m_Curve:
@@ -907,6 +909,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HealthBar: {fileID: 0}
+  m_BackgroundHealthBar: {fileID: 0}
   health: 0
   maxHealth: 100
 --- !u!114 &7978207243456297110
@@ -1280,6 +1283,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  m_RangedAttackUI: {fileID: 0}
   m_StabWeaponObject: {fileID: 5955748741933746490}
   m_StabWeaponScript: {fileID: 1589621635692330174}
   m_StabCD: 2
@@ -1320,6 +1324,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  m_StabAttackUI: {fileID: 0}
   m_DashWeapon: {fileID: 6058331112918773595}
   m_DashWeaponScript: {fileID: 3378969566994234029}
   m_DashCD: 2
@@ -1367,7 +1372,50 @@ MonoBehaviour:
   m_VoidAimIndicator: {fileID: 7332445863770519187, guid: b6b7e53eb2a5a114091b18f0b8fa121f,
     type: 3}
   m_VoidCD: 5
+  m_BlackHoleUI: {fileID: 0}
   DodgeCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: -0.0035943447
+      outSlope: -0.0035943447
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.16312595
+    - serializedVersion: 3
+      time: 0.3284555
+      value: 0.0008666443
+      inSlope: 0.082933754
+      outSlope: 0.082933754
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.3152111
+    - serializedVersion: 3
+      time: 0.6593323
+      value: 0.9903475
+      inSlope: 0.041702032
+      outSlope: 0.041702032
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: -0.030025441
+      outSlope: -0.030025441
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.3478756
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  DodgeCurveNoAnim:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
@@ -1400,7 +1448,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  DodgeSpeed: 9
+  DodgeSpeed: 7
   DodgeDuration: 0.3
   m_DodgeCD: 2
   m_DodgeUI: {fileID: 0}
@@ -2532,7 +2580,7 @@ Transform:
   m_GameObject: {fileID: 5955748741933746490}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 1.5}
-  m_LocalScale: {x: 1, y: 1.5, z: 2}
+  m_LocalScale: {x: 0.25, y: 1.5, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3964770846624126425}

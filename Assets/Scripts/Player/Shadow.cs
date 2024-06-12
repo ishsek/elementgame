@@ -111,24 +111,43 @@ public class Shadow : MonoBehaviour
 
     [Header("Dodging")]
     public AnimationCurve DodgeCurve;
+    public AnimationCurve DodgeCurveNoAnim;
     [SerializeField] private float DodgeSpeed;
     [SerializeField] private float DodgeDuration;
     [SerializeField] private float m_DodgeCD;
     [SerializeField] private SkillButtonController m_DodgeUI;
     private float mLastDodgeTime = -9999;
 
+    private bool mIsActive = false;
+
     void Update()
     {
-        //CheckMeleeTimer();
-        HandlePrimaryStep();
-        HandleSecondaryStep();
-        HandleRangedStep();
-        //CheckShootTimer();
-        ChargeDash();
-        HandleDashAttack();
-        ChargeStab();
-        HandleStab();
-        //mComboTimer += Time.deltaTime;
+        if (mIsActive)
+        {
+            //CheckMeleeTimer();
+            HandlePrimaryStep();
+            HandleSecondaryStep();
+            HandleRangedStep();
+            //CheckShootTimer();
+            ChargeDash();
+            HandleDashAttack();
+            ChargeStab();
+            HandleStab();
+            //mComboTimer += Time.deltaTime;
+        }
+    }
+
+    public void EnableShadowElement()
+    {
+        mIsActive = true;
+        Player.DodgeCurve = DodgeCurveNoAnim;
+        Player.DodgeDuration = DodgeDuration;
+        Player.DodgeSpeed = DodgeSpeed;
+    }
+
+    public void DisableShadowElement()
+    {
+        mIsActive = false;
     }
 
     public void Attack1(InputAction.CallbackContext context)
@@ -567,10 +586,12 @@ public class Shadow : MonoBehaviour
     private void DodgeInterrupt()
     {
         InterruptAttack();
-        MyAnimator.SetTrigger(AnimationTriggersStatic.GetShadowDodge()); ;
+        //MyAnimator.SetTrigger(AnimationTriggersStatic.GetShadowDodge());
     }
     private void InterruptAttack()
     {
+        MyAnimator.SetTrigger("InterruptAttack");
+
         // Return to Normal State
         Player.SetStateNormal();
 

@@ -17,11 +17,12 @@ public class PlayerController : MonoBehaviour
     private int mPlayerLayer = 6;
     private int mEnemyLayer = 7;
     private int mEnemyWeaponLayer = 9;
+    [SerializeField] private Shadow m_ShadowScript;
 
     [Header("Dodging")]
     public AnimationCurve DodgeCurve;
-    [SerializeField] private float DodgeSpeed;
-    [SerializeField] private float DodgeDuration;
+    public float DodgeSpeed;
+    public float DodgeDuration;
     private float DodgeTime;
 
     [Header("Movement")]
@@ -95,21 +96,22 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        UpdateMovementInput();
+        //UpdateMovementInput();
         HandleAim();
         switch (state)
         {
             case State.Normal:
+                UpdateMovementInput();
                 MovePlayer();
                 break;
             case State.Dodging:
                 HandleDodge();
                 break;
             case State.Attacking:
-                
+                UpdateMovementInput();
                 break;
             case State.ControllerAiming:
-                //MovePlayer();
+                UpdateMovementInput();
                 ControllerAimAbility();
                 break;
         }
@@ -161,6 +163,7 @@ public class PlayerController : MonoBehaviour
     {
         DodgeTime += Time.deltaTime;
         Movement = Movement.normalized;
+        rb.MoveRotation(Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Movement), 0.15f));
         rb.velocity = Movement * DodgeSpeed * DodgeCurve.Evaluate(DodgeTime / DodgeDuration);
         if (DodgeTime > DodgeDuration)
         {
@@ -326,6 +329,7 @@ public class PlayerController : MonoBehaviour
             {
                 case Element.Shadow:
                     SetElementShadow();
+                    m_ShadowScript.EnableShadowElement();
                     break;
                 case Element.Light:
 
@@ -354,6 +358,7 @@ public class PlayerController : MonoBehaviour
         {
             case Element.Shadow:
                 playerInput.actions.FindActionMap("Shadow").Disable();
+                m_ShadowScript.DisableShadowElement();
                 break;
             case Element.Light:
 
@@ -379,6 +384,7 @@ public class PlayerController : MonoBehaviour
     private void SetElementShadow()
     {
         playerInput.actions.FindActionMap("Shadow").Enable();
+        m_ShadowScript.EnableShadowElement();
         ActiveElement = Element.Shadow;
     }
 

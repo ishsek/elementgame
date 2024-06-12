@@ -20,4 +20,11 @@ public class Grunt : Enemy
     {
         m_AttackHitbox.SetActive(false);
     }
+
+    public override void SetStateDead()
+    {
+        base.SetStateDead();
+        m_AttackHitbox.SetActive(false);
+        EnemyAnimator.SetTrigger(AnimationTriggersStatic.GetEnemyDeathTrigger());
+    }
 }

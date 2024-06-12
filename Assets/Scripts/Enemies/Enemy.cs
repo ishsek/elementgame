@@ -80,9 +80,7 @@ public abstract class Enemy : MonoBehaviour
     {
         if ((state != State.Dead) && (HealthScript.GetHealth() <= 0))
         {
-            state = State.Dead;
-            // do a ragdoll or something
-            EnemyAnimator.SetTrigger(AnimationTriggersStatic.GetEnemyDeathTrigger());
+            SetStateDead();
         }
 
         switch (state)
@@ -356,6 +354,20 @@ public abstract class Enemy : MonoBehaviour
         }
         // Add idle animation call in subclass override
     }
+
+    public virtual void SetStateDead()
+    {
+        if (state != State.Dead)
+        {
+            if (mMoving)
+            {
+                mMoving = false;
+            }
+            state = State.Dead;
+        }
+        // Add idle animation call in subclass override
+    }
+
     public virtual void EndAttack()
     {
         if (state == State.Attacking)

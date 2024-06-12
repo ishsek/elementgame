@@ -75,5 +75,12 @@ public class Mage : Enemy
                 break;
         }
     }
-
+    public override void SetStateDead()
+    {
+        base.SetStateDead();
+        if (mAimIndicator != null)
+        {
+            Destroy(mAimIndicator);
+        }
+    }
 }
