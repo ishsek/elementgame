@@ -79,4 +79,14 @@ public class AnimationEventHandler : MonoBehaviour
         m_Shadow.FireProjectile();
     }
 
+    public void ShadowHealTrigger()
+    {
+        m_Shadow.Heal();
+    }
+
+    public void ShadowHealEnd()
+    {
+        m_Shadow.EndProjectileAttack();
+    }
+
 }

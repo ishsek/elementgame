@@ -314,6 +314,15 @@
                     "processors": "",
                     "interactions": "Press(behavior=1)",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Support Ability",
+                    "type": "Button",
+                    "id": "e12162ff-acb3-4f29-b430-754166d386ba",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -468,6 +477,17 @@
                     "processors": "",
                     "groups": "Gamepad",
                     "action": "Ability4Controller",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8bc9e796-1e02-49b5-bc4c-bcae374e23cf",
+                    "path": "<Keyboard>/c",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KBM",
+                    "action": "Support Ability",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

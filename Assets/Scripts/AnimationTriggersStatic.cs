@@ -51,6 +51,9 @@ public static class AnimationTriggersStatic
     private static string ShadowDashFire = "ShadowDashFire";
     public static string GetShadowDashFire() { return ShadowDashFire; }
 
+    private static string ShadowHeal = "ShadowHeal";
+    public static string GetShadowHeal() { return ShadowHeal; }
+
     // Enemy
     private static string EnemyAttackTrigger = "Attack";
     public static string GetEnemyAttackTrigger() { return EnemyAttackTrigger; }

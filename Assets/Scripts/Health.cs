@@ -66,6 +66,22 @@ public class Health : MonoBehaviour
         }
     }
 
+    public void Heal(float amount)
+    {
+
+        if (health + amount > maxHealth)
+        {
+            health = maxHealth;
+        }
+        else
+        {
+            health += amount;
+        }
+
+        HealthBar.fillAmount = health / maxHealth;
+
+    }
+
     public void SetHealthBar(Image healthBarRef, Image backgorundHealthBarRef)
     {
         HealthBar = healthBarRef;

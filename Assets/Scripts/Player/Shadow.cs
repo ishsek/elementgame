@@ -118,11 +118,18 @@ public class Shadow : MonoBehaviour
     [SerializeField] private SkillButtonController m_DodgeUI;
     private float mLastDodgeTime = -9999;
 
-    private bool mIsActive = false;
+    [Header("Stance Switching")]
+    private bool mElementIsActive = false;
+
+    [Header("Healing")]
+    [SerializeField] private Health m_PlayerHP;
+    [SerializeField] private float m_HealAmount;
+    [SerializeField] private float m_HealCD;
+    private float mLastHealTime = -9999;
 
     void Update()
     {
-        if (mIsActive)
+        if (mElementIsActive)
         {
             //CheckMeleeTimer();
             HandlePrimaryStep();
@@ -139,7 +146,7 @@ public class Shadow : MonoBehaviour
 
     public void EnableShadowElement()
     {
-        mIsActive = true;
+        mElementIsActive = true;
         Player.DodgeCurve = DodgeCurveNoAnim;
         Player.DodgeDuration = DodgeDuration;
         Player.DodgeSpeed = DodgeSpeed;
@@ -147,7 +154,7 @@ public class Shadow : MonoBehaviour
 
     public void DisableShadowElement()
     {
-        mIsActive = false;
+        mElementIsActive = false;
     }
 
     public void Attack1(InputAction.CallbackContext context)
@@ -557,6 +564,25 @@ public class Shadow : MonoBehaviour
                 DodgeInterrupt();
                 Player.OnDodge();
                 m_DodgeUI?.ChangeButtonState(SkillButtonController.SkillButtonStates.Cooldown, m_DodgeCD);
+            }
+        }
+    }
+
+    public void Heal()
+    {
+        m_PlayerHP.Heal(m_HealAmount);
+    }
+
+    public void CastHeal(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            if (Time.time > mLastHealTime + m_HealCD)
+            {
+                mLastHealTime = Time.time;
+                InterruptAttack();
+                Player.SetStateAttacking();
+                MyAnimator.SetTrigger(AnimationTriggersStatic.GetShadowHeal());
             }
         }
     }
