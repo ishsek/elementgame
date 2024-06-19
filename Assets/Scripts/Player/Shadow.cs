@@ -581,6 +581,7 @@ public class Shadow : MonoBehaviour
             {
                 mLastHealTime = Time.time;
                 InterruptAttack();
+                Player.HaltMovement();
                 Player.SetStateAttacking();
                 MyAnimator.SetTrigger(AnimationTriggersStatic.GetShadowHeal());
             }
