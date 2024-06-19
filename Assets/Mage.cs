@@ -43,10 +43,13 @@ public class Mage : Enemy
 
     public void Fire()
     {
-        GameObject AttackObject = Instantiate(m_AttackPrefab, mAimIndicator.transform.position, transform.rotation);
-        Destroy(mAimIndicator);
-        Destroy(AttackObject, m_AttackDuration);
-        mCurrentStage = AttackStage.Recovering;
+        if ((mAimIndicator != null))
+        {
+            GameObject AttackObject = Instantiate(m_AttackPrefab, mAimIndicator.transform.position, transform.rotation);
+            Destroy(mAimIndicator);
+            Destroy(AttackObject, m_AttackDuration);
+            mCurrentStage = AttackStage.Recovering;
+        }
     }
 
     protected override void DoAttack()

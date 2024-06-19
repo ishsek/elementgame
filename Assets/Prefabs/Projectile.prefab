@@ -34,7 +34,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: -1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &6272420028757606479
 MeshFilter:
@@ -147,6 +147,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 25
-  weaponType: 1
-  mStunLength: 0
-  mKnockback: 0
+  weaponType: 2
+  m_BlocksAttacks: 1
+  m_Blockable: 1
+  m_StunLength: 0
+  m_Knockback: 0
