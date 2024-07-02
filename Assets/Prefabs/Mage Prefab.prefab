@@ -127,7 +127,7 @@ MonoBehaviour:
   speed: 3
   attackRange: 10
   aggroRange: 20
-  InitialDifficultyLevel: 100
+  InitialDifficultyLevel: 300
   playerDirection: {x: 0, y: 0, z: 0}
   m_AimIndicatorPrefab: {fileID: 7332445863770519187, guid: 81d7e92721fea1047bcf5d8df8c86799,
     type: 3}

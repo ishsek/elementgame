@@ -1327,8 +1327,8 @@ MonoBehaviour:
   m_StabAttackUI: {fileID: 0}
   m_DashWeapon: {fileID: 6058331112918773595}
   m_DashWeaponScript: {fileID: 3378969566994234029}
-  m_DashCD: 2
-  m_DashMaxChargeTime: 1
+  m_DashCD: 5
+  m_DashMaxChargeTime: 0.5
   m_DashMaxDamage: 200
   m_DashMaxLength: 0.5
   m_DashBaseSpeed: 30
@@ -1448,8 +1448,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  DodgeSpeed: 7
-  DodgeDuration: 0.3
+  DodgeSpeed: 8
+  DodgeDuration: 0.5
   m_DodgeCD: 2
   m_DodgeUI: {fileID: 0}
 --- !u!136 &1881057667793179750
@@ -2950,7 +2950,7 @@ MonoBehaviour:
   damage: 50
   weaponType: 0
   mStunLength: 1
-  mKnockback: 75
+  mKnockback: 30
 --- !u!1 &6596851721109129179
 GameObject:
   m_ObjectHideFlags: 0

@@ -89,7 +89,7 @@ MonoBehaviour:
   WaypointPrefab: {fileID: 8063987161175795617, guid: ee60583e4e84c8f4c8aad495cd76fd09,
     type: 3}
   rb: {fileID: 4050034514257829557}
-  m_AttackCD: 1
+  m_AttackCD: 4
   speed: 3
   attackRange: 10
   aggroRange: 18
