@@ -439,6 +439,7 @@ public class Shadow : MonoBehaviour
         {
             Player.rotateToAim();
             mStabChargeTime += Time.deltaTime;
+            m_StabAttackUI?.ChangeButtonState(SkillButtonController.SkillButtonStates.Charging, chargePercentage: mStabChargeTime / m_StabMaxChargeTime);
         }
     }
 
