@@ -894,7 +894,7 @@ Rigidbody:
   m_GameObject: {fileID: 1692330624162870052}
   serializedVersion: 4
   m_Mass: 10
-  m_Drag: 0
+  m_Drag: 1
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
@@ -2974,8 +2974,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 50
   weaponType: 0
-  mStunLength: 1
-  mKnockback: 30
+  m_BlocksAttacks: 0
+  m_Blockable: 1
+  m_StunLength: 0.25
+  m_Knockback: 0
 --- !u!1 &6596851721109129179
 GameObject:
   m_ObjectHideFlags: 0

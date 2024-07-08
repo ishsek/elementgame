@@ -232,7 +232,7 @@ public abstract class Enemy : MonoBehaviour
             mStunDuration = 0f;
             mStunTimer = 0f;
             //EnemyAnimator.ResetTrigger(AnimationTriggersStatic.GetEnemyIdleTrigger());
-            state = State.Normal;
+            SetStateTargeting();
         }
     }
 
