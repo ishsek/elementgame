@@ -6,7 +6,9 @@ using UnityEngine;
 public class Charger : Enemy
 {
     [SerializeField] private float m_ChargeSpeed;
+    [SerializeField] private float m_ChargeDuration;
     [SerializeField] private float m_ChargeTurnMaxDegrees;
+    [SerializeField] private float m_RecoveryDuration;
     [SerializeField] private GameObject m_ChargeHitbox;
     private enum AttackStage
     {
@@ -27,13 +29,25 @@ public class Charger : Enemy
         {
             rb.MoveRotation(Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(playerDirectionNorm), m_ChargeTurnMaxDegrees));
             rb.velocity = transform.forward * m_ChargeSpeed;
+            if (Time.time > mLastAttack + m_ChargeDuration)
+            {
+                Recover();
+            }
+        }
+        else if (mCurrentStage == AttackStage.Recovering)
+        {
+            if (Time.time > mLastAttack + m_ChargeDuration + m_RecoveryDuration)
+            {
+                EndAttack();
+            }
+            rb.MoveRotation(Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(playerDirectionNorm), 0.5f));
         }
     }
 
     public override void SetStateAttacking()
     {
-        mCurrentStage = AttackStage.Roaring;
         base.SetStateAttacking();
+        mCurrentStage = AttackStage.Roaring;
     }
 
     public void Charge()
@@ -44,8 +58,9 @@ public class Charger : Enemy
 
     public void Recover()
     {
-        mCurrentStage = AttackStage.Recovering;
         m_ChargeHitbox.SetActive(false);
+        mCurrentStage = AttackStage.Recovering;
+        EnemyAnimator.SetTrigger(AnimationTriggersStatic.GetEnemyIdleTrigger());
     }
 
     public override void SetStun(float duration)
@@ -59,5 +74,10 @@ public class Charger : Enemy
         base.SetStateDead();
         m_ChargeHitbox.SetActive(false);
         EnemyAnimator.SetTrigger(AnimationTriggersStatic.GetEnemyDeathTrigger());
+    }
+
+    public override void EndAttack()
+    {
+        SetStateNormal();
     }
 }
