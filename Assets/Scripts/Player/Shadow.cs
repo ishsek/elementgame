@@ -10,6 +10,7 @@ public class Shadow : MonoBehaviour
     [Header("References")]
     public PlayerController Player;
     public Animator MyAnimator;
+    [SerializeField] GameObject m_ShadowModel;
 
     [Header("Melee")]
     public GameObject Melee;
@@ -17,16 +18,10 @@ public class Shadow : MonoBehaviour
     [SerializeField] private List<AnimationCurve> m_PrimaryAttackCurves;
     [SerializeField] private float m_PrimaryStepSpeed;
     [SerializeField] private float m_PrimaryStepDuration;
-    //[SerializeField] private List<float> m_AtkStartup;// = new float[] { 0.3f, 0.6f, 1.3f };
-    //[SerializeField] private List<float> m_AtkActive;// = new float[] { 0.3f, 0.5f, 0.45f };
-    //[SerializeField] private List<float> m_AtkRecovery;// = new float[] { 0.25f, 0.5f, 0.5f };
     [SerializeField] private AnimationCurve m_PrimaryStepCurve;
     [SerializeField] private float m_ComboWindow = 2f;
     private float mAttackMovementTimer = 0;
     private bool mPrimaryStepping = false;
-    //private bool mIsAttacking = false;
-    //private float mAtkTimer = 0f;
-    //private float mComboTimer = 99f;
     private float mLastPrimary = -9999;
     private int mCurrentCombo = 0;
     private int mMaxCombo = 3;
@@ -43,7 +38,6 @@ public class Shadow : MonoBehaviour
     private float mSecondaryMovementTimer = 0;
     private bool mSecondaryStepping = false;
     private int mSecondaryCurrentStep = 0;
-    //private float mSecondaryComboTimer = 99f;
     private float mLastSecondary = -9999;
     private int mSecondaryCurrentCombo = 0;
     private int mSecondaryMaxCombo = 2;
@@ -146,15 +140,18 @@ public class Shadow : MonoBehaviour
 
     public void EnableShadowElement()
     {
+        m_ShadowModel.SetActive(true);
         mElementIsActive = true;
         Player.DodgeCurve = DodgeCurveNoAnim;
         Player.DodgeDuration = DodgeDuration;
         Player.DodgeSpeed = DodgeSpeed;
     }
 
-    public void DisableShadowElement()
+    public void DisableElement()
     {
         mElementIsActive = false;
+        //MyAnimator.SetTrigger(AnimationTriggersStatic.GetDisableElement());
+        m_ShadowModel.SetActive(false);
     }
 
     public void Attack1(InputAction.CallbackContext context)

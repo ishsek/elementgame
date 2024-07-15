@@ -89,4 +89,9 @@ public class AnimationEventHandler : MonoBehaviour
         m_Shadow.EndProjectileAttack();
     }
 
+    public void DisableModel()
+    {
+        m_Shadow.DisableElement();
+    }
+
 }

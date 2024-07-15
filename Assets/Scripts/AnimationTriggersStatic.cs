@@ -17,6 +17,9 @@ public static class AnimationTriggersStatic
     private static string InterruptToIdle = "InterruptAttack";
     public static string GetInterruptToIdle() { return InterruptToIdle; }
 
+    private static string DisableElement = "DisableElement";
+    public static string GetDisableElement() { return DisableElement; }
+
     // Shadow
     private static string EnterShadowMode = "EnterShadowMode";
     public static string GetEnterShadowMode() { return EnterShadowMode; }

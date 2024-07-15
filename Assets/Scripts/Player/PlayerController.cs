@@ -18,6 +18,7 @@ public class PlayerController : MonoBehaviour
     private int mEnemyLayer = 7;
     private int mEnemyWeaponLayer = 9;
     [SerializeField] private Shadow m_ShadowScript;
+    [SerializeField] private Fire m_FireScript;
 
     [Header("Dodging")]
     public AnimationCurve DodgeCurve;
@@ -329,13 +330,12 @@ public class PlayerController : MonoBehaviour
             {
                 case Element.Shadow:
                     SetElementShadow();
-                    m_ShadowScript.EnableShadowElement();
                     break;
                 case Element.Light:
 
                     break;
                 case Element.Fire:
-
+                    SetElementFire();
                     break;
                 case Element.Water:
 
@@ -358,13 +358,14 @@ public class PlayerController : MonoBehaviour
         {
             case Element.Shadow:
                 playerInput.actions.FindActionMap("Shadow").Disable();
-                m_ShadowScript.DisableShadowElement();
+                m_ShadowScript.DisableElement();
                 break;
             case Element.Light:
 
                 break;
             case Element.Fire:
-
+                playerInput.actions.FindActionMap("Fire").Disable();
+                m_FireScript.DisableElement();
                 break;
             case Element.Water:
 
@@ -386,6 +387,13 @@ public class PlayerController : MonoBehaviour
         playerInput.actions.FindActionMap("Shadow").Enable();
         m_ShadowScript.EnableShadowElement();
         ActiveElement = Element.Shadow;
+    }
+
+    private void SetElementFire()
+    {
+        playerInput.actions.FindActionMap("Fire").Enable();
+        ActiveElement = Element.Fire;
+        m_FireScript.EnableElement();
     }
 
     public void SetStateAttacking()
