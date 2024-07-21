@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -11,6 +12,19 @@ public class Shadow : MonoBehaviour
     public PlayerController Player;
     public Animator MyAnimator;
     [SerializeField] GameObject m_ShadowModel;
+    private enum Action
+    {
+        PrimaryAttack1,
+        PrimaryAttack2,
+        PrimaryAttack3,
+        SecondaryAttack1,
+        SecondaryAttack2,
+        Ability1,
+        Ability2,
+        Ability3,
+        Ability4,
+        Ability5,
+    }
 
     [Header("Melee")]
     public GameObject Melee;
@@ -28,6 +42,7 @@ public class Shadow : MonoBehaviour
     private bool mComboQueued = false;
     private bool mPrimaryActive = false;
     private string[] mComboList = new string[] { AnimationTriggersStatic.GetPlayerAttack1(), AnimationTriggersStatic.GetPlayerAttack2(), AnimationTriggersStatic.GetPlayerAttack3() };
+    private Queue<Action> mActionQueue = new Queue<Action>();
 
     [Header("Secondary")]
     public GameObject Secondary;
@@ -125,16 +140,13 @@ public class Shadow : MonoBehaviour
     {
         if (mElementIsActive)
         {
-            //CheckMeleeTimer();
             HandlePrimaryStep();
             HandleSecondaryStep();
             HandleRangedStep();
-            //CheckShootTimer();
             ChargeDash();
             HandleDashAttack();
             ChargeStab();
             HandleStab();
-            //mComboTimer += Time.deltaTime;
         }
     }
 
@@ -163,21 +175,8 @@ public class Shadow : MonoBehaviour
                 Player.HaltMovement();
                 Player.SetStateAttacking();
                 Player.rotateToAim();
-                // Start melee hitbox timer
-                // mIsAttacking = true;
-                mPrimaryActive = true;
-                //mAtkTimer = 0;
-                CheckCombo();
             }
-            else if (mPrimaryActive && !mComboQueued)
-            {
-                if (mCurrentCombo + 1 < mMaxCombo)
-                {
-                    mComboQueued = true;
-                    Player.QueueRotation();
-                    CheckCombo();
-                }
-            }
+            CheckCombo();
         }
     }
 
@@ -206,15 +205,17 @@ public class Shadow : MonoBehaviour
             }
             else
             {
-                Player.SetStateNormal();
                 mPrimaryActive = false;
+                EndAction();
             }
+            
         }
     }
 
     private void CheckCombo()
     {
         // If within combo window, play the attack and update the combo counter
+        mPrimaryActive = true;
         mCurrentCombo++;
         if (Time.time > mLastPrimary + m_ComboWindow || mCurrentCombo >= mMaxCombo)
         {
@@ -223,7 +224,24 @@ public class Shadow : MonoBehaviour
         }
         MyAnimator.SetTrigger(mComboList[mCurrentCombo]);
         mLastPrimary = Time.time;
-        //mComboTimer = 0f;
+        if (!Player.IsNormal())
+        {
+            Player.QueueRotation();
+            switch (mCurrentCombo)
+            {
+                case 0:
+                    mActionQueue.Enqueue(Action.PrimaryAttack1);
+                    break;
+
+                case 1:
+                    mActionQueue.Enqueue(Action.PrimaryAttack2);
+                    break;
+
+                case 2:
+                    mActionQueue.Enqueue(Action.PrimaryAttack3);
+                    break;
+            }
+        }
     }
 
     public void PrimaryStep()
@@ -354,13 +372,22 @@ public class Shadow : MonoBehaviour
     //Projectile
     public void Ability1(InputAction.CallbackContext context)
     {
-        if (Time.time > (mLastShot + shootCooldown) && Player.IsNormal() && context.performed)
+        if (Time.time > (mLastShot + shootCooldown) && context.performed)
         {
-            Player.HaltMovement();
-            Player.SetStateAttacking();
-            Player.rotateToAim();
-            MyAnimator.SetTrigger(AnimationTriggersStatic.GetShadowProjectile());
-            m_RangedAttackUI?.ChangeButtonState(SkillButtonController.SkillButtonStates.Cooldown, shootCooldown);
+            if (Player.IsNormal())
+            {
+                Player.HaltMovement();
+                Player.SetStateAttacking();
+                Player.rotateToAim();
+                MyAnimator.SetTrigger(AnimationTriggersStatic.GetShadowProjectile());
+                m_RangedAttackUI?.ChangeButtonState(SkillButtonController.SkillButtonStates.Cooldown, shootCooldown);
+            }
+            else
+            {
+                MyAnimator.SetTrigger(AnimationTriggersStatic.GetShadowProjectile());
+                mActionQueue.Enqueue(Action.Ability1);
+                Player.QueueRotation();
+            }
         }
     }
 
@@ -586,27 +613,50 @@ public class Shadow : MonoBehaviour
         }
     }
 
-    //private void CheckShootTimer()
-    //{
-    //    if (isShooting)
-    //    {
-    //        if (shootTimer > shootDelay + shootRecovery)
-    //        {
-    //            Player.SetStateNormal();
-    //            isShooting = false;
-    //        }
-    //        else if (shootTimer > shootDelay)
-    //        {
-    //            if (!hasFired)
-    //            {
-    //                GameObject intProjectile = Instantiate(projectile, projectileSpawn.position, projectileSpawn.rotation);
-    //                intProjectile.GetComponent<Rigidbody>().AddForce(projectileSpawn.forward * fireForce, ForceMode.Impulse);
-    //                Destroy(intProjectile, projectileLife);
-    //                hasFired = true;
-    //            }
-    //        }
-    //    }
-    //}
+    public void EndAction()
+    {
+        if (mActionQueue.TryDequeue(out Action NextAction))
+        {
+            if (!Player.IsAttacking())
+            {
+                Player.SetStateAttacking();
+                Player.HaltMovement();
+            }
+            switch(NextAction)
+            {
+                case Action.PrimaryAttack1:
+                    Player.RotateToQueuedClick();
+                    break;
+                case Action.PrimaryAttack2:
+                    Player.RotateToQueuedClick();
+                    break;
+                case Action.PrimaryAttack3:
+                    Player.RotateToQueuedClick();
+                    break;
+                case Action.SecondaryAttack1:
+                    Player.RotateToQueuedClick();
+                    break;
+                case Action.SecondaryAttack2:
+                    Player.RotateToQueuedClick();
+                    break;
+                case Action.Ability1:
+                    Player.RotateToQueuedClick();
+                    break;
+                case Action.Ability2:
+                    break;
+                case Action.Ability3:
+                    break;
+                case Action.Ability4:
+                    break;
+                case Action.Ability5:
+                    break;
+            }
+        }
+        else
+        {
+            Player.SetStateNormal();
+        }
+    }
 
     private void DodgeInterrupt()
     {
@@ -622,6 +672,40 @@ public class Shadow : MonoBehaviour
 
         // Clear Queued Attack Clicks
         Player.ClearRotationQueue();
+
+        while (mActionQueue.Any())
+        {
+            Action action = mActionQueue.Dequeue();
+            switch (action)
+            {
+                case Action.PrimaryAttack1:
+                    MyAnimator.ResetTrigger(mComboList[0]);
+                    break;
+                case Action.PrimaryAttack2:
+                    MyAnimator.ResetTrigger(mComboList[1]);
+                    break;
+                case Action.PrimaryAttack3:
+                    MyAnimator.ResetTrigger(mComboList[2]);
+                    break;
+                case Action.SecondaryAttack1:
+                    MyAnimator.ResetTrigger(mSecondaryComboList[0]);
+                    break;
+                case Action.SecondaryAttack2:
+                    MyAnimator.ResetTrigger(mSecondaryComboList[1]);
+                    break;
+                case Action.Ability1:
+                    
+                    break;
+                case Action.Ability2:
+                    break;
+                case Action.Ability3:
+                    break;
+                case Action.Ability4:
+                    break;
+                case Action.Ability5:
+                    break;
+            }
+        }
 
         // Interrupt Melee
         //mIsAttacking = false;

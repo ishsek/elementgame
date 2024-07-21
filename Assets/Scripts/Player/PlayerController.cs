@@ -171,6 +171,8 @@ public class PlayerController : MonoBehaviour
             state = State.Normal;
             EnableEnemyCollision();
             SetTargetable();
+            // Swap this to an animation event once we have a dodge animation.
+            m_ShadowScript.EndAction();
         }
     }
 

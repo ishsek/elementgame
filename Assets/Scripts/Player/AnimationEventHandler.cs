@@ -94,4 +94,8 @@ public class AnimationEventHandler : MonoBehaviour
         m_Shadow.DisableElement();
     }
 
+    public void EndAction()
+    {
+        m_Shadow.EndAction();
+    }
 }
