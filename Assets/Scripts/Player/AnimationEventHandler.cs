@@ -20,10 +20,6 @@ public class AnimationEventHandler : MonoBehaviour
         m_Shadow.PrimaryStep();
     }
 
-    public void ShadowPrimaryEnd()
-    {
-        m_Shadow.EndPrimaryAttack();
-    }
     public void ShadowSecondaryEnable()
     {
         m_Shadow.EnableSecondaryCollider();
@@ -34,9 +30,13 @@ public class AnimationEventHandler : MonoBehaviour
         m_Shadow.DisableSecondaryCollider();
     }
 
-    public void ShadowSecondaryStep()
+    public void ShadowSecondaryStep1()
     {
-        m_Shadow.SecondaryStep();
+        m_Shadow.SecondaryStep1();
+    }
+    public void ShadowSecondaryStep2()
+    {
+        m_Shadow.SecondaryStep2();
     }
 
     public void ShadowSecondaryEnd()
@@ -97,5 +97,10 @@ public class AnimationEventHandler : MonoBehaviour
     public void EndAction()
     {
         m_Shadow.EndAction();
+    }
+
+    public void CheckActionQueue()
+    {
+        m_Shadow.CheckActionQueue();
     }
 }

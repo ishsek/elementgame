@@ -1291,6 +1291,7 @@ MonoBehaviour:
   projectileLife: 2
   m_ShotMovementSpeed: 3
   m_ShotMovementDuration: 1
+  m_RangedAnimationSpeed: 2
   m_ShotMovement:
     serializedVersion: 2
     m_Curve:

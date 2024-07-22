@@ -42,6 +42,7 @@ public class Shadow : MonoBehaviour
     private bool mComboQueued = false;
     private bool mPrimaryActive = false;
     private string[] mComboList = new string[] { AnimationTriggersStatic.GetPlayerAttack1(), AnimationTriggersStatic.GetPlayerAttack2(), AnimationTriggersStatic.GetPlayerAttack3() };
+    private Action[] mPrimaryActionArray = new Action[] { Action.PrimaryAttack1, Action.PrimaryAttack2, Action.PrimaryAttack3 };
     private Queue<Action> mActionQueue = new Queue<Action>();
 
     [Header("Secondary")]
@@ -59,6 +60,7 @@ public class Shadow : MonoBehaviour
     private bool mSecondaryComboQueued = false;
     private bool mSecondaryActive = false;
     private string[] mSecondaryComboList = new string[] { AnimationTriggersStatic.GetShadowHeavy1(), AnimationTriggersStatic.GetShadowHeavy2(), };
+    private Action[] mSecondaryActionArray = new Action[] { Action.SecondaryAttack1, Action.SecondaryAttack2 };
 
 
     [Header("Ranged")]
@@ -69,11 +71,13 @@ public class Shadow : MonoBehaviour
     [SerializeField] private float projectileLife = 2f;
     [SerializeField] private float m_ShotMovementSpeed = 0.1f;
     [SerializeField] private float m_ShotMovementDuration = 0.1f;
+    [SerializeField] private float m_RangedAnimationSpeed;
     [SerializeField] private AnimationCurve m_ShotMovement;
     [SerializeField] private SkillButtonController m_RangedAttackUI;
     private float mShotMovementTimer = 0;
     private bool mRangedStepping = false;
     private float mLastShot = -9999;
+    private bool mAbility1Queued = false;
 
     [Header("Stab")]
     [SerializeField] private GameObject m_StabWeaponObject;
@@ -90,6 +94,7 @@ public class Shadow : MonoBehaviour
     private float mStabTime = 0;
     private bool mChargingStab = false;
     private bool mStabAttacking = false;
+    private bool mAbility2Queued = false;
 
     [Header("Dash Attack")]
     [SerializeField] private GameObject m_DashWeapon;
@@ -107,6 +112,7 @@ public class Shadow : MonoBehaviour
     private bool mChargingDash = false;
     private bool mDashAttacking = false;
     private float mDashDuration;
+    private bool mAbility3Queued = false;
 
     [Header("Black Hole")]
     public GameObject VoidAim;
@@ -117,6 +123,7 @@ public class Shadow : MonoBehaviour
     private float mVoidLastCastTime = -9999;
     private bool mAimingVoid = false;
     private Vector3 AimSpawn;
+    private bool mAbility4Queued = false;
 
     [Header("Dodging")]
     public AnimationCurve DodgeCurve;
@@ -172,11 +179,32 @@ public class Shadow : MonoBehaviour
         {
             if (Player.IsNormal())
             {
+                mPrimaryActive = true;
                 Player.HaltMovement();
                 Player.SetStateAttacking();
                 Player.rotateToAim();
+                // If within combo window, play the attack and update the combo counter
+                mCurrentCombo++;
+                if (Time.time > mLastPrimary + m_ComboWindow || mCurrentCombo >= mMaxCombo)
+                {
+                    mCurrentCombo = 0;
+                }
+                MyAnimator.SetTrigger(mComboList[mCurrentCombo]);
+                mLastPrimary = Time.time;
             }
-            CheckCombo();
+            else if (!mComboQueued)
+            {
+                mComboQueued = true;
+                mCurrentCombo++;
+                if (Time.time > mLastPrimary + m_ComboWindow || mCurrentCombo >= mMaxCombo)
+                {
+                    mCurrentCombo = 0;
+                }
+                //MyAnimator.SetTrigger(mComboList[mCurrentCombo]);
+                mLastPrimary = Time.time;
+                Player.QueueRotation();
+                mActionQueue.Enqueue(mPrimaryActionArray[mCurrentCombo]);
+            }
         }
     }
 
@@ -190,59 +218,22 @@ public class Shadow : MonoBehaviour
 
     public void DisablePrimaryCollider()
     {
-        Melee.SetActive(false);
-    }
-
-    public void EndPrimaryAttack()
-    {
-        if(mPrimaryActive)
+        if (mPrimaryActive)
         {
-            if (mComboQueued)
-            {
-                //mAtkTimer = 0;
-                Player.RotateToQueuedClick();
-                mComboQueued = false;
-            }
-            else
-            {
-                mPrimaryActive = false;
-                EndAction();
-            }
-            
+            Melee.SetActive(false);
         }
     }
 
-    private void CheckCombo()
-    {
-        // If within combo window, play the attack and update the combo counter
-        mPrimaryActive = true;
-        mCurrentCombo++;
-        if (Time.time > mLastPrimary + m_ComboWindow || mCurrentCombo >= mMaxCombo)
-        {
-            mCurrentCombo = 0;
-            mComboQueued = false;
-        }
-        MyAnimator.SetTrigger(mComboList[mCurrentCombo]);
-        mLastPrimary = Time.time;
-        if (!Player.IsNormal())
-        {
-            Player.QueueRotation();
-            switch (mCurrentCombo)
-            {
-                case 0:
-                    mActionQueue.Enqueue(Action.PrimaryAttack1);
-                    break;
-
-                case 1:
-                    mActionQueue.Enqueue(Action.PrimaryAttack2);
-                    break;
-
-                case 2:
-                    mActionQueue.Enqueue(Action.PrimaryAttack3);
-                    break;
-            }
-        }
-    }
+    //private void CheckCombo()
+    //{
+    //    // If within combo window, play the attack and update the combo counter
+        
+    //    if (!Player.IsNormal())
+    //    {
+    //        Player.QueueRotation();
+    //        mActionQueue.Enqueue(mPrimaryActionArray[mSecondaryCurrentCombo]);
+    //    }
+    //}
 
     public void PrimaryStep()
     {
@@ -273,22 +264,32 @@ public class Shadow : MonoBehaviour
         {
             if (Player.IsNormal())
             {
+                // Start melee hitbox timer
+                mSecondaryActive = true;
                 Player.HaltMovement();
                 Player.SetStateAttacking();
                 Player.rotateToAim();
-                // Start melee hitbox timer
-                mSecondaryActive = true;
-                //mAtkTimer = 0;
-                CheckSecondaryCombo();
-            }
-            else if (mSecondaryActive && !mSecondaryComboQueued)
-            {
-                if (mSecondaryCurrentCombo + 1 < mSecondaryMaxCombo)
+                // If within combo window, play the attack and update the combo counter
+                mSecondaryCurrentCombo++;
+                if (Time.time > mLastSecondary + m_SecondaryComboWindow || mSecondaryCurrentCombo >= mSecondaryMaxCombo)
                 {
-                    mSecondaryComboQueued = true;
-                    Player.QueueRotation();
-                    CheckSecondaryCombo();
+                    mSecondaryCurrentCombo = 0;
                 }
+                MyAnimator.SetTrigger(mSecondaryComboList[mSecondaryCurrentCombo]);
+                mLastSecondary = Time.time;
+            }
+            else if (!mSecondaryComboQueued)
+            {
+                mSecondaryComboQueued = true;
+                mSecondaryCurrentCombo++;
+                if (Time.time > mLastSecondary + m_SecondaryComboWindow || mSecondaryCurrentCombo >= mSecondaryMaxCombo)
+                {
+                    mSecondaryCurrentCombo = 0;
+                }
+                //MyAnimator.SetTrigger(mSecondaryComboList[mSecondaryCurrentCombo]);
+                mLastSecondary = Time.time;
+                Player.QueueRotation();
+                mActionQueue.Enqueue(mSecondaryActionArray[mSecondaryCurrentCombo]);
             }
         }
     }
@@ -324,31 +325,31 @@ public class Shadow : MonoBehaviour
         }
     }
 
-    private void CheckSecondaryCombo()
-    {
-        // If within combo window, play the attack and update the combo counter
-        mSecondaryCurrentCombo++;
-        if (Time.time > mLastSecondary + m_SecondaryComboWindow || mSecondaryCurrentCombo >= mSecondaryMaxCombo)
-        {
-            mSecondaryCurrentCombo = 0;
-            mSecondaryComboQueued = false;
-        }
-        MyAnimator.SetTrigger(mSecondaryComboList[mSecondaryCurrentCombo]);
-        mLastSecondary = Time.time;
-        //mSecondaryComboTimer = 0f;
-    }
+    //private void CheckSecondaryCombo()
+    //{
+    //    // If within combo window, play the attack and update the combo counter
+    //    mSecondaryCurrentCombo++;
+    //    if (Time.time > mLastSecondary + m_SecondaryComboWindow || mSecondaryCurrentCombo >= mSecondaryMaxCombo)
+    //    {
+    //        mSecondaryCurrentCombo = 0;
+    //        mSecondaryComboQueued = false;
+    //    }
+    //    MyAnimator.SetTrigger(mSecondaryComboList[mSecondaryCurrentCombo]);
+    //    mLastSecondary = Time.time;
+    //    //mSecondaryComboTimer = 0f;
+    //}
 
-    public void SecondaryStep()
+    public void SecondaryStep1()
     {
         mSecondaryMovementTimer = 0;
-        if (mSecondaryComboQueued)
-        {
-            mSecondaryCurrentStep = mSecondaryCurrentCombo - 1;
-        }
-        else
-        {
-            mSecondaryCurrentStep = mSecondaryCurrentCombo;
-        }
+        mSecondaryCurrentStep = 0;
+        mSecondaryStepping = true;
+    }
+
+    public void SecondaryStep2()
+    {
+        mSecondaryMovementTimer = 0;
+        mSecondaryCurrentStep = 1;
         mSecondaryStepping = true;
     }
 
@@ -382,9 +383,10 @@ public class Shadow : MonoBehaviour
                 MyAnimator.SetTrigger(AnimationTriggersStatic.GetShadowProjectile());
                 m_RangedAttackUI?.ChangeButtonState(SkillButtonController.SkillButtonStates.Cooldown, shootCooldown);
             }
-            else
+            else if (!mAbility1Queued)
             {
-                MyAnimator.SetTrigger(AnimationTriggersStatic.GetShadowProjectile());
+                mAbility1Queued = true;
+                //MyAnimator.SetTrigger(AnimationTriggersStatic.GetShadowProjectile());
                 mActionQueue.Enqueue(Action.Ability1);
                 Player.QueueRotation();
             }
@@ -412,7 +414,7 @@ public class Shadow : MonoBehaviour
             {
                 mShotMovementTimer += Time.deltaTime;
                 float MovePercentage = mShotMovementTimer / m_ShotMovementDuration;
-                Player.rb.velocity = transform.forward * m_ShotMovementSpeed * m_ShotMovement.Evaluate(MovePercentage);
+                Player.rb.velocity = transform.forward * m_ShotMovementSpeed * m_ShotMovement.Evaluate(MovePercentage * m_RangedAnimationSpeed);
             }
             else
             {
@@ -613,6 +615,42 @@ public class Shadow : MonoBehaviour
         }
     }
 
+    public void CheckActionQueue()
+    {
+        if (mActionQueue.TryPeek(out Action NextAction))
+        {
+            switch (NextAction)
+            {
+                case Action.PrimaryAttack1:
+                    MyAnimator.SetTrigger(mComboList[0]);
+                    break;
+                case Action.PrimaryAttack2:
+                    MyAnimator.SetTrigger(mComboList[1]);;
+                    break;
+                case Action.PrimaryAttack3:
+                    MyAnimator.SetTrigger(mComboList[2]);
+                    break;
+                case Action.SecondaryAttack1:
+                    MyAnimator.SetTrigger(mSecondaryComboList[0]);
+                    break;
+                case Action.SecondaryAttack2:
+                    MyAnimator.SetTrigger(mSecondaryComboList[1]);
+                    break;
+                case Action.Ability1:
+                    MyAnimator.SetTrigger(AnimationTriggersStatic.GetShadowProjectile());
+                    break;
+                case Action.Ability2:
+                    break;
+                case Action.Ability3:
+                    break;
+                case Action.Ability4:
+                    break;
+                case Action.Ability5:
+                    break;
+            }
+        }
+    }
+
     public void EndAction()
     {
         if (mActionQueue.TryDequeue(out Action NextAction))
@@ -626,20 +664,31 @@ public class Shadow : MonoBehaviour
             {
                 case Action.PrimaryAttack1:
                     Player.RotateToQueuedClick();
+                    mPrimaryActive = true;
+                    mComboQueued = false;
                     break;
                 case Action.PrimaryAttack2:
                     Player.RotateToQueuedClick();
+                    mPrimaryActive = true;
+                    mComboQueued = false;
                     break;
                 case Action.PrimaryAttack3:
                     Player.RotateToQueuedClick();
+                    mPrimaryActive = true;
+                    mComboQueued = false;
                     break;
                 case Action.SecondaryAttack1:
                     Player.RotateToQueuedClick();
+                    mSecondaryActive = true;
+                    mSecondaryComboQueued = false;
                     break;
                 case Action.SecondaryAttack2:
                     Player.RotateToQueuedClick();
+                    mSecondaryActive = true;
+                    mSecondaryComboQueued = false;
                     break;
                 case Action.Ability1:
+                    mAbility1Queued = false;
                     Player.RotateToQueuedClick();
                     break;
                 case Action.Ability2:
@@ -680,21 +729,27 @@ public class Shadow : MonoBehaviour
             {
                 case Action.PrimaryAttack1:
                     MyAnimator.ResetTrigger(mComboList[0]);
+                    mComboQueued = false;
                     break;
                 case Action.PrimaryAttack2:
                     MyAnimator.ResetTrigger(mComboList[1]);
+                    mComboQueued = false;
                     break;
                 case Action.PrimaryAttack3:
                     MyAnimator.ResetTrigger(mComboList[2]);
+                    mComboQueued = false;
                     break;
                 case Action.SecondaryAttack1:
                     MyAnimator.ResetTrigger(mSecondaryComboList[0]);
+                    mSecondaryComboQueued = false;
                     break;
                 case Action.SecondaryAttack2:
                     MyAnimator.ResetTrigger(mSecondaryComboList[1]);
+                    mSecondaryComboQueued = false;
                     break;
                 case Action.Ability1:
-                    
+                    MyAnimator.ResetTrigger(AnimationTriggersStatic.GetShadowProjectile());
+                    mAbility1Queued = false;
                     break;
                 case Action.Ability2:
                     break;
@@ -707,18 +762,15 @@ public class Shadow : MonoBehaviour
             }
         }
 
-        // Interrupt Melee
-        //mIsAttacking = false;
+        // Reset all primary attack values
         if (mPrimaryActive)
         {
-            //MyAnimator.SetTrigger(AnimationTriggersStatic.GetInterruptToIdle());
-            MyAnimator.ResetTrigger(mComboList[mCurrentCombo]);
             Player.HaltMovement();
             mPrimaryActive = false;
             mPrimaryStepping = false;
             Melee.SetActive(false);
-            mComboQueued = false;
         }
+        //Player.HaltMovement();
 
         if (mSecondaryActive)
         {
@@ -728,10 +780,10 @@ public class Shadow : MonoBehaviour
             mSecondaryActive = false;
             mSecondaryStepping = false;
             Secondary.SetActive(false);
-            mSecondaryComboQueued = false;
         }
 
         // Interrupt Ranged Attack
+        mRangedStepping = false;
         
 
         // Interrupt Stab
