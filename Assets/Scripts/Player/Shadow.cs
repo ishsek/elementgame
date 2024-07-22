@@ -208,6 +208,14 @@ public class Shadow : MonoBehaviour
         }
     }
 
+    public void EndPrimaryAttack()
+    {
+        if (mPrimaryActive)
+        {
+            EndAction();
+        }
+    }
+
     public void EnablePrimaryCollider()
     {
         if (mPrimaryActive)
@@ -311,17 +319,7 @@ public class Shadow : MonoBehaviour
     {
         if (mSecondaryActive)
         {
-            if (mSecondaryComboQueued)
-            {
-                //mAtkTimer = 0;
-                Player.RotateToQueuedClick();
-                mSecondaryComboQueued = false;
-            }
-            else
-            {
-                Player.SetStateNormal();
-                mSecondaryActive = false;
-            }
+            EndAction();
         }
     }
 
