@@ -103,9 +103,4 @@ public class AnimationEventHandler : MonoBehaviour
     {
         m_Shadow.EndAction();
     }
-
-    public void CheckActionQueue()
-    {
-        m_Shadow.CheckActionQueue();
-    }
 }

@@ -142,6 +142,7 @@ public class Shadow : MonoBehaviour
     [SerializeField] private float m_HealAmount;
     [SerializeField] private float m_HealCD;
     private float mLastHealTime = -9999;
+    private bool mAbility5Queued = false;
 
     void Update()
     {
@@ -431,13 +432,21 @@ public class Shadow : MonoBehaviour
     {
         if (Time.time > mStabLastCast + m_StabCD)
         {
-            if (Player.IsNormal() && context.performed && !mChargingStab)
+            if (context.performed && !mChargingStab)
             {
-                MyAnimator.SetTrigger(AnimationTriggersStatic.GetShadowStabCharge());
-                Player.HaltMovement();
-                Player.SetStateAttacking();
-                mStabChargeTime = 0;
-                mChargingStab = true;
+                if (Player.IsNormal())
+                {
+                    MyAnimator.SetTrigger(AnimationTriggersStatic.GetShadowStabCharge());
+                    Player.HaltMovement();
+                    Player.SetStateAttacking();
+                    mStabChargeTime = 0;
+                    mChargingStab = true;
+                }
+                else if (!mAbility2Queued)
+                {
+                    mAbility2Queued = true;
+                    mActionQueue.Enqueue(Action.Ability2);
+                }
             }
             else if (mChargingStab && context.canceled)
             {
@@ -487,13 +496,21 @@ public class Shadow : MonoBehaviour
     {
         if (Time.time > mDashLastCast + m_DashCD)
         {
-            if (Player.IsNormal() && context.performed && !mChargingDash)
+            if (context.performed && !mChargingDash)
             {
-                MyAnimator.SetTrigger(AnimationTriggersStatic.GetShadowDashCharge());
-                Player.HaltMovement();
-                Player.SetStateAttacking();
-                mDashChargeTime = 0;
-                mChargingDash = true;
+                if (Player.IsNormal())
+                {
+                    MyAnimator.SetTrigger(AnimationTriggersStatic.GetShadowDashCharge());
+                    Player.HaltMovement();
+                    Player.SetStateAttacking();
+                    mDashChargeTime = 0;
+                    mChargingDash = true;
+                }
+                else if (!mAbility3Queued)
+                { 
+                    mAbility3Queued = true;
+                    mActionQueue.Enqueue(Action.Ability3);
+                }
             }
             else if (mChargingDash && context.canceled)
             {
@@ -533,7 +550,7 @@ public class Shadow : MonoBehaviour
             {
                 mDashAttacking = false;
                 m_DashWeapon.SetActive(false);
-                Player.SetStateNormal();
+                //Player.SetStateNormal(); moved to EndAction animation event
                 Player.EnableEnemyCollision();
             }
         }
@@ -544,23 +561,31 @@ public class Shadow : MonoBehaviour
     {
         if (Time.time > mVoidLastCastTime + m_VoidCD)
         {
-            if (Player.IsNormal() && context.performed && !mAimingVoid)
+            if (context.performed && !mAimingVoid)
             {
-                Player.HaltMovement();
-                MyAnimator.SetTrigger(AnimationTriggersStatic.GetShadowBlackholeCharge());
-                mAimingVoid = true;
-                Player.SetStateControllerAiming();
-                if (Player.isGamepad)
+                if (Player.IsNormal())
                 {
-                    AimSpawn = transform.position;
+                    Player.HaltMovement();
+                    MyAnimator.SetTrigger(AnimationTriggersStatic.GetShadowBlackholeCharge());
+                    mAimingVoid = true;
+                    Player.SetStateControllerAiming();
+                    if (Player.isGamepad)
+                    {
+                        AimSpawn = transform.position;
+                    }
+                    else
+                    {
+                        AimSpawn = Player.aimDirection;
+                    }
+                    AimSpawn.y = 0;
+                    VoidAim = Instantiate(m_VoidAimIndicator, AimSpawn, transform.rotation);
+                    Player.AimPreview = VoidAim;
                 }
-                else
-                {
-                    AimSpawn = Player.aimDirection;
+                else if (!mAbility4Queued)
+                { 
+                    mAbility4Queued = true;
+                    mActionQueue.Enqueue(Action.Ability4);
                 }
-                AimSpawn.y = 0;
-                VoidAim = Instantiate(m_VoidAimIndicator, AimSpawn, transform.rotation);
-                Player.AimPreview = VoidAim;
             }
             else if (mAimingVoid && context.canceled)
             {
@@ -604,47 +629,19 @@ public class Shadow : MonoBehaviour
         {
             if (Time.time > mLastHealTime + m_HealCD)
             {
-                mLastHealTime = Time.time;
-                InterruptAttack();
-                Player.HaltMovement();
-                Player.SetStateAttacking();
-                MyAnimator.SetTrigger(AnimationTriggersStatic.GetShadowHeal());
-            }
-        }
-    }
-
-    public void CheckActionQueue()
-    {
-        if (mActionQueue.TryPeek(out Action NextAction))
-        {
-            switch (NextAction)
-            {
-                case Action.PrimaryAttack1:
-                    MyAnimator.SetTrigger(mComboList[0]);
-                    break;
-                case Action.PrimaryAttack2:
-                    MyAnimator.SetTrigger(mComboList[1]);;
-                    break;
-                case Action.PrimaryAttack3:
-                    MyAnimator.SetTrigger(mComboList[2]);
-                    break;
-                case Action.SecondaryAttack1:
-                    MyAnimator.SetTrigger(mSecondaryComboList[0]);
-                    break;
-                case Action.SecondaryAttack2:
-                    MyAnimator.SetTrigger(mSecondaryComboList[1]);
-                    break;
-                case Action.Ability1:
-                    MyAnimator.SetTrigger(AnimationTriggersStatic.GetShadowProjectile());
-                    break;
-                case Action.Ability2:
-                    break;
-                case Action.Ability3:
-                    break;
-                case Action.Ability4:
-                    break;
-                case Action.Ability5:
-                    break;
+                if (Player.IsNormal())
+                {
+                    mLastHealTime = Time.time;
+                    InterruptAttack();
+                    Player.HaltMovement();
+                    Player.SetStateAttacking();
+                    MyAnimator.SetTrigger(AnimationTriggersStatic.GetShadowHeal());
+                }
+                else if (!mAbility5Queued)
+                {
+                    mAbility5Queued = true;
+                    mActionQueue.Enqueue(Action.Ability5);
+                }
             }
         }
     }
@@ -661,41 +658,73 @@ public class Shadow : MonoBehaviour
             switch(NextAction)
             {
                 case Action.PrimaryAttack1:
+                    MyAnimator.SetTrigger(mComboList[0]);
                     Player.RotateToQueuedClick();
                     mPrimaryActive = true;
                     mComboQueued = false;
                     break;
                 case Action.PrimaryAttack2:
+                    MyAnimator.SetTrigger(mComboList[1]);
                     Player.RotateToQueuedClick();
                     mPrimaryActive = true;
                     mComboQueued = false;
                     break;
                 case Action.PrimaryAttack3:
+                    MyAnimator.SetTrigger(mComboList[2]);
                     Player.RotateToQueuedClick();
                     mPrimaryActive = true;
                     mComboQueued = false;
                     break;
                 case Action.SecondaryAttack1:
+                    MyAnimator.SetTrigger(mSecondaryComboList[0]);
                     Player.RotateToQueuedClick();
                     mSecondaryActive = true;
                     mSecondaryComboQueued = false;
                     break;
                 case Action.SecondaryAttack2:
+                    MyAnimator.SetTrigger(mSecondaryComboList[1]);
                     Player.RotateToQueuedClick();
                     mSecondaryActive = true;
                     mSecondaryComboQueued = false;
                     break;
                 case Action.Ability1:
+                    MyAnimator.SetTrigger(AnimationTriggersStatic.GetShadowProjectile());
                     mAbility1Queued = false;
                     Player.RotateToQueuedClick();
                     break;
                 case Action.Ability2:
+                    MyAnimator.SetTrigger(AnimationTriggersStatic.GetShadowStabCharge());
+                    mStabChargeTime = 0;
+                    mChargingStab = true;
+                    mAbility2Queued = false;
                     break;
                 case Action.Ability3:
+                    MyAnimator.SetTrigger(AnimationTriggersStatic.GetShadowDashCharge());
+                    mDashChargeTime = 0;
+                    mChargingDash = true;
+                    mAbility3Queued = false;
                     break;
                 case Action.Ability4:
+                    MyAnimator.SetTrigger(AnimationTriggersStatic.GetShadowBlackholeCharge());
+                    mAimingVoid = true;
+                    Player.SetStateControllerAiming();
+                    if (Player.isGamepad)
+                    {
+                        AimSpawn = transform.position;
+                    }
+                    else
+                    {
+                        AimSpawn = Player.aimDirection;
+                    }
+                    AimSpawn.y = 0;
+                    VoidAim = Instantiate(m_VoidAimIndicator, AimSpawn, transform.rotation);
+                    Player.AimPreview = VoidAim;
+                    mAbility4Queued = false;
                     break;
                 case Action.Ability5:
+                    mLastHealTime = Time.time;
+                    MyAnimator.SetTrigger(AnimationTriggersStatic.GetShadowHeal());
+                    mAbility5Queued = false;
                     break;
             }
         }
@@ -750,10 +779,16 @@ public class Shadow : MonoBehaviour
                     mAbility1Queued = false;
                     break;
                 case Action.Ability2:
+                    MyAnimator.ResetTrigger(AnimationTriggersStatic.GetShadowStabCharge());
+                    mAbility2Queued = false;
                     break;
                 case Action.Ability3:
+                    MyAnimator.ResetTrigger(AnimationTriggersStatic.GetShadowDashCharge());
+                    mAbility3Queued = false;
                     break;
                 case Action.Ability4:
+                    MyAnimator.ResetTrigger(AnimationTriggersStatic.GetShadowBlackholeCharge());
+                    mAbility4Queued = false;
                     break;
                 case Action.Ability5:
                     break;
@@ -781,7 +816,11 @@ public class Shadow : MonoBehaviour
         }
 
         // Interrupt Ranged Attack
-        mRangedStepping = false;
+        if (mRangedStepping)
+        {
+            Player.HaltMovement();
+            mRangedStepping = false;
+        }
         
 
         // Interrupt Stab
