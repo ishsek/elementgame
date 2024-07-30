@@ -70292,13 +70292,6 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.5
-    functionName: CheckActionQueue
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
   - time: 0.5833333
     functionName: ShadowProjectileFire
     data: 
@@ -70306,7 +70299,7 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 1.15
+  - time: 1.1333333
     functionName: EndAction
     data: 
     objectReferenceParameter: {fileID: 0}
