@@ -71,7 +71,7 @@ public abstract class Enemy : MonoBehaviour
 
         if (HealthScript != null)
         {
-            HealthScript.SetHealthBar(mHealthBar.GetHealthBarImage(), mHealthBar.GetDecayingHealthBarImage());
+            HealthScript.SetHealthBar(mHealthBar.GetHealthBarImage(), mHealthBar.GetDecayingHealthBarImage(), mHealthBar);
         }
     }
 

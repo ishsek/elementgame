@@ -115,4 +115,9 @@ public class SkillButtonController : MonoBehaviour
     {
         SetButtonState(newButtonState, newCooldownTime, chargePercentage);
     }
+
+    public void ChangeButtonVersion()
+    {
+
+    }
 }

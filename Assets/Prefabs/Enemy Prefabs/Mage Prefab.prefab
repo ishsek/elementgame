@@ -78,8 +78,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HealthBar: {fileID: 0}
   m_BackgroundHealthBar: {fileID: 0}
+  m_HealthBarController: {fileID: 0}
+  m_IsEnemy: 1
   health: 0
   maxHealth: 200
+  m_DespawnAfterDeathDelay: 10
 --- !u!136 &125394963990700037
 CapsuleCollider:
   m_ObjectHideFlags: 0

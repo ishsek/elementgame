@@ -150,7 +150,7 @@ public class PlayerController : MonoBehaviour
             state = State.Dodging;
             DisableEnemyCollision();
             SetUntartetable();
-            DodgeTime = 0f;
+            DodgeTime = 0f; 
         }
     }
 
