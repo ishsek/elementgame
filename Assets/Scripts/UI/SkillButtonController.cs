@@ -116,8 +116,8 @@ public class SkillButtonController : MonoBehaviour
         SetButtonState(newButtonState, newCooldownTime, chargePercentage);
     }
 
-    public void ChangeButtonVersion()
+    public void ChangeButtonVersion(Sprite newImageSprite)
     {
-
+        m_ButtonImage.sprite = newImageSprite;
     }
 }

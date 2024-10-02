@@ -26,6 +26,7 @@ public abstract class Enemy : MonoBehaviour
     private GameObject playerReference;
     protected HealthBarUIController mHealthBar;
     protected Transform mWaypoint;
+    private EnemySpawnArea mSpawnedByArea;
 
     public Rigidbody rb;
 
@@ -363,9 +364,20 @@ public abstract class Enemy : MonoBehaviour
             {
                 mMoving = false;
             }
+
+            if (mSpawnedByArea != null)
+            {
+                mSpawnedByArea.SpawnedEnemyDied(this);
+            }
+
             state = State.Dead;
         }
         // Add idle animation call in subclass override
+    }
+
+    public void SetSpawnedByArea(EnemySpawnArea enemySpawner)
+    {
+        mSpawnedByArea = enemySpawner;
     }
 
     public virtual void EndAttack()

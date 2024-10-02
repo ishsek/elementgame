@@ -14,17 +14,25 @@ public class EnemySpawnArea : MonoBehaviour
     [SerializeField] private float m_TargetDifficulty;
     [SerializeField] private Transform[] m_SpawnLocations;
     [SerializeField] private WeightedEnemy[] m_PossibleEnemies;
+    [SerializeField] private bool m_EnemiesSpawnOnStart = false;
+    [SerializeField] private bool m_EnemiesRespawn = true;
+    [SerializeField] private WaveAreaController m_WaveController;
 
     private List<Enemy> mEnemyWeightedList;
     [SerializeField] private List<Enemy> mEnemySpawnedTracker;
     private float mRemainingDifficulty = 0;
+    private bool mAllEnemiesDead = false;
 
     // Start is called before the first frame update
     void Start()
     {
         mEnemyWeightedList = new List<Enemy>();
         mEnemySpawnedTracker = new List<Enemy>();
-        SpawnEnemies();
+
+        if (m_EnemiesSpawnOnStart == true)
+        {
+            SpawnEnemies();
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -39,18 +47,29 @@ public class EnemySpawnArea : MonoBehaviour
     {
         bool enemiesNeedSpawning = false;
 
-        for (int i = 0; i < mEnemySpawnedTracker.Count; i++)
+        if (m_EnemiesRespawn == false)
         {
-            if (mEnemySpawnedTracker[i].GetState() == Enemy.State.Dead)
-            {
-                mEnemySpawnedTracker.RemoveAt(i);
-                i--;
-            }
+            enemiesNeedSpawning = false;
         }
-
-        if (mEnemySpawnedTracker.Count <= 0)
+        else if (mAllEnemiesDead == true)
         {
             enemiesNeedSpawning = true;
+        }
+        else
+        {
+            for (int i = 0; i < mEnemySpawnedTracker.Count; i++)
+            {
+                if (mEnemySpawnedTracker[i].GetState() == Enemy.State.Dead)
+                {
+                    mEnemySpawnedTracker.RemoveAt(i);
+                    i--;
+                }
+            }
+
+            if (mEnemySpawnedTracker.Count <= 0)
+            {
+                enemiesNeedSpawning = true;
+            }
         }
 
         return enemiesNeedSpawning;
@@ -100,6 +119,7 @@ public class EnemySpawnArea : MonoBehaviour
             enemyToSpawn = enemyReturned;
             Transform spawnLocation = m_SpawnLocations[spawnLocationIndex];
             Enemy spawnedEnemy = Instantiate(enemyToSpawn, spawnLocation.transform.position, spawnLocation.transform.rotation);
+            spawnedEnemy.SetSpawnedByArea(this);
             mEnemySpawnedTracker.Add(spawnedEnemy);
             enemyReturned = SelectAnEnemyToSpawn();
             
@@ -108,6 +128,11 @@ public class EnemySpawnArea : MonoBehaviour
             {
                 spawnLocationIndex = 0;
             }
+        }
+
+        if (mEnemySpawnedTracker.Count > 0)
+        {
+            mAllEnemiesDead = false;
         }
 
         //ClearEnemyWeightList();
@@ -137,5 +162,31 @@ public class EnemySpawnArea : MonoBehaviour
         }
 
         return enemyToSpawn;
+    }
+
+    public void SpawnedEnemyDied(Enemy deadEnemy)
+    {
+        mEnemySpawnedTracker.Remove(deadEnemy);
+
+        if (mEnemySpawnedTracker.Count <= 0)
+        {
+            mAllEnemiesDead = true;
+            
+            if (m_WaveController != null)
+            {
+                m_WaveController.WaveCompleted();
+            }
+        }
+    }
+
+    public void SpawnEnemyWave()
+    {
+        m_EnemiesRespawn = false;
+        SpawnEnemies();
+    }
+
+    public bool GetAllEnemiesDead()
+    {
+        return mAllEnemiesDead;
     }
 }

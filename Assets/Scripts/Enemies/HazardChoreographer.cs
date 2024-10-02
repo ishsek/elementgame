@@ -7,7 +7,9 @@ public class HazardChoreographer : MonoBehaviour
     [System.Serializable]
     public struct HazardEvent
     {
-        [SerializeField] public LavaJetHazardController HazardRef;
+        [SerializeField] public List<LavaJetHazardController> HazardRef;
+        [SerializeField] public HazardGroup HazardGroup;
+        [SerializeField] public bool Randomize;
         [SerializeField] public float PlayTiming;
     }
 
@@ -23,7 +25,18 @@ public class HazardChoreographer : MonoBehaviour
         {
             if (fireEvent.HazardRef != null)
             {
-                fireEvent.HazardRef.SetExternallyControlled();
+                foreach (LavaJetHazardController hazard in fireEvent.HazardRef)
+                {
+                    hazard.SetExternallyControlled();
+                }
+            }
+
+            if (fireEvent.HazardGroup != null)
+            {
+                foreach (LavaJetHazardController hazard in fireEvent.HazardGroup.GetHazardGroup())
+                {
+                    hazard.SetExternallyControlled();
+                }
             }
         }
     }
@@ -35,7 +48,39 @@ public class HazardChoreographer : MonoBehaviour
         
         while (HazardsList[mCurrentHazardsListIndex].PlayTiming <= mCurrentSequenceTime)
         {
-            HazardsList[mCurrentHazardsListIndex].HazardRef?.PlayHazard();
+            foreach (LavaJetHazardController hazard in HazardsList[mCurrentHazardsListIndex].HazardRef)
+            {
+                if (HazardsList[mCurrentHazardsListIndex].Randomize == true)
+                {
+                    if (Random.Range(0, 10) > 7) 
+                    {
+                        hazard?.PlayHazard();
+                    }
+                }
+                else
+                {
+                    hazard?.PlayHazard();
+                }
+            }
+
+            if (HazardsList[mCurrentHazardsListIndex].HazardGroup != null)
+            {
+                foreach (LavaJetHazardController hazard in HazardsList[mCurrentHazardsListIndex].HazardGroup.GetHazardGroup())
+                {
+                    if (HazardsList[mCurrentHazardsListIndex].Randomize == true)
+                    {
+                        if (Random.Range(0, 10) > 7)
+                        {
+                            hazard?.PlayHazard();
+                        }
+                    }
+                    else
+                    {
+                        hazard?.PlayHazard();
+                    }
+                }
+            }
+
             mCurrentHazardsListIndex++;
 
             if (mCurrentHazardsListIndex >= HazardsList.Count)

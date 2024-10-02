@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour
     private int mEnemyWeaponLayer = 9;
     [SerializeField] private Shadow m_ShadowScript;
     [SerializeField] private Fire m_FireScript;
+    [SerializeField] private SkillButtonListController m_SkillButtonsControllerRef;
 
     [Header("Dodging")]
     public AnimationCurve DodgeCurve;
@@ -389,6 +390,7 @@ public class PlayerController : MonoBehaviour
         playerInput.actions.FindActionMap("Shadow").Enable();
         m_ShadowScript.EnableShadowElement();
         ActiveElement = Element.Shadow;
+        m_SkillButtonsControllerRef?.ChangeButtonElements(SkillButtonListController.SkillButtonVersion.Shadow);
     }
 
     private void SetElementFire()
@@ -396,6 +398,7 @@ public class PlayerController : MonoBehaviour
         playerInput.actions.FindActionMap("Fire").Enable();
         ActiveElement = Element.Fire;
         m_FireScript.EnableElement();
+        m_SkillButtonsControllerRef?.ChangeButtonElements(SkillButtonListController.SkillButtonVersion.Fire);
     }
 
     public void SetStateAttacking()
@@ -456,5 +459,10 @@ public class PlayerController : MonoBehaviour
     public void SetTargetable()
     {
         Physics.IgnoreLayerCollision(mPlayerLayer, mEnemyWeaponLayer, false);
+    }
+
+    public SkillButtonListController GetSkillButtonListController()
+    {
+        return m_SkillButtonsControllerRef;
     }
 }
